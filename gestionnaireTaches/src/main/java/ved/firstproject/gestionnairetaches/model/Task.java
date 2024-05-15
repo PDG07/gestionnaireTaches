@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Task {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)

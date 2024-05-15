@@ -22,6 +22,8 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", "category");
         System.out.println(serviceTaskManager.createTask(taskDto));
+
+        System.out.println(serviceTaskManager.listTasks());
     }
 
 }
