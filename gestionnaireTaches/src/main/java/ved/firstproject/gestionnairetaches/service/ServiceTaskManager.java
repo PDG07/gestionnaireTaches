@@ -5,6 +5,9 @@ import ved.firstproject.gestionnairetaches.model.Task;
 import org.springframework.stereotype.Service;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 public class ServiceTaskManager {
     private final TaskRepository taskRepository;
@@ -18,4 +21,7 @@ public class ServiceTaskManager {
         return TaskDto.taskDto(taskRepository.save(task));
     }
 
+    public Set<Task> listTasks() {
+        return new HashSet<>(taskRepository.findAll());
+    }
 }
