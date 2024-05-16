@@ -1,14 +1,15 @@
 package ved.firstproject.gestionnairetaches.service.dto;
 
 import ved.firstproject.gestionnairetaches.model.Task;
+import ved.firstproject.gestionnairetaches.model.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.User;
 
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record TaskDto (Long id, String title, String description, String status, String priority, String deadline, String category, UserDto user){
-    public TaskDto (String title, String description, String status, String priority, String deadline, String category, UserDto user){
+public record TaskDto (Long id, String title, String description, String status, String priority, String deadline, TaskCategory category, UserDto user){
+    public TaskDto (String title, String description, String status, String priority, String deadline, TaskCategory category, UserDto user){
         this(null, title, description, status, priority, deadline, category, user);
     }
 

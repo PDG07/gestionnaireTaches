@@ -25,11 +25,11 @@ public class Task {
     @Column(name = "deadline")
     private String deadline;
     @Column(name = "category")
-    private String category;
+    private TaskCategory category;
     @ManyToOne
     private User user;
 
-    public Task(String title, String description, String status, String priority, String deadline, String category, User user) {
+    public Task(String title, String description, String status, String priority, String deadline, TaskCategory category, User user) {
         this.title = title;
         this.description = description;
         this.status = status;

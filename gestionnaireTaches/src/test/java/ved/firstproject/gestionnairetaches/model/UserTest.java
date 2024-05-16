@@ -12,13 +12,13 @@ class UserTest {
     private Set<Task> tasks;
     private User user;
     private Task task;
+    private TaskCategory workCategory = TaskCategory.WORK;
 
     @BeforeEach
     void setUp() {
         tasks = new HashSet<>();
         user = new User(1L, "username", "password", tasks);
-        task = new Task(1L, "title", "description", "status", "priority", "deadline", "category", user);
-
+        task = new Task(1L, "title", "description", "status", "priority", "deadline", workCategory, user);
     }
 
     @Test
@@ -30,8 +30,8 @@ class UserTest {
 
     @Test
     void removeTask() {
-        Task task2 = new Task(2L, "title", "description", "status", "priority", "deadline", "category", user);
-        Task task3= new Task(3L, "title", "description", "status", "priority", "deadline", "category", user);
+        Task task2 = new Task(2L, "title", "description", "status", "priority", "deadline", workCategory, user);
+        Task task3= new Task(3L, "title", "description", "status", "priority", "deadline", workCategory, user);
 
         user.addTask(task);
         user.addTask(task2);

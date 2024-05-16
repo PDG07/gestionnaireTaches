@@ -3,6 +3,7 @@ package ved.firstproject.gestionnairetaches.service.dto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ved.firstproject.gestionnairetaches.model.Task;
+import ved.firstproject.gestionnairetaches.model.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.User;
 
 import java.util.HashSet;
@@ -14,13 +15,14 @@ class TaskDtoTest {
     private UserDto userDto;
     private Task task;
     private TaskDto taskDto;
+    private TaskCategory workCategory = TaskCategory.WORK;
 
     @BeforeEach
     void setUp() {
         user = new User(1L, "username", "password", new HashSet<>());
         userDto = new UserDto(1L, "username", "password", new HashSet<>());
-        task = new Task(1L, "title", "description", "status", "priority", "deadline", "category", user);
-        taskDto = new TaskDto(1L, "title", "description", "status", "priority", "deadline", "category", userDto);
+        task = new Task(1L, "title", "description", "status", "priority", "deadline", workCategory, user);
+        taskDto = new TaskDto(1L, "title", "description", "status", "priority", "deadline", workCategory, userDto);
     }
 
     @Test

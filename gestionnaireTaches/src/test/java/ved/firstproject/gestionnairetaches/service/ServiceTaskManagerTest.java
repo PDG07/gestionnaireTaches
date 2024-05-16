@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
 import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
+import ved.firstproject.gestionnairetaches.model.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
@@ -35,22 +36,21 @@ class ServiceTaskManagerTest {
     private Task taskInit;
     private User user;
     private UserDto userDto;
+    private TaskCategory workCategory = TaskCategory.WORK;
 
     @BeforeEach
     void setUp() {
-        Set<Task> tasks = new HashSet<>();
-        Set<TaskDto> taskDtos = new HashSet<>();
-        userDto = new UserDto(1L, "username", "password", taskDtos);
-        user = new User(1L, "username", "password", tasks);
-        taskDtoInit = new TaskDto(1L, "title", "description", "status", "priority", "deadline", "category", userDto);
-        taskInit = new Task(1L, "title", "description", "status", "priority", "deadline", "category", user);
+        userDto = new UserDto(1L, "username", "password", new HashSet<>());
+        user = new User(1L, "username", "password", new HashSet<>());
+        taskDtoInit = new TaskDto(1L, "title", "description", "status", "priority", "deadline", workCategory, userDto);
+        taskInit = new Task(1L, "title", "description", "status", "priority", "deadline", workCategory, user);
     }
 
     @Test
     void createTask() {
-        when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", "status", "priority", "deadline", "category", user));
+        when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", "status", "priority", "deadline", workCategory, user));
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", "category", userDto);
+        TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", workCategory, userDto);
 
         TaskDto taskDtoCreated = serviceTaskManager.createTask(user.getId(), taskDto);
 
@@ -61,8 +61,8 @@ class ServiceTaskManagerTest {
     @Test
     void listTasks() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        Task taskInit2 = new Task(2L, "title", "description", "status", "priority", "deadline", "category", user);
-        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", "status", "priority", "deadline", "category", userDto);
+        Task taskInit2 = new Task(2L, "title", "description", "status", "priority", "deadline", workCategory, user);
+        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", "status", "priority", "deadline", workCategory, userDto);
         Set<TaskDto> tasks = new HashSet<>(Set.of(taskDtoInit));
         tasks.add(taskInitDto2);
         user.addTask(taskInit);
@@ -78,7 +78,7 @@ class ServiceTaskManagerTest {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         when(taskRepository.save(any(Task.class))).thenReturn(taskInit);
         user.addTask(taskInit);
-        taskDtoInit = new TaskDto(1L, "New title", "description", "status", "priority", "deadline", "category", userDto);
+        taskDtoInit = new TaskDto(1L, "New title", "description", "status", "priority", "deadline", workCategory, userDto);
 
         serviceTaskManager.updateTask(user.getId(), taskDtoInit);
 
