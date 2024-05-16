@@ -47,6 +47,15 @@ class ServiceTaskManagerTest {
     }
 
     @Test
+    void createUser() {
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        UserDto userDtoCreated = serviceTaskManager.createUser(userDto);
+
+        assertEquals(userDtoCreated, userDto);
+    }
+
+    @Test
     void createTask() {
         when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", "status", "priority", "deadline", workCategory, user));
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));

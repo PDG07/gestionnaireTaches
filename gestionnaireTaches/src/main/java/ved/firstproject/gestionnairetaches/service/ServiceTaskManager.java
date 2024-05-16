@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ved.firstproject.gestionnairetaches.model.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
+import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
 import java.util.Objects;
 import java.util.Set;
@@ -20,6 +21,12 @@ public class ServiceTaskManager {
     public ServiceTaskManager(ITaskRepository taskRepository, IUserRepository userRepository) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+    }
+
+    public UserDto createUser(UserDto userDto) {
+        Objects.requireNonNull(userDto);
+        User user = userRepository.save(UserDto.toUser(userDto));
+        return UserDto.toUserDto(user);
     }
 
     public TaskDto createTask(Long userId, TaskDto taskDto) {
