@@ -15,6 +15,10 @@ public record TaskDto (Long id, String title, String description, String status,
 
     public static TaskDto toTaskDto (Task task) {
         Objects.requireNonNull(task);
+        UserDto userDto = new UserDto(task.getUser().getId(),
+                task.getUser().getUsername(),
+                task.getUser().getPassword(),
+                Set.of());
         return new TaskDto(task.getId(),
                 task.getTitle(),
                 task.getDescription(),
@@ -22,7 +26,7 @@ public record TaskDto (Long id, String title, String description, String status,
                 task.getPriority(),
                 task.getDeadline(),
                 task.getCategory(),
-                UserDto.toUserDtoEmptyTasks(task.getUser()));
+                userDto);
     }
 
     public static Task toTask(TaskDto taskDto) {
