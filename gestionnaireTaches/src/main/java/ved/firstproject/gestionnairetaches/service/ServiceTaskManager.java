@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,8 @@ public class ServiceTaskManager {
         return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
-    public void updateTask(TaskDto taskDto, Long userId) {
+    public void updateTask(Long userId, TaskDto taskDto) {
+        Objects.requireNonNull(taskDto);
         User user = userRepository.findById(userId).orElseThrow(null);
         Task task = TaskDto.toTask(taskDto);
         user.updateTask(task);
