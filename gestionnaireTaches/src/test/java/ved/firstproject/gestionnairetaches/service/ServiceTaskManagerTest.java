@@ -75,8 +75,16 @@ class ServiceTaskManagerTest {
 
     @Test
     void updateTask() {
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        when(taskRepository.save(any(Task.class))).thenReturn(taskInit);
+        user.addTask(taskInit);
+        taskDtoInit = new TaskDto(1L, "New title", "description", "status", "priority", "deadline", "category", userDto);
 
+        serviceTaskManager.updateTask(user.getId(), taskDtoInit);
+
+        assertEquals("New title", user.getTasks().stream().findFirst().map(Task::getTitle).orElse(null));
     }
+
 
     @Test
     void recoverTask() {
