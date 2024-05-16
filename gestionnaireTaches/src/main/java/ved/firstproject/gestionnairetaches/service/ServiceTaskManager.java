@@ -22,6 +22,7 @@ public class ServiceTaskManager {
     }
 
     public TaskDto createTask(Long userId, TaskDto taskDto) {
+        Objects.requireNonNull(taskDto);
         User user = userRepository.findById(userId).orElseThrow(null);
         Task taskSaved = taskRepository.save(TaskDto.toTask(taskDto));
         user.addTask(taskSaved);
@@ -41,6 +42,11 @@ public class ServiceTaskManager {
         user.updateTask(task);
         userRepository.save(user);
         taskRepository.save(task);
+    }
+
+    public Set<TaskDto> filterByCategory(Long userId, String category) {
+        User user = userRepository.findById(userId).orElseThrow(null);
+        return user.getTasks().stream().filter(task -> task.getCategory().equals(category)).map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
 }
