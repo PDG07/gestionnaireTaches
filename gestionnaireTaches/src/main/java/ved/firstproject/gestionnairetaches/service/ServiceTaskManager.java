@@ -1,7 +1,7 @@
 package ved.firstproject.gestionnairetaches.service;
 
-import ved.firstproject.gestionnairetaches.dao.TaskRepository;
-import ved.firstproject.gestionnairetaches.dao.UserRepository;
+import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
+import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
 import org.springframework.stereotype.Service;
 import ved.firstproject.gestionnairetaches.model.User;
@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class ServiceTaskManager {
-    private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
+    private final ITaskRepository taskRepository;
+    private final IUserRepository userRepository;
 
-    public ServiceTaskManager(TaskRepository taskRepository, UserRepository userRepository) {
+    public ServiceTaskManager(ITaskRepository taskRepository, IUserRepository userRepository) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
     }

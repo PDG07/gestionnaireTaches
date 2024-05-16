@@ -6,16 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ved.firstproject.gestionnairetaches.dao.TaskRepository;
-import ved.firstproject.gestionnairetaches.dao.UserRepository;
+import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
+import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,9 +27,9 @@ class ServiceTaskManagerTest {
     private ServiceTaskManager serviceTaskManager;
 
     @Mock
-    private TaskRepository taskRepository;
+    private ITaskRepository taskRepository;
     @Mock
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     private TaskDto taskDtoInit;
     private Task taskInit;
