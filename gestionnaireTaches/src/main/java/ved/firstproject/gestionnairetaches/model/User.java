@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -32,14 +33,17 @@ public class User {
     }
 
     public void addTask(Task task) {
+        Objects.requireNonNull(task);
         tasks.add(task);
     }
 
     public void removeTask(Task task) {
+        Objects.requireNonNull(task);
         tasks.remove(task);
     }
 
     public void updateTask(Task task) {
+        Objects.requireNonNull(task);
         Task existingTask = tasks.stream()
                 .filter(t -> t.getId().equals(task.getId()))
                 .findFirst()
