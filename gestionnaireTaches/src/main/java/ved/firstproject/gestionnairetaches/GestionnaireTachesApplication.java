@@ -20,7 +20,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", "category");
+        TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", "category", null);
         System.out.println(serviceTaskManager.createTask(taskDto));
 
         System.out.println(serviceTaskManager.listTasks());

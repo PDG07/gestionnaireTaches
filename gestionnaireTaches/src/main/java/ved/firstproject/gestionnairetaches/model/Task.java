@@ -1,9 +1,6 @@
 package ved.firstproject.gestionnairetaches.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -29,14 +26,17 @@ public class Task {
     private String deadline;
     @Column(name = "category")
     private String category;
+    @ManyToOne
+    private User user;
 
-    public Task(String title, String description, String status, String priority, String deadline, String category) {
+    public Task(String title, String description, String status, String priority, String deadline, String category, User user) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.priority = priority;
         this.deadline = deadline;
         this.category = category;
+        this.user = user;
     }
 
 }
