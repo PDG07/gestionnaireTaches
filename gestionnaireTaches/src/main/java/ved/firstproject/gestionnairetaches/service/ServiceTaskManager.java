@@ -18,10 +18,11 @@ public class ServiceTaskManager {
 
     public TaskDto createTask(TaskDto taskDto) {
         Task task = TaskDto.toTask(taskDto);
-        return TaskDto.taskDto(taskRepository.save(task));
+        return TaskDto.toTaskDto(taskRepository.save(task));
     }
 
-    public Set<Task> listTasks() {
-        return new HashSet<>(taskRepository.findAll());
+    public Set<TaskDto> listTasks() {
+        return TaskDto.toListTaskDto(new HashSet<>(taskRepository.findAll()));
     }
+
 }

@@ -39,23 +39,28 @@ class ServiceTaskManagerTest {
         userDto = new UserDto(1L, "username", "password", Set.of());
         user = new User(1L, "username", "password", Set.of());
         taskDtoInit = new TaskDto(1L, "title", "description", "status", "priority", "deadline", "category", userDto);
-        taskInit = new Task(2L, "title", "description", "status", "priority", "deadline", "category", user);
+        taskInit = new Task(1L, "title", "description", "status", "priority", "deadline", "category", user);
     }
 
     @Test
     void createTask() {
         when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", "status", "priority", "deadline", "category", user));
         TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", "category", userDto);
+
         TaskDto taskDtoCreated = serviceTaskManager.createTask(taskDto);
+
         assertEquals(taskDtoCreated, taskDtoInit);
     }
 
     @Test
     void listTasks() {
         List<Task> taskListInit = new ArrayList<>(Set.of(taskInit));
+        List<TaskDto> taskDtoInitListInit = new ArrayList<>(Set.of(taskDtoInit));
         when(taskRepository.findAll()).thenReturn(taskListInit);
-        Set<Task> tasksList = serviceTaskManager.listTasks();
-        assertEquals(tasksList, new HashSet<>(taskListInit));
+
+        Set<TaskDto> tasksList = serviceTaskManager.listTasks();
+
+        assertEquals(tasksList, new HashSet<>(taskDtoInitListInit));
     }
 
     @Test
