@@ -4,6 +4,7 @@ import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
 import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
 import org.springframework.stereotype.Service;
+import ved.firstproject.gestionnairetaches.model.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 
@@ -44,9 +45,13 @@ public class ServiceTaskManager {
         taskRepository.save(task);
     }
 
-    public Set<TaskDto> filterByCategory(Long userId, String category) {
+    public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
         User user = userRepository.findById(userId).orElseThrow(null);
-        return user.getTasks().stream().filter(task -> task.getCategory().equals(category)).map(TaskDto::toTaskDto).collect(Collectors.toSet());
+        return user.getTasks().stream()
+                .filter(task -> task.getCategory().equals(category))
+                .map(TaskDto::toTaskDto)
+                .collect(Collectors.toSet());
     }
+
 
 }

@@ -85,6 +85,21 @@ class ServiceTaskManagerTest {
         assertEquals("New title", user.getTasks().stream().findFirst().map(Task::getTitle).orElse(null));
     }
 
+    @Test
+    void filterByCategory(){
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        TaskCategory personalCategory = TaskCategory.PERSONAL;
+        Task taskInit2 = new Task(2L, "title", "description", "status", "priority", "deadline", personalCategory, user);
+        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", "status", "priority", "deadline", personalCategory, userDto);
+        user.addTask(taskInit);
+        user.addTask(taskInit2);
+
+        Set<TaskDto> tasksListForWork = serviceTaskManager.filterByCategory(user.getId(), TaskCategory.WORK);
+        Set<TaskDto> tasksListForPersonal = serviceTaskManager.filterByCategory(user.getId(), TaskCategory.PERSONAL);
+
+        assertEquals(Set.of(taskDtoInit), tasksListForWork);
+        assertEquals(Set.of(taskInitDto2), tasksListForPersonal);
+    }
 
     @Test
     void recoverTask() {
