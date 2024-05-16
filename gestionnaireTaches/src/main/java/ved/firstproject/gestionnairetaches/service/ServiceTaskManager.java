@@ -21,9 +21,12 @@ public class ServiceTaskManager {
         this.userRepository = userRepository;
     }
 
-    public TaskDto createTask(TaskDto taskDto) {
-        Task task = TaskDto.toTask(taskDto);
-        return TaskDto.toTaskDto(taskRepository.save(task));
+    public TaskDto createTask(Long userId, TaskDto taskDto) {
+        User user = userRepository.findById(userId).orElseThrow(null);
+        Task taskSaved = taskRepository.save(TaskDto.toTask(taskDto));
+        user.addTask(taskSaved);
+        userRepository.save(user);
+        return TaskDto.toTaskDto(taskSaved);
     }
 
     public Set<TaskDto> listTasks(Long userId) {

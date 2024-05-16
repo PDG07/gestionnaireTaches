@@ -49,11 +49,13 @@ class ServiceTaskManagerTest {
     @Test
     void createTask() {
         when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", "status", "priority", "deadline", "category", user));
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", "category", userDto);
 
-        TaskDto taskDtoCreated = serviceTaskManager.createTask(taskDto);
+        TaskDto taskDtoCreated = serviceTaskManager.createTask(user.getId(), taskDto);
 
         assertEquals(taskDtoCreated, taskDtoInit);
+        assertEquals(taskDtoInit, user.getTasks().stream().findFirst().map(TaskDto::toTaskDto).orElse(null));
     }
 
     @Test
