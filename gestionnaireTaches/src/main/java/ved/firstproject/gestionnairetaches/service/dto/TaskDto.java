@@ -27,7 +27,7 @@ public record TaskDto (Long id, String title, String description, String status,
     public static Task toTask(TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
         User user = new User(taskDto.user().id(),
-                taskDto.user().username(), 
+                taskDto.user().username(),
                 taskDto.user().password(),
                 taskDto.user().tasks().stream().map(TaskDto::toTask).collect(Collectors.toSet()));
         return new Task(taskDto.id(),
