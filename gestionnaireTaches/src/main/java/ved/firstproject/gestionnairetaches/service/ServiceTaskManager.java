@@ -30,7 +30,7 @@ public class ServiceTaskManager {
 
     public UserDto createUser(UserDto userDto) {
         Objects.requireNonNull(userDto);
-        if (ifUserExists(userDto)) throw new IllegalArgumentException("User with username " + userDto.username() + " already exists");
+        if (ifUsernameTaken(userDto)) throw new IllegalArgumentException("User with username " + userDto.username() + " already exists");
         User user = UserDto.toUser(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -70,9 +70,13 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    public boolean ifUserExists(UserDto userDto) {
+    private boolean loginInfos(UserDto userDto) {
         return userRepository.findByUsername(userDto.username())
                 .map(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))
                 .orElse(false);
+    }
+
+    private boolean ifUsernameTaken(UserDto userDto) {
+        return userRepository.findByUsername(userDto.username()).isPresent();
     }
 }

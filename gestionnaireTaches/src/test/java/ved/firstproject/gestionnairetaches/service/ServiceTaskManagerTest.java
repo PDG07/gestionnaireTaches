@@ -18,8 +18,7 @@ import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -116,16 +115,12 @@ class ServiceTaskManagerTest {
     }
 
     @Test
-    void ifUserExists() {
+    void ifUsernameTaken() {
         when(userRepository.findByUsername(userDto.username())).thenReturn(java.util.Optional.of(user));
-        when(passwordEncoder.matches(userDto.password(), user.getPassword())).thenReturn(true);
 
-        boolean userExists = serviceTaskManager.ifUserExists(userDto);
-        //metre un sout dans ifUserExists
-        System.out.println(userExists);
-
-        assertTrue(userExists);
+        assertThrows(IllegalArgumentException.class, () -> serviceTaskManager.createUser(userDto));
     }
+
 
     @Test
     void recoverTask() {
