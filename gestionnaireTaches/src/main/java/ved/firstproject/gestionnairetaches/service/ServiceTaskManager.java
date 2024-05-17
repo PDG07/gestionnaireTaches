@@ -70,11 +70,12 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    private boolean validationLoginInfos(UserDto userDto) {
-        return userRepository.findByUsername(userDto.username())
-                .map(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))
-                .orElse(false);
+    private void validateLoginInfos(UserDto userDto) {
+        userRepository.findByUsername(userDto.username())
+                .filter(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
     }
+
 
     private void validationUsernameTaken(UserDto userDto) {
         if (userRepository.findByUsername(userDto.username()).isPresent()) {
