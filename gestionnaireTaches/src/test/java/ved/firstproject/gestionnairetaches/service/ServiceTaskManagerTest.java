@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
 import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
@@ -18,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -31,6 +33,8 @@ class ServiceTaskManagerTest {
     private ITaskRepository taskRepository;
     @Mock
     private IUserRepository userRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     private TaskDto taskDtoInit;
     private Task taskInit;
@@ -49,10 +53,11 @@ class ServiceTaskManagerTest {
     @Test
     void createUser() {
         when(userRepository.save(any(User.class))).thenReturn(user);
+        when(passwordEncoder.encode(userDto.password())).thenReturn(user.getPassword());
 
         UserDto userDtoCreated = serviceTaskManager.createUser(userDto);
 
-        assertEquals(userDtoCreated, userDto);
+        assertEquals(userDto, userDtoCreated);
     }
 
     @Test
@@ -108,6 +113,18 @@ class ServiceTaskManagerTest {
 
         assertEquals(Set.of(taskDtoInit), tasksListForWork);
         assertEquals(Set.of(taskInitDto2), tasksListForPersonal);
+    }
+
+    @Test
+    void ifUserExists() {
+        when(userRepository.findByUsername(userDto.username())).thenReturn(java.util.Optional.of(user));
+        when(passwordEncoder.matches(userDto.password(), user.getPassword())).thenReturn(true);
+
+        boolean userExists = serviceTaskManager.ifUserExists(userDto);
+        //metre un sout dans ifUserExists
+        System.out.println(userExists);
+
+        assertTrue(userExists);
     }
 
     @Test

@@ -25,11 +25,14 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         TaskCategory workCategory = TaskCategory.WORK;
-        TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", workCategory, null);
-        UserDto userDto = new UserDto(1L, "username", "password", Set.of(taskDto));
-        System.out.println(serviceTaskManager.createTask(userDto.id(), taskDto));
+        UserDto userDto = new UserDto(1L, "username", "password", Set.of());
+        TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", workCategory, userDto);
 
+        System.out.println(serviceTaskManager.createUser(userDto).password());
+        System.out.println(serviceTaskManager.createTask(userDto.id(), taskDto));
         System.out.println(serviceTaskManager.listTasks(userDto.id()));
+
+
     }
 
 }

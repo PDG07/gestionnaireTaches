@@ -14,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
