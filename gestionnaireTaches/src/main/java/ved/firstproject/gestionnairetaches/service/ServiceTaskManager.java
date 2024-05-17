@@ -70,7 +70,7 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    private boolean loginInfos(UserDto userDto) {
+    private boolean loginInfosValidation(UserDto userDto) {
         return userRepository.findByUsername(userDto.username())
                 .map(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))
                 .orElse(false);
