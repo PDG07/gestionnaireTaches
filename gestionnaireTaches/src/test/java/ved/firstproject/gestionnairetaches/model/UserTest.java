@@ -54,4 +54,11 @@ class UserTest {
 
         user.getTasks().stream().findFirst().ifPresent(t -> assertEquals("new title", t.getTitle()));
     }
+
+    @Test
+    void addTaskHistory() {
+        user.addTaskHistory(task);
+
+        assertEquals(1, user.getTasksHistory().size());
+    }
 }
