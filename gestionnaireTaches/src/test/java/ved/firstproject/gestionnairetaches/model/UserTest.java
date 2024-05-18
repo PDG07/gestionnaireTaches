@@ -2,6 +2,7 @@ package ved.firstproject.gestionnairetaches.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 
 import java.time.LocalDate;
 import java.util.HashSet;

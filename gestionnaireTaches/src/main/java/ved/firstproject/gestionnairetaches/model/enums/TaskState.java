@@ -1,4 +1,4 @@
-package ved.firstproject.gestionnairetaches.model;
+package ved.firstproject.gestionnairetaches.model.enums;
 
 import lombok.Getter;
 

@@ -6,15 +6,14 @@ import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
 import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
 import org.springframework.stereotype.Service;
-import ved.firstproject.gestionnairetaches.model.TaskCategory;
-import ved.firstproject.gestionnairetaches.model.TaskState;
+import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

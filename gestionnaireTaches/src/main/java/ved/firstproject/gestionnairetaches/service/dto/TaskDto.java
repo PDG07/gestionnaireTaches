@@ -1,8 +1,8 @@
 package ved.firstproject.gestionnairetaches.service.dto;
 
 import ved.firstproject.gestionnairetaches.model.Task;
-import ved.firstproject.gestionnairetaches.model.TaskCategory;
-import ved.firstproject.gestionnairetaches.model.TaskState;
+import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 
 import java.time.LocalDate;

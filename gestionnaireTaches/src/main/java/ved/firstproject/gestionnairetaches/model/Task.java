@@ -2,6 +2,8 @@ package ved.firstproject.gestionnairetaches.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 
 import java.time.LocalDate;
 
