@@ -38,7 +38,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         System.out.println("Creation d'une tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto));
         System.out.println("Creation d'une 2e tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto2) + "\n");
         System.out.println("Taches de l'utilistaeur " + username + " : " + serviceTaskManager.findAllTasksByUserId(userDto.id()) + "\n");
-        //System.out.println("Tache mise a jour : " + serviceTaskManager.updateTask(userDto.id(), tastUpdated));
+        System.out.println("Tache mise a jour : " + serviceTaskManager.updateTask(userDto.id(), tastUpdated));
         System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), workCategory));
         System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ personalCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), personalCategory) + "\n");
         System.out.println("Tache complété : " + serviceTaskManager.completeTask(userDto.id(), taskDto.id()));

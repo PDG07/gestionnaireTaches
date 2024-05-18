@@ -25,11 +25,11 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
     @Column(name = "tasks_history")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Task> tasksHistory = new HashSet<>();
 
     public User(Long id, String username, String password, Set<Task> tasks) {
@@ -56,6 +56,7 @@ public class User {
     @Transactional
     public void updateTask(Task task) {
         Objects.requireNonNull(task);
+        System.out.println("User List taches" + tasks + " " + tasks.size());
         Task existingTask = tasks.stream()
                 .filter(t -> t.getId().equals(task.getId()))
                 .findFirst()
