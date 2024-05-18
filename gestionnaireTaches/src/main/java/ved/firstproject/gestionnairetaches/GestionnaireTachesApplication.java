@@ -27,11 +27,21 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         TaskCategory workCategory = TaskCategory.WORK;
-        UserDto userDto = new UserDto(1L, "username", "password", Set.of());
-        TaskDto taskDto = new TaskDto("title", "description", TaskState.TODO, "priority", LocalDate.now().plusWeeks(1), null,  workCategory, userDto);
+        TaskCategory personalCategory = TaskCategory.PERSONAL;
+        UserDto userDto = serviceTaskManager.createUser(new UserDto(1L, "username", "password", Set.of()));
+        TaskDto taskDto = new TaskDto(1L, "title", "description", TaskState.TODO, "priority", LocalDate.now().plusWeeks(1), null,  workCategory, userDto);
+        TaskDto taskDto2 = new TaskDto(2L,"title2", "description2", TaskState.TODO, "priority2", LocalDate.now().plusWeeks(2), null, personalCategory, userDto);
+        TaskDto tastUpdated = new TaskDto(1L, "titleUpdated", "descriptionUpdated", TaskState.TODO, "priorityUpdated", LocalDate.now().plusWeeks(1), LocalDate.now(), workCategory, userDto);
+        String username = userDto.username();
 
-        System.out.println(serviceTaskManager.createTask(userDto.id(), taskDto));
-        System.out.println(serviceTaskManager.f());
+        System.out.println("\n");
+        System.out.println("Creation d'une tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto));
+        System.out.println("Creation d'une 2e tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto2) + "\n");
+        System.out.println("Taches de l'utilistaeur " + username + " : " + serviceTaskManager.findAllTasksByUserId(userDto.id()) + "\n");
+        //System.out.println("Tache mise a jour : " + serviceTaskManager.updateTask(userDto.id(), tastUpdated));
+        System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), workCategory));
+        System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ personalCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), personalCategory) + "\n");
+        System.out.println("Tache complété : " + serviceTaskManager.completeTask(userDto.id(), taskDto.id()));
 
 
     }

@@ -2,6 +2,7 @@ package ved.firstproject.gestionnairetaches.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -52,6 +53,7 @@ public class User {
         tasks.remove(task);
     }
 
+    @Transactional
     public void updateTask(Task task) {
         Objects.requireNonNull(task);
         Task existingTask = tasks.stream()

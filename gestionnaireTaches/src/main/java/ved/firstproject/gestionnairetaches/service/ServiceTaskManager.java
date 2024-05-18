@@ -54,15 +54,16 @@ public class ServiceTaskManager {
         return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
-    public void updateTask(Long userId, TaskDto taskDto) {
+    public TaskDto updateTask(Long userId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         Task task = TaskDto.toTask(taskDto);
         user.updateTask(task);
         userRepository.save(user);
-        taskRepository.save(task);
+        return TaskDto.toTaskDto(taskRepository.save(task));
     }
 
+    @Transactional
     public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         return user.getTasks().stream()
@@ -71,14 +72,15 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    public void completeTask(Long userId, Long taskId){
+    @Transactional
+    public TaskDto completeTask(Long userId, Long taskId){
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         task.setCompletionDate(LocalDate.now());
         task.setStatus(TaskState.COMPLETED);
         user.addTaskHistory(task);
-        taskRepository.save(task);
         userRepository.save(user);
+        return TaskDto.toTaskDto(taskRepository.save(task));
     }
 
     private void validateLoginInfos(UserDto userDto) {

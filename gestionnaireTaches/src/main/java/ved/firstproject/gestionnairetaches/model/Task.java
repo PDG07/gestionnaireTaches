@@ -29,7 +29,7 @@ public class Task {
     @Column(name = "deadline")
     private LocalDate deadline;
     @Column(name = "completinDate")
-    private LocalDate completionDate;
+    private LocalDate completionDate = null;
     @Column(name = "category")
     private TaskCategory category;
     @ManyToOne
