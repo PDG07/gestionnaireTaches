@@ -27,8 +27,12 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
+    @Column(name = "tasks_history")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private Set<Task> tasksHistory = new HashSet<>();
 
-    public User(String username, String password) {
+    public User(Long id, String username, String password, Set<Task> tasks) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }
@@ -36,6 +40,11 @@ public class User {
     public void addTask(Task task) {
         Objects.requireNonNull(task);
         tasks.add(task);
+    }
+
+    public void addTaskHistory(Task task) {
+        Objects.requireNonNull(task);
+        tasksHistory.add(task);
     }
 
     public void removeTask(Task task) {
@@ -56,6 +65,7 @@ public class User {
             existingTask.setStatus(task.getStatus());
             existingTask.setPriority(task.getPriority());
             existingTask.setDeadline(task.getDeadline());
+            existingTask.setCompletionDate(task.getCompletionDate());
             existingTask.setCategory(task.getCategory());
         }
     }

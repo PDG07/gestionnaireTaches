@@ -2,15 +2,17 @@ package ved.firstproject.gestionnairetaches.service.dto;
 
 import ved.firstproject.gestionnairetaches.model.Task;
 import ved.firstproject.gestionnairetaches.model.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record TaskDto (Long id, String title, String description, String status, String priority, String deadline, TaskCategory category, UserDto user){
-    public TaskDto (String title, String description, String status, String priority, String deadline, TaskCategory category, UserDto user){
-        this(null, title, description, status, priority, deadline, category, user);
+public record TaskDto (Long id, String title, String description, TaskState status, String priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, UserDto user){
+    public TaskDto (String title, String description, TaskState status, String priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, UserDto user){
+        this(null, title, description, status, priority, deadline, completionDate, category, user);
     }
 
     public static TaskDto toTaskDto (Task task) {
@@ -25,6 +27,7 @@ public record TaskDto (Long id, String title, String description, String status,
                 task.getStatus(),
                 task.getPriority(),
                 task.getDeadline(),
+                task.getCompletionDate(),
                 task.getCategory(),
                 userDto);
     }
@@ -41,6 +44,7 @@ public record TaskDto (Long id, String title, String description, String status,
                 taskDto.status(),
                 taskDto.priority(),
                 taskDto.deadline(),
+                taskDto.completionDate(),
                 taskDto.category(), user);
     }
 

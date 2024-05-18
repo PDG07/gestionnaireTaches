@@ -7,10 +7,12 @@ import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
 import org.springframework.stereotype.Service;
 import ved.firstproject.gestionnairetaches.model.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -68,6 +70,16 @@ public class ServiceTaskManager {
                 .filter(task -> task.getCategory().equals(category))
                 .map(TaskDto::toTaskDto)
                 .collect(Collectors.toSet());
+    }
+
+    public void completeTask(Long userId, Long taskId){
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        task.setCompletionDate(LocalDate.now());
+        task.setStatus(TaskState.COMPLETED);
+        user.addTaskHistory(task);
+        taskRepository.save(task);
+        userRepository.save(user);
     }
 
     private void validateLoginInfos(UserDto userDto) {

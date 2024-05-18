@@ -4,10 +4,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ved.firstproject.gestionnairetaches.model.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.TaskState;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @SpringBootApplication
@@ -26,7 +28,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         TaskCategory workCategory = TaskCategory.WORK;
         UserDto userDto = new UserDto(1L, "username", "password", Set.of());
-        TaskDto taskDto = new TaskDto("title", "description", "status", "priority", "deadline", workCategory, userDto);
+        TaskDto taskDto = new TaskDto("title", "description", TaskState.TODO, "priority", LocalDate.now().plusWeeks(1), null,  workCategory, userDto);
 
         System.out.println(serviceTaskManager.createUser(userDto).password());
         System.out.println(serviceTaskManager.createUser(userDto).password());
