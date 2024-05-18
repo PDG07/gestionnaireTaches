@@ -56,7 +56,6 @@ public class User {
     @Transactional
     public void updateTask(Task task) {
         Objects.requireNonNull(task);
-        System.out.println("User List taches" + tasks + " " + tasks.size());
         Task existingTask = tasks.stream()
                 .filter(t -> t.getId().equals(task.getId()))
                 .findFirst()

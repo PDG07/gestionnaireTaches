@@ -80,8 +80,12 @@ public class ServiceTaskManager {
         task.setStatus(TaskState.COMPLETED);
         user.addTaskHistory(task);
         userRepository.save(user);
-        System.out.println(taskRepository.save(task));
         return TaskDto.toTaskDto(taskRepository.save(task));
+    }
+
+    public Set<TaskDto> findAllTasksHistoryByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return user.getTasksHistory().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
     private void validateLoginInfos(UserDto userDto) {

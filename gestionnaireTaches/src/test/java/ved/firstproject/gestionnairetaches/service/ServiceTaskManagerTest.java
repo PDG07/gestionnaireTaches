@@ -139,7 +139,15 @@ class ServiceTaskManagerTest {
 
 
     @Test
-    void recoverTask() {
+    void findAllTasksHistoryByUserId() {
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        Task taskInit2 = new Task(2L, "title", "description", "priority", LocalDate.now().plusWeeks(1), workCategory, user);
+        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, "priority", deadline, null, workCategory, userDto);
+        user.addTaskHistory(taskInit);
+        user.addTaskHistory(taskInit2);
 
+        Set<TaskDto> tasksList = serviceTaskManager.findAllTasksHistoryByUserId(user.getId());
+
+        assertEquals(Set.of(taskDtoInit, taskInitDto2), tasksList);
     }
 }
