@@ -80,6 +80,7 @@ public class ServiceTaskManager {
         task.setStatus(TaskState.COMPLETED);
         user.addTaskHistory(task);
         userRepository.save(user);
+        System.out.println(taskRepository.save(task));
         return TaskDto.toTaskDto(taskRepository.save(task));
     }
 

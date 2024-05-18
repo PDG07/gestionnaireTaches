@@ -33,6 +33,7 @@ public class Task {
     @Column(name = "category")
     private TaskCategory category;
     @ManyToOne
+    @ToString.Exclude
     private User user;
 
     public Task(Long id, String title, String description, String priority, LocalDate deadline, TaskCategory category, User user) {

@@ -59,17 +59,15 @@ public class User {
         Task existingTask = tasks.stream()
                 .filter(t -> t.getId().equals(task.getId()))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
-        if (existingTask != null) {
-            existingTask.setTitle(task.getTitle());
-            existingTask.setDescription(task.getDescription());
-            existingTask.setStatus(task.getStatus());
-            existingTask.setPriority(task.getPriority());
-            existingTask.setDeadline(task.getDeadline());
-            existingTask.setCompletionDate(task.getCompletionDate());
-            existingTask.setCategory(task.getCategory());
-        }
+        existingTask.setTitle(task.getTitle());
+        existingTask.setDescription(task.getDescription());
+        existingTask.setStatus(task.getStatus());
+        existingTask.setPriority(task.getPriority());
+        existingTask.setDeadline(task.getDeadline());
+        existingTask.setCompletionDate(task.getCompletionDate());
+        existingTask.setCategory(task.getCategory());
     }
 
 

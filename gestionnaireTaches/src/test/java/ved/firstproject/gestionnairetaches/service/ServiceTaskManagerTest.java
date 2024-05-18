@@ -129,6 +129,7 @@ class ServiceTaskManagerTest {
     void completeTask() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         when(taskRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskInit));
+        when(taskRepository.save(any(Task.class))).thenReturn(taskInit);
         user.addTask(taskInit);
 
         serviceTaskManager.completeTask(user.getId(), taskInit.getId());
