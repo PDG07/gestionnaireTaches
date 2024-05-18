@@ -85,7 +85,7 @@ class ServiceTaskManagerTest {
         user.addTask(taskInit);
         user.addTask(taskInit2);
 
-        Set<TaskDto> tasksList = serviceTaskManager.listTasks(user.getId());
+        Set<TaskDto> tasksList = serviceTaskManager.findAllTasksByUserId(user.getId());
 
         assertEquals(tasksList, tasks);
     }

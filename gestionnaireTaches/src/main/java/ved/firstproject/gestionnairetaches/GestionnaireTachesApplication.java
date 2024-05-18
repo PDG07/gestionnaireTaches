@@ -30,10 +30,8 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         UserDto userDto = new UserDto(1L, "username", "password", Set.of());
         TaskDto taskDto = new TaskDto("title", "description", TaskState.TODO, "priority", LocalDate.now().plusWeeks(1), null,  workCategory, userDto);
 
-        System.out.println(serviceTaskManager.createUser(userDto).password());
-        System.out.println(serviceTaskManager.createUser(userDto).password());
         System.out.println(serviceTaskManager.createTask(userDto.id(), taskDto));
-        System.out.println(serviceTaskManager.listTasks(userDto.id()));
+        System.out.println(serviceTaskManager.f());
 
 
     }

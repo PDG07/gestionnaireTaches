@@ -49,7 +49,7 @@ public class ServiceTaskManager {
     }
 
     @Transactional
-    public Set<TaskDto> listTasks(Long userId) {
+    public Set<TaskDto> findAllTasksByUserId(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
