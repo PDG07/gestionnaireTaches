@@ -16,6 +16,7 @@ import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
+import ved.firstproject.gestionnairetaches.service.dto.TaskGroupDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
 import java.time.LocalDate;
@@ -158,8 +159,8 @@ class ServiceTaskManagerTest {
     void createTaskGroup() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         when(taskGroupRepository.save(any())).thenReturn(new TaskGroup("title", user));
-        serviceTaskManager.createTaskGroup("title", user.getId());
+        TaskGroupDto taskGroup = serviceTaskManager.createTaskGroup("title", user.getId());
 
-        assertEquals("title", user.getTaskGroupUser().getTitle());
+        assertEquals("title", taskGroup.title());
     }
 }

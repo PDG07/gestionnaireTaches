@@ -60,4 +60,9 @@ public class Task {
         this.user = user;
     }
 
+    public void completeTask() {
+        this.status = TaskState.COMPLETED;
+        this.completionDate = LocalDate.now();
+    }
+
 }

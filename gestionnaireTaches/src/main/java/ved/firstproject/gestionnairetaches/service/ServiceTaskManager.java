@@ -12,6 +12,7 @@ import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
+import ved.firstproject.gestionnairetaches.service.dto.TaskGroupDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
 import java.time.LocalDate;
@@ -80,8 +81,7 @@ public class ServiceTaskManager {
     public TaskDto completeTask(Long userId, Long taskId){
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        task.setCompletionDate(LocalDate.now());
-        task.setStatus(TaskState.COMPLETED);
+        task.completeTask();
         user.addTaskHistory(task);
         userRepository.save(user);
         return TaskDto.toTaskDto(taskRepository.save(task));
@@ -92,12 +92,13 @@ public class ServiceTaskManager {
         return user.getTasksHistory().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
-    public void createTaskGroup(String title, Long userId) {
+    @Transactional
+    public TaskGroupDto createTaskGroup(String title, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         TaskGroup taskGroup = new TaskGroup(title, user);
         user.setTaskGroupUser(taskGroup);
-        taskGroupRepository.save(taskGroup);
         userRepository.save(user);
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
     private void validateLoginInfos(UserDto userDto) {
