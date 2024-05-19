@@ -31,6 +31,8 @@ public class User {
     @Column(name = "tasks_history")
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Task> tasksHistory = new HashSet<>();
+    @ManyToOne
+    private TaskGroup taskGroupUser;
 
     public User(Long id, String username, String password, Set<Task> tasks) {
         this.id = id;

@@ -2,10 +2,12 @@ package ved.firstproject.gestionnairetaches.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import ved.firstproject.gestionnairetaches.dao.ITaskGroupRepository;
 import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
 import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
 import org.springframework.stereotype.Service;
+import ved.firstproject.gestionnairetaches.model.TaskGroup;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
@@ -21,11 +23,13 @@ import java.util.stream.Collectors;
 public class ServiceTaskManager {
     private final ITaskRepository taskRepository;
     private final IUserRepository userRepository;
+    private final ITaskGroupRepository taskGroupRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public ServiceTaskManager(ITaskRepository taskRepository, IUserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public ServiceTaskManager(ITaskRepository taskRepository, IUserRepository userRepository, ITaskGroupRepository  taskGroupRepository, PasswordEncoder passwordEncoder) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.taskGroupRepository = taskGroupRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -86,6 +90,14 @@ public class ServiceTaskManager {
     public Set<TaskDto> findAllTasksHistoryByUserId(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         return user.getTasksHistory().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
+    }
+
+    public void createTaskGroup(String title, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        TaskGroup taskGroup = new TaskGroup(title, user);
+        user.setTaskGroupUser(taskGroup);
+        taskGroupRepository.save(taskGroup);
+        userRepository.save(user);
     }
 
     private void validateLoginInfos(UserDto userDto) {

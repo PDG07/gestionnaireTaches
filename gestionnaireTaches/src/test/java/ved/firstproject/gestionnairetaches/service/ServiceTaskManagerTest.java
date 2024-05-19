@@ -7,9 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ved.firstproject.gestionnairetaches.dao.ITaskGroupRepository;
 import ved.firstproject.gestionnairetaches.dao.ITaskRepository;
 import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
+import ved.firstproject.gestionnairetaches.model.TaskGroup;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
@@ -34,6 +36,8 @@ class ServiceTaskManagerTest {
     private ITaskRepository taskRepository;
     @Mock
     private IUserRepository userRepository;
+    @Mock
+    private ITaskGroupRepository taskGroupRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
 
@@ -137,7 +141,6 @@ class ServiceTaskManagerTest {
         assertEquals(TaskState.COMPLETED, user.getTasks().stream().findFirst().map(Task::getStatus).orElse(null));
     }
 
-
     @Test
     void findAllTasksHistoryByUserId() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
@@ -149,5 +152,14 @@ class ServiceTaskManagerTest {
         Set<TaskDto> tasksList = serviceTaskManager.findAllTasksHistoryByUserId(user.getId());
 
         assertEquals(Set.of(taskDtoInit, taskInitDto2), tasksList);
+    }
+
+    @Test
+    void createTaskGroup() {
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        when(taskGroupRepository.save(any())).thenReturn(new TaskGroup("title", user));
+        serviceTaskManager.createTaskGroup("title", user.getId());
+
+        assertEquals("title", user.getTaskGroupUser().getTitle());
     }
 }

@@ -35,6 +35,8 @@ public class Task {
     @ManyToOne
     @ToString.Exclude
     private User user;
+    @ManyToOne
+    private TaskGroup taskGroupTask;
 
     public Task(Long id, String title, String description, String priority, LocalDate deadline, TaskCategory category, User user) {
         this.id = id;
@@ -42,6 +44,18 @@ public class Task {
         this.description = description;
         this.priority = priority;
         this.deadline = deadline;
+        this.category = category;
+        this.user = user;
+    }
+
+    public Task(Long id, String title, String description, TaskState status, String priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, User user) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.deadline = deadline;
+        this.completionDate = completionDate;
         this.category = category;
         this.user = user;
     }
