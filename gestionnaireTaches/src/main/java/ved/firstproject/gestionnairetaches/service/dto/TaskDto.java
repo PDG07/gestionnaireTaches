@@ -2,6 +2,7 @@ package ved.firstproject.gestionnairetaches.service.dto;
 
 import ved.firstproject.gestionnairetaches.model.Task;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 
@@ -10,8 +11,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record TaskDto (Long id, String title, String description, TaskState status, String priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, UserDto user){
-    public TaskDto (String title, String description, TaskState status, String priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, UserDto user){
+public record TaskDto (Long id, String title, String description, TaskState status, TaskPriority priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, UserDto user){
+    public TaskDto (String title, String description, TaskState status, TaskPriority priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, UserDto user){
         this(null, title, description, status, priority, deadline, completionDate, category, user);
     }
 

@@ -3,6 +3,7 @@ package ved.firstproject.gestionnairetaches.model;
 import jakarta.persistence.*;
 import lombok.*;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class Task {
     @Column(name = "status")
     private TaskState status = TaskState.TODO;
     @Column(name = "priority")
-    private String priority;
+    private TaskPriority priority;
     @Column(name = "deadline")
     private LocalDate deadline;
     @Column(name = "completinDate")
@@ -38,7 +39,7 @@ public class Task {
     @ManyToOne
     private TaskGroup taskGroupTask;
 
-    public Task(Long id, String title, String description, String priority, LocalDate deadline, TaskCategory category, User user) {
+    public Task(Long id, String title, String description, TaskPriority priority, LocalDate deadline, TaskCategory category, User user) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -48,7 +49,7 @@ public class Task {
         this.user = user;
     }
 
-    public Task(Long id, String title, String description, TaskState status, String priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, User user) {
+    public Task(Long id, String title, String description, TaskState status, TaskPriority priority, LocalDate deadline, LocalDate completionDate, TaskCategory category, User user) {
         this.id = id;
         this.title = title;
         this.description = description;

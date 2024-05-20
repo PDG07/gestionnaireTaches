@@ -2,6 +2,7 @@ package ved.firstproject.gestionnairetaches.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 
 import java.util.Set;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskGroupTest {
     TaskGroup taskGroup;
     User user;
+    TaskPriority priorityHigh = TaskPriority.HIGH;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +38,7 @@ class TaskGroupTest {
 
     @Test
     void addTask() {
-        Task task = new Task(1L, "title", "description", "priority", null, null, null);
+        Task task = new Task(1L, "title", "description", priorityHigh, null, null, null);
         taskGroup.addTask(task);
 
         assertEquals(1, taskGroup.getTasksGroup().size());
@@ -44,7 +46,7 @@ class TaskGroupTest {
 
     @Test
     void removeTask() {
-        Task task = new Task(1L, "title", "description", "priority", null, null, null);
+        Task task = new Task(1L, "title", "description", priorityHigh, null, null, null);
 
         taskGroup.addTask(task);
         taskGroup.removeTask(task);
@@ -54,7 +56,7 @@ class TaskGroupTest {
 
     @Test
     void completeTask() {
-        Task task = new Task(1L, "title", "description", "priority", null, null, null);
+        Task task = new Task(1L, "title", "description", priorityHigh, null, null, null);
 
         taskGroup.addTask(task);
         taskGroup.completeTask(task);
@@ -66,7 +68,7 @@ class TaskGroupTest {
 
     @Test
     void addTasksHistory() {
-        Task task = new Task(1L, "title", "description", "priority", null, null, null);
+        Task task = new Task(1L, "title", "description", priorityHigh, null, null, null);
 
         taskGroup.addTasksHistory(task);
 

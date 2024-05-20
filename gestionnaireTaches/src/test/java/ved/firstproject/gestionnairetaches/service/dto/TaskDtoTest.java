@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ved.firstproject.gestionnairetaches.model.Task;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 
@@ -20,13 +21,14 @@ class TaskDtoTest {
     private TaskCategory workCategory = TaskCategory.WORK;
     private LocalDate deadline = LocalDate.now().plusWeeks(1);
     private TaskState status = TaskState.TODO;
+    TaskPriority priorityHigh = TaskPriority.HIGH;
 
     @BeforeEach
     void setUp() {
         user = new User(1L, "username", "password", new HashSet<>());
         userDto = new UserDto(1L, "username", "password", new HashSet<>());
-        task = new Task(1L, "title", "description", "priority", deadline, workCategory, user);
-        taskDto = new TaskDto(1L, "title", "description", status, "priority", deadline, null, workCategory, userDto);
+        task = new Task(1L, "title", "description", priorityHigh, deadline, workCategory, user);
+        taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
     }
 
     @Test

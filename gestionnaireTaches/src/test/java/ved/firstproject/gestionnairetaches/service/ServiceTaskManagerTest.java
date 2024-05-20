@@ -13,6 +13,7 @@ import ved.firstproject.gestionnairetaches.dao.IUserRepository;
 import ved.firstproject.gestionnairetaches.model.Task;
 import ved.firstproject.gestionnairetaches.model.TaskGroup;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.model.User;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
@@ -49,13 +50,14 @@ class ServiceTaskManagerTest {
     private final TaskCategory workCategory = TaskCategory.WORK;
     private final LocalDate deadline = LocalDate.now().plusWeeks(1);
     private final TaskState status = TaskState.TODO;
+    TaskPriority priorityHigh = TaskPriority.HIGH;
 
     @BeforeEach
     void setUp() {
         userDto = new UserDto(1L, "username", "password", new HashSet<>());
         user = new User(1L, "username", "password", new HashSet<>());
-        taskDtoInit = new TaskDto(1L, "title", "description", status, "priority",  deadline, null, workCategory, userDto);
-        taskInit = new Task(1L, "title", "description", "priority", deadline, workCategory, user);
+        taskDtoInit = new TaskDto(1L, "title", "description", status, priorityHigh,  deadline, null, workCategory, userDto);
+        taskInit = new Task(1L, "title", "description", priorityHigh, deadline, workCategory, user);
     }
 
     @Test
@@ -70,9 +72,9 @@ class ServiceTaskManagerTest {
 
     @Test
     void createTask() {
-        when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", "priority", deadline, workCategory, user));
+        when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", priorityHigh, deadline, workCategory, user));
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        TaskDto taskDto = new TaskDto("title", "description", status, "priority", deadline, null, workCategory, userDto);
+        TaskDto taskDto = new TaskDto("title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
 
         TaskDto taskDtoCreated = serviceTaskManager.createTask(user.getId(), taskDto);
 
@@ -83,8 +85,8 @@ class ServiceTaskManagerTest {
     @Test
     void listTasks() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        Task taskInit2 = new Task(2L, "title", "description", "priority", deadline, workCategory, user);
-        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, "priority",  deadline, null, workCategory, userDto);
+        Task taskInit2 = new Task(2L, "title", "description", priorityHigh, deadline, workCategory, user);
+        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, priorityHigh,  deadline, null, workCategory, userDto);
         Set<TaskDto> tasks = new HashSet<>(Set.of(taskDtoInit));
         tasks.add(taskInitDto2);
         user.addTask(taskInit);
@@ -100,7 +102,7 @@ class ServiceTaskManagerTest {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         when(taskRepository.save(any(Task.class))).thenReturn(taskInit);
         user.addTask(taskInit);
-        taskDtoInit = new TaskDto(1L, "New title", "description", status, "priority", deadline, null, workCategory, userDto);
+        taskDtoInit = new TaskDto(1L, "New title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
 
         serviceTaskManager.updateTask(user.getId(), taskDtoInit);
 
@@ -111,8 +113,8 @@ class ServiceTaskManagerTest {
     void filterByCategory(){
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         TaskCategory personalCategory = TaskCategory.PERSONAL;
-        Task taskInit2 = new Task(2L, "title", "description", "priority", LocalDate.now().plusWeeks(1), personalCategory, user);
-        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, "priority", deadline, null, personalCategory, userDto);
+        Task taskInit2 = new Task(2L, "title", "description", priorityHigh, LocalDate.now().plusWeeks(1), personalCategory, user);
+        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, priorityHigh, deadline, null, personalCategory, userDto);
         user.addTask(taskInit);
         user.addTask(taskInit2);
 
@@ -145,8 +147,8 @@ class ServiceTaskManagerTest {
     @Test
     void findAllTasksHistoryByUserId() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        Task taskInit2 = new Task(2L, "title", "description", "priority", LocalDate.now().plusWeeks(1), workCategory, user);
-        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, "priority", deadline, null, workCategory, userDto);
+        Task taskInit2 = new Task(2L, "title", "description", priorityHigh, LocalDate.now().plusWeeks(1), workCategory, user);
+        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
         user.addTaskHistory(taskInit);
         user.addTaskHistory(taskInit2);
 

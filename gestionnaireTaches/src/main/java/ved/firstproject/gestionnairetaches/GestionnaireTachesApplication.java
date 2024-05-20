@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
@@ -28,10 +29,11 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         TaskCategory workCategory = TaskCategory.WORK;
         TaskCategory personalCategory = TaskCategory.PERSONAL;
+        TaskPriority priorityHigh = TaskPriority.HIGH;
         UserDto userDto = serviceTaskManager.createUser(new UserDto(1L, "username", "password", Set.of()));
-        TaskDto taskDto = new TaskDto(1L, "title", "description", TaskState.TODO, "priority", LocalDate.now().plusWeeks(1), null,  workCategory, userDto);
-        TaskDto taskDto2 = new TaskDto(2L,"title2", "description2", TaskState.TODO, "priority2", LocalDate.now().plusWeeks(2), null, personalCategory, userDto);
-        TaskDto tastUpdated = new TaskDto(1L, "titleUpdated", "descriptionUpdated", TaskState.TODO, "priorityUpdated", LocalDate.now().plusWeeks(1), LocalDate.now(), workCategory, userDto);
+        TaskDto taskDto = new TaskDto(1L, "title", "description", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(1), null,  workCategory, userDto);
+        TaskDto taskDto2 = new TaskDto(2L,"title2", "description2", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(2), null, personalCategory, userDto);
+        TaskDto tastUpdated = new TaskDto(1L, "titleUpdated", "descriptionUpdated", TaskState.TODO, TaskPriority.AVERAGE, LocalDate.now().plusWeeks(1), LocalDate.now(), workCategory, userDto);
         String username = userDto.username();
 
         System.out.println("\n");
