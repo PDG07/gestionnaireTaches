@@ -3,11 +3,13 @@ package ved.firstproject.gestionnairetaches;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ved.firstproject.gestionnairetaches.model.TaskGroup;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
+import ved.firstproject.gestionnairetaches.service.dto.TaskGroupDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
 import java.time.LocalDate;
@@ -39,12 +41,18 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         System.out.println("\n");
         System.out.println("Creation d'une tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto));
         System.out.println("Creation d'une 2e tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto2) + "\n");
+
         System.out.println("Taches de l'utilistaeur " + username + " : " + serviceTaskManager.findAllTasksByUserId(userDto.id()) + "\n");
         System.out.println("Tache mise a jour : " + serviceTaskManager.updateTask(userDto.id(), tastUpdated));
         System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), workCategory));
-        System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ personalCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), personalCategory) + "\n");
-        System.out.println("Tache complété : " + serviceTaskManager.completeTask(userDto.id(), taskDto.id()));
-        System.out.println("" + serviceTaskManager.createTaskGroup("Groupe 1", userDto.id()));
+        System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ personalCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), personalCategory));
+        System.out.println("Tache complété : " + serviceTaskManager.completeTask(userDto.id(), taskDto.id()) + "\n");
+
+        System.out.println("Creation d'un groupe : " + serviceTaskManager.createTaskGroup("Groupe 1", userDto.id()));
+        TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(userDto.id(), 1L);
+        System.out.println("Ajout d'un utilisateur au groupe :  " + taskGroupDto);
+        System.out.println("Retiration d'un utilisateur du groupe : " + serviceTaskManager.removeUserFromGroup(taskGroupDto.id(), userDto.id()));
+        System.out.println("Taches du groupe : " + serviceTaskManager.findAllTasksByGroupId(taskGroupDto.id()));
 
     }
 
