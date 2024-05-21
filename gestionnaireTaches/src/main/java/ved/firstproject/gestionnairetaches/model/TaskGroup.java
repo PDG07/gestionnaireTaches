@@ -23,6 +23,7 @@ public class TaskGroup {
     @Column(name = "title")
     private String title;
     @OneToMany(mappedBy = "taskGroupUser", cascade = CascadeType.PERSIST)
+    @ToString.Exclude
     private Set<User> usersGroup = new HashSet<>();
     @OneToMany(mappedBy = "taskGroupTask", cascade = CascadeType.PERSIST)
     private Set<Task> tasksGroup = new HashSet<>();
@@ -72,8 +73,18 @@ public class TaskGroup {
         addTasksHistory(taskToRemove);
     }
 
-    public void assignTaskTo(){
+    public void assignTaskTo(Long userId, Long taskId){
+        Task taskToAssign = this.tasksGroup.stream()
+                .filter(t -> t.getId().equals(taskId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
 
+        User userToAssign = this.usersGroup.stream()
+                .filter(u -> u.getId().equals(userId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("User not found in the group"));
+
+        taskToAssign.setUser(userToAssign);
     }
 
     private void addTasksHistory(Task task) {
