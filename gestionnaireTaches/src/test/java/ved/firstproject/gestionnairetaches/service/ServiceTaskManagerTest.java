@@ -206,4 +206,40 @@ class ServiceTaskManagerTest {
 
         assertEquals(1, taskGroupDto.tasksGroup().size());
     }
+
+    @Test
+    void removeTaskFromGroup(){
+        Set<User> users = new HashSet<>();
+        Set<Task> tasks = new HashSet<>();
+        Set<Task> tasksHistory = new HashSet<>();
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(new TaskGroup(0L, "title", users, tasks, tasksHistory)));
+        when(taskGroupRepository.save(any())).thenReturn(new TaskGroup(0L, "title", Set.of(), Set.of(), Set.of()));
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        TaskGroupDto taskGroup = serviceTaskManager.createTaskGroup("title", user.getId());
+        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.id(), taskDto);
+
+        TaskGroupDto taskGroupDtoRemoved = serviceTaskManager.removeTaskFromGroup(taskGroupDto.id(), taskDto.id());
+
+        assertEquals(0, taskGroupDtoRemoved.tasksGroup().size());
+    }
+
+    @Test
+    void completeTaskFromGroup(){
+        Set<User> users = new HashSet<>();
+        Set<Task> tasks = new HashSet<>();
+        Set<Task> tasksHistory = new HashSet<>();
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(new TaskGroup(0L, "title", users, tasks, tasksHistory)));
+        when(taskGroupRepository.save(any())).thenReturn(new TaskGroup(0L, "title", Set.of(), Set.of(), Set.of()));
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        TaskGroupDto taskGroup = serviceTaskManager.createTaskGroup("title", user.getId());
+        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.id(), taskDto);
+
+        TaskGroupDto taskGroupDtoCompleted = serviceTaskManager.completeTaskFromGroup(taskGroupDto.id(), taskDto.id());
+
+        assertEquals(0, taskGroupDtoCompleted.tasksGroup().size());
+        assertEquals(TaskState.COMPLETED, taskGroupDtoCompleted.tasksGroupHistory().stream().findFirst().map(TaskDto::status).orElse(null));
+        assertEquals(LocalDate.now(), taskGroupDtoCompleted.tasksGroupHistory().stream().findFirst().map(TaskDto::completionDate).orElse(null));
+    }
 }
