@@ -226,10 +226,7 @@ class ServiceTaskManagerTest {
 
     @Test
     void completeTaskFromGroup(){
-        Set<User> users = new HashSet<>();
-        Set<Task> tasks = new HashSet<>();
-        Set<Task> tasksHistory = new HashSet<>();
-        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(new TaskGroup(0L, "title", users, tasks, tasksHistory)));
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
         when(taskGroupRepository.save(any())).thenReturn(new TaskGroup(0L, "title", Set.of(), Set.of(), Set.of()));
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         TaskGroupDto taskGroup = serviceTaskManager.createTaskGroup("title", user.getId());
@@ -245,10 +242,7 @@ class ServiceTaskManagerTest {
 
     @Test
     void findAllTasksByGroupId(){
-        Set<User> users = new HashSet<>();
-        Set<Task> tasks = new HashSet<>();
-        Set<Task> tasksHistory = new HashSet<>();
-        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(new TaskGroup(0L, "title", users, tasks, tasksHistory)));
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
         TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
         TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.getId(), taskDto);
 

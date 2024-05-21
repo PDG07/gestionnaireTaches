@@ -46,7 +46,7 @@ public class ServiceTaskManager {
 
     public TaskDto createTask(Long userId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         Task taskSaved = taskRepository.save(TaskDto.toTask(taskDto));
         user.addTask(taskSaved);
         userRepository.save(user);
@@ -54,13 +54,13 @@ public class ServiceTaskManager {
     }
 
     public Set<TaskDto> findAllTasksByUserId(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
     public TaskDto updateTask(Long userId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         Task task = TaskDto.toTask(taskDto);
         user.updateTask(task);
         userRepository.save(user);
@@ -68,7 +68,7 @@ public class ServiceTaskManager {
     }
 
     public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         return user.getTasks().stream()
                 .filter(task -> task.getCategory().equals(category))
                 .map(TaskDto::toTaskDto)
@@ -77,7 +77,7 @@ public class ServiceTaskManager {
 
     public TaskDto completeTask(Long userId, Long taskId){
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         task.completeTask();
         user.addTaskHistory(task);
         userRepository.save(user);
@@ -85,12 +85,12 @@ public class ServiceTaskManager {
     }
 
     public Set<TaskDto> findAllTasksHistoryByUserId(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         return user.getTasksHistory().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
     public TaskGroupDto createTaskGroup(String title, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         TaskGroup taskGroup = new TaskGroup(title, user);
         user.setTaskGroupUser(taskGroup);
         userRepository.save(user);
@@ -98,7 +98,7 @@ public class ServiceTaskManager {
     }
 
     public TaskGroupDto addUserToGroup(Long taskGroupId, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserById(userId);
         TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
         taskGroup.addUser(user);
         taskGroupRepository.save(taskGroup);
@@ -151,5 +151,9 @@ public class ServiceTaskManager {
         if (userRepository.findByUsername(userDto.username()).isPresent()) {
             throw new IllegalArgumentException("User with username " + userDto.username() + " already exists");
         }
+    }
+
+    private User findUserById(Long userId){
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }
