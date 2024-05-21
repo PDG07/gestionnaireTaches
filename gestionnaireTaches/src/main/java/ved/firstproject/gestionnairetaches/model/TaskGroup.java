@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -48,19 +49,31 @@ public class TaskGroup {
         this.tasksGroup.add(task);
     }
 
-    public void removeTask(Task task) {
-        Objects.requireNonNull(task);
-        this.tasksGroup.remove(task);
+    public void removeTask(Long taskId) {
+        Task taskToRemove = this.tasksGroup.stream()
+                .filter(t -> t.getId().equals(taskId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
+
+        this.tasksGroup.remove(taskToRemove);
     }
 
-    public void completeTask(Task task) {
-        Objects.requireNonNull(task);
-        this.tasksGroup.remove(task);
-        task.setStatus(TaskState.COMPLETED);
-        this.tasksGroupHistory.add(task);
+    public void completeTask(Long taskId) {
+        Task taskToRemove = this.tasksGroup.stream()
+                .filter(t -> t.getId().equals(taskId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
+        this.tasksGroup.remove(taskToRemove);
+        taskToRemove.setStatus(TaskState.COMPLETED);
+        taskToRemove.setCompletionDate(LocalDate.now());
+        addTasksHistory(taskToRemove);
     }
 
-    public void addTasksHistory(Task task) {
+    public void assignTaskTo(){
+
+    }
+
+    private void addTasksHistory(Task task) {
         Objects.requireNonNull(task);
         this.tasksGroupHistory.add(task);
     }

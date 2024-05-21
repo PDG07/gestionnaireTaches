@@ -101,6 +101,45 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
+    public TaskGroupDto addUserToGroup(Long taskGroupId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        taskGroup.addUser(user);
+        taskGroupRepository.save(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroup);
+    }
+
+    public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        taskGroup.removeUser(user);
+        taskGroupRepository.save(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroup);
+    }
+
+    public TaskGroupDto addTaskToGroup(Long taskGroupId, TaskDto taskDto) {
+        Objects.requireNonNull(taskDto);
+        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        Task task = TaskDto.toTask(taskDto);
+        taskGroup.addTask(task);
+        taskGroupRepository.save(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroup);
+    }
+
+    public TaskGroupDto removeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
+        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        taskGroup.removeTask(taskDtoId);
+        taskGroupRepository.save(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroup);
+    }
+
+    public TaskGroupDto completeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
+        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        taskGroup.completeTask(taskDtoId);
+        taskGroupRepository.save(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroup);
+    }
+
     private void validateLoginInfos(UserDto userDto) {
         userRepository.findByUsername(userDto.username())
                 .filter(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))

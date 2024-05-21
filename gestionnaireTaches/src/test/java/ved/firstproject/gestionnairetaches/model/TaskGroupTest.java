@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,7 +50,7 @@ class TaskGroupTest {
         Task task = new Task(1L, "title", "description", priorityHigh, null, null, null);
 
         taskGroup.addTask(task);
-        taskGroup.removeTask(task);
+        taskGroup.removeTask(task.getId());
 
         assertEquals(0, taskGroup.getTasksGroup().size());
     }
@@ -59,19 +60,12 @@ class TaskGroupTest {
         Task task = new Task(1L, "title", "description", priorityHigh, null, null, null);
 
         taskGroup.addTask(task);
-        taskGroup.completeTask(task);
+        taskGroup.completeTask(task.getId());
 
         assertEquals(0, taskGroup.getTasksGroup().size());
         assertEquals(TaskState.COMPLETED, task.getStatus());
+        assertEquals(LocalDate.now(), task.getCompletionDate());
         assertEquals(1, taskGroup.getTasksGroupHistory().size());
     }
 
-    @Test
-    void addTasksHistory() {
-        Task task = new Task(1L, "title", "description", priorityHigh, null, null, null);
-
-        taskGroup.addTasksHistory(task);
-
-        assertEquals(1, taskGroup.getTasksGroupHistory().size());
-    }
 }
