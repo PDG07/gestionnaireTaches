@@ -3,6 +3,7 @@ package ved.firstproject.gestionnairetaches;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ved.firstproject.gestionnairetaches.model.Task;
 import ved.firstproject.gestionnairetaches.model.TaskGroup;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
@@ -48,11 +49,28 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ personalCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), personalCategory));
         System.out.println("Tache complété : " + serviceTaskManager.completeTask(userDto.id(), taskDto.id()) + "\n");
 
-        System.out.println("Creation d'un groupe : " + serviceTaskManager.createTaskGroup("Groupe 1", userDto.id()));
-        TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(userDto.id(), 1L);
+        TaskGroupDto taskGroupDtoG = serviceTaskManager.createTaskGroup("Groupe 1", userDto.id());
+        System.out.println("Creation d'un groupe : " + taskGroupDtoG);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(taskGroupDtoG.id(), 1L);
         System.out.println("Ajout d'un utilisateur au groupe :  " + taskGroupDto);
         System.out.println("Retiration d'un utilisateur du groupe : " + serviceTaskManager.removeUserFromGroup(taskGroupDto.id(), userDto.id()));
-        System.out.println("Taches du groupe : " + serviceTaskManager.findAllTasksByGroupId(taskGroupDto.id()));
+        System.out.println("Ajout d'un utilisateur au groupe2 :  " + serviceTaskManager.addUserToGroup(taskGroupDtoG.id(), 1L));
+        TaskDto taskDto3 = new TaskDto(3L, "title3", "description3", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(3), null, workCategory, userDto);
+        serviceTaskManager.addTaskToGroup(taskGroupDto.id(), serviceTaskManager.createTask(userDto.id(), taskDto3));
+        TaskGroupDto taskGroupDto2 = serviceTaskManager.addTaskToGroup(taskGroupDto.id(), serviceTaskManager.createTask(userDto.id(), taskDto));
+        System.out.println("Ajout de tache au groupe : " + taskGroupDto2);
+        //TODO : Fix this, Error: return empty list
+        System.out.println("Taches du groupe : " + serviceTaskManager.findAllTasksByGroupId(taskGroupDto2.id()));
+        //System.out.println("" + serviceTaskManager.removeTaskFromGroup(taskGroupDto2.id(), taskDto3.id()));
+        //System.out.println("Taches du groupe filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategoryGroup(taskGroupDto.id(), workCategory));
+
+        System.out.println("\n ZZZZZZZZZZZZZZ");
+        UserDto uDto = new UserDto(2L, "username2", "password2", Set.of());
+        TaskDto task = new TaskDto(4L, "title4", "description4", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(4), null, personalCategory, uDto);
+        TaskDto task2 = new TaskDto(5L, "title5", "description5", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(5), null, personalCategory, uDto);
+        TaskGroupDto groupe2 = serviceTaskManager.createTaskGroup("Groupe 2", serviceTaskManager.createUser(uDto).id());
+        System.out.println("SSS" + serviceTaskManager.addTaskToGroup(groupe2.id(), serviceTaskManager.createTask(uDto.id(), task)));
+        System.out.println("SSS" + serviceTaskManager.addTaskToGroup(groupe2.id(), serviceTaskManager.createTask(uDto.id(), task2)));
 
     }
 

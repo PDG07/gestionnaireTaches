@@ -101,38 +101,35 @@ public class ServiceTaskManager {
         User user = findUserById(userId);
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.addUser(user);
-        taskGroupRepository.save(taskGroup);
-        return TaskGroupDto.toTaskGroupDto(taskGroup);
+        user.setTaskGroupUser(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
     public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeUser(userId);
-        taskGroupRepository.save(taskGroup);
-        return TaskGroupDto.toTaskGroupDto(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
     public TaskGroupDto addTaskToGroup(Long taskGroupId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         Task task = TaskDto.toTask(taskDto);
-        taskGroup.addTask(task);
-        taskGroupRepository.save(taskGroup);
-        return TaskGroupDto.toTaskGroupDto(taskGroup);
+        taskGroup.addTask(taskRepository.save(task));
+        task.setTaskGroupTask(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
     public TaskGroupDto removeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeTask(taskDtoId);
-        taskGroupRepository.save(taskGroup);
-        return TaskGroupDto.toTaskGroupDto(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
     public TaskGroupDto completeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.completeTask(taskDtoId);
-        taskGroupRepository.save(taskGroup);
-        return TaskGroupDto.toTaskGroupDto(taskGroup);
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
     public Set<TaskDto> findAllTasksByGroupId(Long taskGroupId) {
