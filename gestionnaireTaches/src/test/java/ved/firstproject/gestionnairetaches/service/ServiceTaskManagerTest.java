@@ -193,4 +193,17 @@ class ServiceTaskManagerTest {
 
         assertEquals(0, taskGroupDtoRemoved.usersGroup().size());
     }
+
+    @Test
+    void addTaskToGroup(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(new TaskGroup("title", user)));
+        when(taskGroupRepository.save(any())).thenReturn(new TaskGroup(0L, "title", Set.of(), Set.of(), Set.of()));
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        TaskGroupDto taskGroup = serviceTaskManager.createTaskGroup("title", user.getId());
+        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
+
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.id(), taskDto);
+
+        assertEquals(1, taskGroupDto.tasksGroup().size());
+    }
 }
