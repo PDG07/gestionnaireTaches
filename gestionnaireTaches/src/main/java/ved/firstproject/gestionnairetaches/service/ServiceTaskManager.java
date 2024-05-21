@@ -76,7 +76,7 @@ public class ServiceTaskManager {
     }
 
     public TaskDto completeTask(Long userId, Long taskId){
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        Task task = findTaskById(taskId);
         User user = findUserById(userId);
         task.completeTask();
         user.addTaskHistory(task);
@@ -99,14 +99,14 @@ public class ServiceTaskManager {
 
     public TaskGroupDto addUserToGroup(Long taskGroupId, Long userId) {
         User user = findUserById(userId);
-        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.addUser(user);
         taskGroupRepository.save(taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroup);
     }
 
     public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
-        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeUser(userId);
         taskGroupRepository.save(taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroup);
@@ -114,7 +114,7 @@ public class ServiceTaskManager {
 
     public TaskGroupDto addTaskToGroup(Long taskGroupId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
-        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         Task task = TaskDto.toTask(taskDto);
         taskGroup.addTask(task);
         taskGroupRepository.save(taskGroup);
@@ -122,21 +122,21 @@ public class ServiceTaskManager {
     }
 
     public TaskGroupDto removeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
-        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeTask(taskDtoId);
         taskGroupRepository.save(taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroup);
     }
 
     public TaskGroupDto completeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
-        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.completeTask(taskDtoId);
         taskGroupRepository.save(taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroup);
     }
 
     public Set<TaskDto> findAllTasksByGroupId(Long taskGroupId) {
-        TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         return taskGroup.getTasksGroup().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
@@ -155,5 +155,13 @@ public class ServiceTaskManager {
 
     private User findUserById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    private TaskGroup findTaskGroupById(Long taskGroupId){
+        return taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
+    }
+
+    private Task findTaskById(Long taskId){
+        return taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
     }
 }
