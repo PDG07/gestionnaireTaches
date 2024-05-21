@@ -37,6 +37,7 @@ public class Task {
     @ToString.Exclude
     private User user;
     @ManyToOne
+    @ToString.Exclude
     private TaskGroup taskGroupTask;
 
     public Task(Long id, String title, String description, TaskPriority priority, LocalDate deadline, TaskCategory category, User user) {

@@ -59,18 +59,11 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         serviceTaskManager.addTaskToGroup(taskGroupDto.id(), serviceTaskManager.createTask(userDto.id(), taskDto3));
         TaskGroupDto taskGroupDto2 = serviceTaskManager.addTaskToGroup(taskGroupDto.id(), serviceTaskManager.createTask(userDto.id(), taskDto));
         System.out.println("Ajout de tache au groupe : " + taskGroupDto2);
-        //TODO : Fix this, Error: return empty list
         System.out.println("Taches du groupe : " + serviceTaskManager.findAllTasksByGroupId(taskGroupDto2.id()));
         //System.out.println("" + serviceTaskManager.removeTaskFromGroup(taskGroupDto2.id(), taskDto3.id()));
         //System.out.println("Taches du groupe filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategoryGroup(taskGroupDto.id(), workCategory));
 
-        System.out.println("\n ZZZZZZZZZZZZZZ");
-        UserDto uDto = new UserDto(2L, "username2", "password2", Set.of());
-        TaskDto task = new TaskDto(4L, "title4", "description4", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(4), null, personalCategory, uDto);
-        TaskDto task2 = new TaskDto(5L, "title5", "description5", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(5), null, personalCategory, uDto);
-        TaskGroupDto groupe2 = serviceTaskManager.createTaskGroup("Groupe 2", serviceTaskManager.createUser(uDto).id());
-        System.out.println("SSS" + serviceTaskManager.addTaskToGroup(groupe2.id(), serviceTaskManager.createTask(uDto.id(), task)));
-        System.out.println("SSS" + serviceTaskManager.addTaskToGroup(groupe2.id(), serviceTaskManager.createTask(uDto.id(), task2)));
+
 
     }
 

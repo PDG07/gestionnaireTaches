@@ -50,6 +50,7 @@ public class TaskGroup {
 
     public void addTask(Task task) {
         Objects.requireNonNull(task);
+        task.setTaskGroupTask(this);
         this.tasksGroup.add(task);
     }
 

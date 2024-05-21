@@ -116,7 +116,6 @@ public class ServiceTaskManager {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         Task task = TaskDto.toTask(taskDto);
         taskGroup.addTask(taskRepository.save(task));
-        task.setTaskGroupTask(taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
