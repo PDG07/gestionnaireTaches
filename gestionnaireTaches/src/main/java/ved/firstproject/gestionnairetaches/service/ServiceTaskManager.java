@@ -110,9 +110,8 @@ public class ServiceTaskManager {
     }
 
     public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         TaskGroup taskGroup = taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
-        taskGroup.removeUser(user);
+        taskGroup.removeUser(userId);
         taskGroupRepository.save(taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroup);
     }

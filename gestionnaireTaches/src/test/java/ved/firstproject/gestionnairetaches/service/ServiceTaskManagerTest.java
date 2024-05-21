@@ -178,5 +178,19 @@ class ServiceTaskManagerTest {
         assertEquals(user.getId(), taskGroupDto.usersGroup().stream().findFirst().map(UserDto::id).orElse(null));
     }
 
-    
+    @Test
+    void removeUserFromGroup(){
+        Set<User> users = new HashSet<>();
+        Set<Task> tasks = new HashSet<>();
+        Set<Task> tasksHistory = new HashSet<>();
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(new TaskGroup(0L, "title", users, tasks, tasksHistory)));
+        when(taskGroupRepository.save(any())).thenReturn(new TaskGroup(0L, "title", Set.of(), Set.of(), Set.of()));
+        TaskGroupDto taskGroup = serviceTaskManager.createTaskGroup("title", user.getId());
+        TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(taskGroup.id(), user.getId());
+
+        TaskGroupDto taskGroupDtoRemoved = serviceTaskManager.removeUserFromGroup(taskGroupDto.id(), user.getId());
+
+        assertEquals(0, taskGroupDtoRemoved.usersGroup().size());
+    }
 }

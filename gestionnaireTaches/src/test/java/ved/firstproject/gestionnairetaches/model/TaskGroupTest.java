@@ -32,7 +32,7 @@ class TaskGroupTest {
     void removeUser() {
 
         taskGroup.addUser(user);
-        taskGroup.removeUser(user);
+        taskGroup.removeUser(user.getId());
 
         assertEquals(0, taskGroup.getUsersGroup().size());
     }

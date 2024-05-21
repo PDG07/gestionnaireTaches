@@ -39,9 +39,12 @@ public class TaskGroup {
         this.usersGroup.add(user);
     }
 
-    public void removeUser(User user) {
-        Objects.requireNonNull(user);
-        this.usersGroup.remove(user);
+    public void removeUser(Long userId) {
+        User userToRemove = this.usersGroup.stream()
+                .filter(t -> t.getId().equals(userId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("User not found in the group"));
+        this.usersGroup.remove(userToRemove);
     }
 
     public void addTask(Task task) {
