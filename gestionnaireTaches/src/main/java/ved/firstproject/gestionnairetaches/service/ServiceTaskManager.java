@@ -166,6 +166,15 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
+    public TaskDto updateTaskForGroup(Long groupId, TaskDto taskDto) {
+        Objects.requireNonNull(taskDto);
+        TaskGroup taskGroup = findTaskGroupById(groupId);
+        Task task = TaskDto.toTask(taskDto);
+        Task updatedTask = taskGroup.updateTask(task);
+        taskGroupRepository.save(taskGroup);
+        return TaskDto.toTaskDto(taskRepository.save(updatedTask));
+    }
+
     private void validateLoginInfos(UserDto userDto) {
         userRepository.findByUsername(userDto.username())
                 .filter(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))

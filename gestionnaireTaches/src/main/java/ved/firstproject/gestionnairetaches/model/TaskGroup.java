@@ -95,4 +95,12 @@ public class TaskGroup {
     }
 
 
+    public Task updateTask(Task task) {
+        Objects.requireNonNull(task);
+        Task existingTask = tasksGroup.stream()
+                .filter(t -> t.getId().equals(task.getId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        return existingTask.updateTask(task);
+    }
 }
