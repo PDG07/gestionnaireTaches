@@ -57,20 +57,13 @@ public class User {
     }
 
     @Transactional
-    public void updateTask(Task task) {
+    public Task updateTask(Task task) {
         Objects.requireNonNull(task);
         Task existingTask = tasks.stream()
                 .filter(t -> t.getId().equals(task.getId()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
-
-        existingTask.setTitle(task.getTitle());
-        existingTask.setDescription(task.getDescription());
-        existingTask.setStatus(task.getStatus());
-        existingTask.setPriority(task.getPriority());
-        existingTask.setDeadline(task.getDeadline());
-        existingTask.setCompletionDate(task.getCompletionDate());
-        existingTask.setCategory(task.getCategory());
+        return existingTask.updateTask(task);
     }
 
 

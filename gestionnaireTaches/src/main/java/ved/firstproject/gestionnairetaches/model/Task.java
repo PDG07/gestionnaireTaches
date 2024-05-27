@@ -62,6 +62,17 @@ public class Task {
         this.user = user;
     }
 
+    public Task updateTask(Task task) {
+        this.title = task.getTitle();
+        this.description = task.getDescription();
+        this.status = task.getStatus();
+        this.priority = task.getPriority();
+        this.deadline = task.getDeadline();
+        this.completionDate = task.getCompletionDate();
+        this.category = task.getCategory();
+        return this;
+    }
+
     public void completeTask() {
         this.status = TaskState.COMPLETED;
         this.completionDate = LocalDate.now();

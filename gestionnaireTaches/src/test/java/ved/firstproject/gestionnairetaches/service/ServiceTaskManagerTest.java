@@ -106,7 +106,7 @@ class ServiceTaskManagerTest {
     @Test
     void updateTask() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        when(taskRepository.save(any(Task.class))).thenReturn(taskInit);
+        when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "New title", "description", status, priorityHigh, deadline, null, workCategory, user));
         user.addTask(taskInit);
         taskDtoInit = new TaskDto(1L, "New title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
 
@@ -254,5 +254,20 @@ class ServiceTaskManagerTest {
         Set<TaskDto> tasksList = serviceTaskManager.findAllTasksByGroupId(taskGroupDto.id());
 
         assertEquals(1, tasksList.size());
+    }
+
+    @Test
+    void filterByCategoryGroup(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+        when(taskGroupRepository.save(any())).thenReturn(taskGroup);
+        when(taskRepository.save(any())).thenReturn(taskInit);
+        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.getId(), taskDto);
+
+        Set<TaskDto> tasksList = serviceTaskManager.filterByCategoryGroup(taskGroupDto.id(), workCategory);
+        Set<TaskDto> tasksListEmpty = serviceTaskManager.filterByCategoryGroup(taskGroupDto.id(), TaskCategory.PERSONAL);
+
+        assertEquals(Set.of(taskDto), tasksList);
+        assertEquals(0, tasksListEmpty.size());
     }
 }

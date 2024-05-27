@@ -74,18 +74,19 @@ public class TaskGroup {
         addTasksHistory(taskToRemove);
     }
 
-    public void assignTaskTo(Long userId, Long taskId){
+    public Task assignTaskTo(Long userId, Long taskId){
         Task taskToAssign = this.tasksGroup.stream()
                 .filter(t -> t.getId().equals(taskId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
 
-        User userToAssign = this.usersGroup.stream()
+        User userAssignedTo = this.usersGroup.stream()
                 .filter(u -> u.getId().equals(userId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found in the group"));
 
-        taskToAssign.setUser(userToAssign);
+        taskToAssign.setUser(userAssignedTo);
+        return taskToAssign;
     }
 
     private void addTasksHistory(Task task) {

@@ -62,9 +62,9 @@ public class ServiceTaskManager {
         Objects.requireNonNull(taskDto);
         User user = findUserById(userId);
         Task task = TaskDto.toTask(taskDto);
-        user.updateTask(task);
+        Task updatedTask = user.updateTask(task);
         userRepository.save(user);
-        return TaskDto.toTaskDto(taskRepository.save(task));
+        return TaskDto.toTaskDto(taskRepository.save(updatedTask));
     }
 
     public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
@@ -136,6 +136,36 @@ public class ServiceTaskManager {
         return taskGroup.getTasksGroup().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
+    public Set<TaskDto> filterByCategoryGroup(Long groupId, TaskCategory workCategory) {
+        TaskGroup taskGroup = findTaskGroupById(groupId);
+        return taskGroup.getTasksGroup().stream()
+                .filter(task -> task.getCategory().equals(workCategory))
+                .map(TaskDto::toTaskDto)
+                .collect(Collectors.toSet());
+    }
+
+    public TaskDto assignTaskTo(Long groupId, Long userId, Long taskId) {
+        TaskGroup taskGroup = findTaskGroupById(groupId);
+        Task task = taskGroup.assignTaskTo(userId, taskId);
+        taskGroupRepository.save(taskGroup);
+        return TaskDto.toTaskDto(taskRepository.save(task));
+    }
+
+    public TaskGroupDto createTaskForGroup(Long groupId, Long userId, TaskDto taskDto) {
+        Objects.requireNonNull(taskDto);
+        TaskGroup taskGroup = findTaskGroupById(groupId);
+        User user = findUserById(userId);
+        if(!taskGroup.getUsersGroup().contains(user)){
+            throw new IllegalArgumentException("User not found in the group");
+        }
+        Task task = TaskDto.toTask(taskDto);
+        task.setUser(user);
+        task.setTaskGroupTask(taskGroup);
+        taskRepository.save(task);
+        userRepository.save(user);
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
+    }
+
     private void validateLoginInfos(UserDto userDto) {
         userRepository.findByUsername(userDto.username())
                 .filter(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))
@@ -149,6 +179,7 @@ public class ServiceTaskManager {
         }
     }
 
+
     private User findUserById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
@@ -160,4 +191,5 @@ public class ServiceTaskManager {
     private Task findTaskById(Long taskId){
         return taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
     }
+
 }
