@@ -63,7 +63,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         //TaskGroupDto gr2 = serviceTaskManager.removeTaskFromGroup(taskGroupDto2.id(), 1L);
         //System.out.println(gr2);
         System.out.println("Taches du groupe filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategoryGroup(taskGroupDto.id(), workCategory));
-
+        //TODO assignTaskTo, createTaskForGroup, updateTaskForGroup UNIT TESTS & TEST HERE
 
 
     }

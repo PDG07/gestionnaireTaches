@@ -41,10 +41,7 @@ public class TaskGroup {
     }
 
     public void removeUser(Long userId) {
-        User userToRemove = this.usersGroup.stream()
-                .filter(t -> t.getId().equals(userId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("User not found in the group"));
+        User userToRemove = existingUser(userId);
         this.usersGroup.remove(userToRemove);
     }
 
@@ -55,19 +52,12 @@ public class TaskGroup {
     }
 
     public void removeTask(Long taskId) {
-        Task taskToRemove = this.tasksGroup.stream()
-                .filter(t -> t.getId().equals(taskId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
-
+        Task taskToRemove = existingTask(taskId);
         this.tasksGroup.remove(taskToRemove);
     }
 
     public void completeTask(Long taskId) {
-        Task taskToRemove = this.tasksGroup.stream()
-                .filter(t -> t.getId().equals(taskId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
+        Task taskToRemove = existingTask(taskId);
         this.tasksGroup.remove(taskToRemove);
         taskToRemove.setStatus(TaskState.COMPLETED);
         taskToRemove.setCompletionDate(LocalDate.now());
@@ -75,16 +65,8 @@ public class TaskGroup {
     }
 
     public Task assignTaskTo(Long userId, Long taskId){
-        Task taskToAssign = this.tasksGroup.stream()
-                .filter(t -> t.getId().equals(taskId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
-
-        User userAssignedTo = this.usersGroup.stream()
-                .filter(u -> u.getId().equals(userId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("User not found in the group"));
-
+        Task taskToAssign = existingTask(taskId);
+        User userAssignedTo = existingUser(userId);
         taskToAssign.setUser(userAssignedTo);
         return taskToAssign;
     }
@@ -97,10 +79,21 @@ public class TaskGroup {
 
     public Task updateTask(Task task) {
         Objects.requireNonNull(task);
-        Task existingTask = tasksGroup.stream()
-                .filter(t -> t.getId().equals(task.getId()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        Task existingTask = existingTask(task.getId());
         return existingTask.updateTask(task);
+    }
+
+    private User existingUser(Long userId) {
+        return this.usersGroup.stream()
+                .filter(u -> u.getId().equals(userId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("User not found in the group"));
+    }
+
+    private Task existingTask(Long taskId) {
+        return this.tasksGroup.stream()
+                .filter(t -> t.getId().equals(taskId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
     }
 }
