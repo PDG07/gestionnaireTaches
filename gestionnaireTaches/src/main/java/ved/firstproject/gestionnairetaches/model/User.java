@@ -59,13 +59,16 @@ public class User {
     @Transactional
     public Task updateTask(Task task) {
         Objects.requireNonNull(task);
-        Task existingTask = tasks.stream()
-                .filter(t -> t.getId().equals(task.getId()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        Task existingTask = existingTask(task.getId());
         return existingTask.updateTask(task);
     }
 
+    private Task existingTask(Long taskId) {
+        return tasks.stream()
+                .filter(t -> t.getId().equals(taskId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+    }
 
 }
 
