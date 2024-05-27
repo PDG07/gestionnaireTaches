@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class TaskGroup {
+public class TaskGroup extends EntityContainer{
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -84,16 +84,11 @@ public class TaskGroup {
     }
 
     private User existingUser(Long userId) {
-        return this.usersGroup.stream()
-                .filter(u -> u.getId().equals(userId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("User not found in the group"));
+        return findUserById(usersGroup, userId);
     }
 
     private Task existingTask(Long taskId) {
-        return this.tasksGroup.stream()
-                .filter(t -> t.getId().equals(taskId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Task not found in the group"));
+        return findTaskById(tasksGroup, taskId);
+
     }
 }

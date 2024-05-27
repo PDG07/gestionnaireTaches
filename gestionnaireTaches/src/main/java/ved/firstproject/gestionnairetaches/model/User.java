@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Table(name = "app_user")
-public class User {
+public class User extends EntityContainer{
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -64,10 +64,7 @@ public class User {
     }
 
     private Task existingTask(Long taskId) {
-        return tasks.stream()
-                .filter(t -> t.getId().equals(taskId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        return findTaskById(tasks, taskId);
     }
 
 }
