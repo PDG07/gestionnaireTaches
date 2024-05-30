@@ -144,7 +144,7 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    public TaskDto assignTaskTo(Long groupId, Long userId, Long taskId) {
+    public TaskDto assignTaskForGrTo(Long groupId, Long userId, Long taskId) {
         TaskGroup taskGroup = findTaskGroupById(groupId);
         Task task = taskGroup.assignTaskTo(userId, taskId);
         taskGroupRepository.save(taskGroup);

@@ -272,7 +272,7 @@ class ServiceTaskManagerTest {
     }
 
     @Test
-    void assignTaskTo(){
+    void assignTaskForGrTo(){
         when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
         when(taskGroupRepository.save(any())).thenReturn(taskGroup);
         when(taskRepository.save(any())).thenReturn(taskInit);
@@ -282,7 +282,7 @@ class ServiceTaskManagerTest {
         TaskGroupDto tgdto = serviceTaskManager.addUserToGroup(taskGroupDto.id(), user.getId());
 
 
-        TaskDto taskDtoAssigned = serviceTaskManager.assignTaskTo(tgdto.id(), user.getId(), taskDto.id());
+        TaskDto taskDtoAssigned = serviceTaskManager.assignTaskForGrTo(tgdto.id(), user.getId(), taskDto.id());
 
         assertEquals(user.getId(), taskDtoAssigned.user().id());
     }
