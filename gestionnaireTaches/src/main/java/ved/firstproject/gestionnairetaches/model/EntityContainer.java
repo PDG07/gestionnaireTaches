@@ -12,10 +12,10 @@ public class EntityContainer {
     }
 
     protected User findUserById(Set<User> users, Long userId) {
-        return findById(users, userId, User::getId, "User not found in the group");
+        return findById(users, userId, User::getId, "User not found");
     }
 
     protected Task findTaskById(Set<Task> tasks, Long taskId) {
-        return findById(tasks, taskId, Task::getId, "Task not found in the group");
+        return findById(tasks, taskId, Task::getId, "Task not found");
     }
 }
