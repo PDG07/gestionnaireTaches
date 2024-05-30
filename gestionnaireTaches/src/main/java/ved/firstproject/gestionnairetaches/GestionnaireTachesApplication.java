@@ -39,7 +39,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         TaskDto tastUpdated = new TaskDto(1L, "titleUpdated", "descriptionUpdated", TaskState.TODO, TaskPriority.AVERAGE, LocalDate.now().plusWeeks(1), LocalDate.now(), workCategory, userDto);
         String username = userDto.username();
 
-        /*System.out.println("\n");
+        System.out.println("\n");
         System.out.println("Creation d'une tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto));
         System.out.println("Creation d'une 2e tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto2) + "\n");
 
@@ -48,7 +48,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), workCategory));
         System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ personalCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), personalCategory));
         System.out.println("Tache complété : " + serviceTaskManager.completeTask(userDto.id(), taskDto.id()) + "\n");
-*/
+
         TaskGroupDto taskGroupDtoG = serviceTaskManager.createTaskGroup("Groupe 1", userDto.id());
         System.out.println("Creation d'un groupe : " + taskGroupDtoG);
         TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(taskGroupDtoG.id(), 1L);
@@ -63,7 +63,9 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         //TaskGroupDto gr2 = serviceTaskManager.removeTaskFromGroup(taskGroupDto2.id(), 1L);
         //System.out.println(gr2);
         System.out.println("Taches du groupe filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategoryGroup(taskGroupDto.id(), workCategory));
-        //TODO assignTaskTo, createTaskForGroup, updateTaskForGroup UNIT TESTS & TEST HERE
+        System.out.println("Task assigned to : " + serviceTaskManager.assignTaskTo(taskGroupDto2.id(), 1L, 1L));
+        TaskDto taskDto4 = new TaskDto(1L, "title4", "description4", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(4), null, personalCategory, userDto);
+        System.out.println("Task group updated : " + serviceTaskManager.updateTaskForGroup(taskGroupDto2.id(), taskDto4));
 
 
     }

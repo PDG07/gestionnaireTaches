@@ -155,9 +155,7 @@ public class ServiceTaskManager {
         Objects.requireNonNull(taskDto);
         TaskGroup taskGroup = findTaskGroupById(groupId);
         User user = findUserById(userId);
-        if(!taskGroup.getUsersGroup().contains(user)){
-            throw new IllegalArgumentException("User not found in the group");
-        }
+        if(!taskGroup.getUsersGroup().contains(user)) throw new IllegalArgumentException("User not found in the group");
         Task task = TaskDto.toTask(taskDto);
         task.setUser(user);
         task.setTaskGroupTask(taskGroup);

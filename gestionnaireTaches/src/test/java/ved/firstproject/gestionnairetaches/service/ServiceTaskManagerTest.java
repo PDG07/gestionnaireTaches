@@ -270,4 +270,38 @@ class ServiceTaskManagerTest {
         assertEquals(Set.of(taskDto), tasksList);
         assertEquals(0, tasksListEmpty.size());
     }
+
+    @Test
+    void assignTaskTo(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+        when(taskGroupRepository.save(any())).thenReturn(taskGroup);
+        when(taskRepository.save(any())).thenReturn(taskInit);
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.getId(), taskDto);
+        TaskGroupDto tgdto = serviceTaskManager.addUserToGroup(taskGroupDto.id(), user.getId());
+
+
+        TaskDto taskDtoAssigned = serviceTaskManager.assignTaskTo(tgdto.id(), user.getId(), taskDto.id());
+
+        assertEquals(user.getId(), taskDtoAssigned.user().id());
+    }
+
+    @Test
+    void updateTaskForGroup(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+        when(taskGroupRepository.save(any())).thenReturn(taskGroup);
+        when(taskRepository.save(any())).thenReturn(taskInit);
+        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.getId(), taskDto);
+
+        TaskDto taskDtoUpdated = new TaskDto(1L, "titleUpdated", "descriptionUpdated", status, TaskPriority.AVERAGE, deadline, LocalDate.now(), workCategory, userDto);
+
+        TaskDto taskDtoUpdatedForGroup = serviceTaskManager.updateTaskForGroup(taskGroupDto.id(), taskDtoUpdated);
+
+        assertEquals("titleUpdated", taskDtoUpdatedForGroup.title());
+        assertEquals("descriptionUpdated", taskDtoUpdatedForGroup.description());
+        assertEquals(TaskPriority.AVERAGE, taskDtoUpdatedForGroup.priority());
+        assertEquals(LocalDate.now(), taskDtoUpdatedForGroup.completionDate());
+    }
 }
