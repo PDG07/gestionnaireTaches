@@ -53,11 +53,6 @@ public class ServiceTaskManager {
         return TaskDto.toTaskDto(taskSaved);
     }
 
-    public Set<TaskDto> findAllTasksByUserId(Long userId) {
-        User user = findUserById(userId);
-        return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
-    }
-
     public TaskDto updateTask(Long userId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
         User user = findUserById(userId);
@@ -65,6 +60,15 @@ public class ServiceTaskManager {
         Task updatedTask = user.updateTask(task);
         userRepository.save(user);
         return TaskDto.toTaskDto(taskRepository.save(updatedTask));
+    }
+
+    public TaskDto completeTask(Long userId, Long taskId){
+        Task task = findTaskById(taskId);
+        User user = findUserById(userId);
+        task.completeTask();
+        user.addTaskHistory(task);
+        userRepository.save(user);
+        return TaskDto.toTaskDto(taskRepository.save(task));
     }
 
     public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
@@ -75,13 +79,9 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    public TaskDto completeTask(Long userId, Long taskId){
-        Task task = findTaskById(taskId);
+    public Set<TaskDto> findAllTasksByUserId(Long userId) {
         User user = findUserById(userId);
-        task.completeTask();
-        user.addTaskHistory(task);
-        userRepository.save(user);
-        return TaskDto.toTaskDto(taskRepository.save(task));
+        return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
     public Set<TaskDto> findAllTasksHistoryByUserId(Long userId) {
@@ -105,17 +105,17 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
-    public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
-        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
-        taskGroup.removeUser(userId);
-        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
-    }
-
     public TaskGroupDto addTaskToGroup(Long taskGroupId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         Task task = TaskDto.toTask(taskDto);
         taskGroup.addTask(taskRepository.save(task));
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
+    }
+
+    public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
+        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
+        taskGroup.removeUser(userId);
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
