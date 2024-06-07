@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const CreateTask = () => {
     const [userId, setUserId] = useState('');
@@ -10,6 +10,14 @@ const CreateTask = () => {
     const [completionDate, setCompletionDate] = useState('');
     const [category, setCategory] = useState('');
     const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        const storedUserInfo = localStorage.getItem('accountInfos');
+        if (storedUserInfo) {
+            const { userId } = JSON.parse(storedUserInfo);
+            setUserId(userId);
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,15 +62,6 @@ const CreateTask = () => {
         <div>
             <h2>Create Task</h2>
             <form onSubmit={handleSubmit} noValidate>
-                <div>
-                    <label>User ID:</label>
-                    <input
-                        type="text"
-                        value={userId}
-                        onChange={(e) => setUserId(e.target.value)}
-                        required
-                    />
-                </div>
                 <div>
                     <label>Title:</label>
                     <input
