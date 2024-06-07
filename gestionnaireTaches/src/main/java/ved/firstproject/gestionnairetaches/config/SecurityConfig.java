@@ -22,10 +22,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/signup")  // Disable CSRF for specific endpoint
+                        .ignoringRequestMatchers("/api/signup", "/api/createtask")
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/signup").permitAll()  // Allow unauthenticated access to signup
+                        .requestMatchers("/api/signup", "/api/createtask").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
@@ -33,6 +33,6 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/signup");
+        return (web) -> web.ignoring().requestMatchers("/api/signup", "/api/createtask");
     }
 }

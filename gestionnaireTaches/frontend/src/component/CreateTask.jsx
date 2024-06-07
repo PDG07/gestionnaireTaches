@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 
 const CreateTask = () => {
     const [userId, setUserId] = useState('');
-    const [taskName, setTaskName] = useState('');
-    const [taskDescription, setTaskDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [status, setStatus] = useState('');
+    const [priority, setPriority] = useState('');
+    const [deadline, setDeadline] = useState('');
+    const [completionDate, setCompletionDate] = useState('');
+    const [category, setCategory] = useState('');
     const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
@@ -11,8 +16,13 @@ const CreateTask = () => {
 
         const taskData = {
             userId: userId,
-            taskName: taskName,
-            taskDescription: taskDescription
+            title: title,
+            description: description,
+            status: status,
+            priority: priority,
+            deadline: deadline,
+            completionDate: completionDate,
+            category: category
         };
 
         try {
@@ -23,12 +33,16 @@ const CreateTask = () => {
                 },
                 body: JSON.stringify(taskData),
             });
+
             console.log('Response status:', response.status);
+
             if (response.status === 201) {
                 setMessage('Task created successfully');
+            } else if (response.status === 403) {
+                setMessage('Access denied: You do not have permission to create a task.');
             } else {
-                const errorData = await response.json();
-                setMessage(`Error: ${errorData.message}`);
+                const errorData = await response.json().catch(() => null);
+                setMessage(`Error: ${errorData ? errorData.message : 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Fetch error:', error);
@@ -50,22 +64,66 @@ const CreateTask = () => {
                     />
                 </div>
                 <div>
-                    <label>Task Name:</label>
+                    <label>Title:</label>
                     <input
                         type="text"
-                        value={taskName}
-                        onChange={(e) => setTaskName(e.target.value)}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         required
                     />
                 </div>
                 <div>
-                    <label>Task Description:</label>
+                    <label>Description:</label>
                     <input
                         type="text"
-                        value={taskDescription}
-                        onChange={(e) => setTaskDescription(e.target.value)}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                         required
                     />
+                </div>
+                <div>
+                    <label>Status:</label>
+                    <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                        <option value="">Select status</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="TODO">Todo</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Priority:</label>
+                    <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+                        <option value="">Select priority</option>
+                        <option value="HIGH">High</option>
+                        <option value="AVERAGE">Average</option>
+                        <option value="LOW">Low</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Deadline:</label>
+                    <input
+                        type="date"
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Completion Date:</label>
+                    <input
+                        type="date"
+                        value={completionDate}
+                        onChange={(e) => setCompletionDate(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Category:</label>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="">Select category</option>
+                        <option value="WORK">Work</option>
+                        <option value="PERSONAL">Personal</option>
+                        <option value="SHOPPING">Shopping</option>
+                        <option value="SPORTS">Sports</option>
+                        <option value="OTHER">Other</option>
+                    </select>
                 </div>
                 <button type="submit">Create Task</button>
             </form>

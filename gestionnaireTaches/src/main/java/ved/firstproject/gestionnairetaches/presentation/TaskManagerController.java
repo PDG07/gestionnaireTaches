@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
+import ved.firstproject.gestionnairetaches.service.dto.data.TaskData;
 import ved.firstproject.gestionnairetaches.service.dto.data.UserData;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
@@ -35,7 +36,17 @@ public class TaskManagerController {
     //TODO @PostMapping("/login")
 
     @PostMapping("/createtask")
-    public ResponseEntity<TaskDto> createTask(@RequestParam Long userId, @RequestBody TaskDto taskDto) {
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskData taskData) {
+        Long userId = taskData.getUserId();
+        TaskDto taskDto = new TaskDto(
+                taskData.getTitle(),
+                taskData.getDescription(),
+                taskData.getStatus(),
+                taskData.getPriority(),
+                taskData.getDeadline(),
+                taskData.getCompletionDate(),
+                taskData.getCategory(),
+                UserDto.toUserDto(serviceTaskManager.findUserById(userId)));
         TaskDto createdTaskDto = serviceTaskManager.createTask(userId, taskDto);
         logger.info("Task created: {}", createdTaskDto);
         return new ResponseEntity<>(createdTaskDto, HttpStatus.CREATED);
