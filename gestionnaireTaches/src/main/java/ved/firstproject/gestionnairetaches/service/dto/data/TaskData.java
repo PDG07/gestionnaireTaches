@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Data
 public class TaskData {
+    private Long id;
     private String title;
     private String description;
     private TaskState status;

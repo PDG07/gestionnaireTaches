@@ -51,4 +51,30 @@ public class TaskManagerController {
         logger.info("Task created: {}", createdTaskDto);
         return new ResponseEntity<>(createdTaskDto, HttpStatus.CREATED);
     }
+
+    @GetMapping("/tasks")
+    public ResponseEntity<Set<TaskDto>> getTasks(@RequestParam Long userId) {
+        Set<TaskDto> tasks = serviceTaskManager.findAllTasksByUserId(userId);
+        logger.info("Tasks found: {}", tasks);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
+    @PutMapping("/updatetask")
+    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskData taskData) {
+        Long userId = taskData.getUserId();
+        TaskDto taskDto = new TaskDto(
+                taskData.getId(),
+                taskData.getTitle(),
+                taskData.getDescription(),
+                taskData.getStatus(),
+                taskData.getPriority(),
+                taskData.getDeadline(),
+                taskData.getCompletionDate(),
+                taskData.getCategory(),
+                UserDto.toUserDto(serviceTaskManager.findUserById(userId)));
+        TaskDto updatedTaskDto = serviceTaskManager.updateTask(userId, taskDto);
+        System.out.println("Controller: "+updatedTaskDto);
+        logger.info("Task updated: {}", updatedTaskDto);
+        return new ResponseEntity<>(updatedTaskDto, HttpStatus.OK);
+    }
 }

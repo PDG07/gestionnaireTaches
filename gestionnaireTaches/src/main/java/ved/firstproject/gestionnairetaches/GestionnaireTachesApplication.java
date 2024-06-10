@@ -30,7 +30,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        TaskCategory workCategory = TaskCategory.WORK;
+        /*TaskCategory workCategory = TaskCategory.WORK;
         TaskCategory personalCategory = TaskCategory.PERSONAL;
         TaskPriority priorityHigh = TaskPriority.HIGH;
         UserDto userDto = serviceTaskManager.createUser(new UserDto(1L, "username", "password", Set.of()));
@@ -66,7 +66,7 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
         System.out.println("Task assigned to : " + serviceTaskManager.assignTaskForGrTo(taskGroupDto2.id(), 1L, 1L));
         TaskDto taskDto4 = new TaskDto(1L, "title4", "description4", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(4), null, personalCategory, userDto);
         System.out.println("Task group updated : " + serviceTaskManager.updateTaskForGroup(taskGroupDto2.id(), taskDto4));
-
+*/
 
     }
 
