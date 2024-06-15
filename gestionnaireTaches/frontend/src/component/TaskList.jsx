@@ -1,3 +1,5 @@
+// TaskList.js
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +30,22 @@ const TaskList = () => {
         navigate('/update-task', { state: { task } });
     };
 
+    const handleComplete = async (taskId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/completetask/${taskId}?userId=${userId}`, {
+                method: 'PUT',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to complete task');
+            }
+            const completedTask = await response.json();
+            // Update tasks state to reflect completed task
+            setTasks(tasks.map(t => t.id === completedTask.id ? completedTask : t));
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
     return (
         <div>
             <h1>Task List</h1>
@@ -38,6 +56,7 @@ const TaskList = () => {
                         <h2>{task.title}</h2>
                         <p>{task.description}</p>
                         <button onClick={() => handleUpdate(task)}>Update Task</button>
+                        <button onClick={() => handleComplete(task.id)}>Complete Task</button>
                     </li>
                 ))}
             </ul>

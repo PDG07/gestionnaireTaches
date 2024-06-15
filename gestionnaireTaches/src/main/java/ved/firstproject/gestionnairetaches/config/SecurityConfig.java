@@ -22,10 +22,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask")
+                        .ignoringRequestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask", "/api/completetask/**")
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask").permitAll()
+                        .requestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask", "/api/completetask/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
@@ -33,6 +33,6 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask");
+        return (web) -> web.ignoring().requestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask", "/api/completetask/**");
     }
 }

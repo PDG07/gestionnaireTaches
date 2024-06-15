@@ -73,8 +73,14 @@ public class TaskManagerController {
                 taskData.getCategory(),
                 UserDto.toUserDto(serviceTaskManager.findUserById(userId)));
         TaskDto updatedTaskDto = serviceTaskManager.updateTask(userId, taskDto);
-        System.out.println("Controller: "+updatedTaskDto);
         logger.info("Task updated: {}", updatedTaskDto);
         return new ResponseEntity<>(updatedTaskDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/completetask/{taskId}")
+    public ResponseEntity<TaskDto> completeTask(@PathVariable Long taskId, @RequestParam Long userId) {
+        TaskDto completedTaskDto = serviceTaskManager.completeTask(userId, taskId);
+        logger.info("Task completed: {}", completedTaskDto);
+        return new ResponseEntity<>(completedTaskDto, HttpStatus.OK);
     }
 }
