@@ -4,13 +4,13 @@ const CreateTask = () => {
     const [userId, setUserId] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('TODO'); // Valeur par défaut "TODO"
     const [priority, setPriority] = useState('');
     const [deadline, setDeadline] = useState('');
-    const [completionDate, setCompletionDate] = useState('');
     const [category, setCategory] = useState('');
     const [message, setMessage] = useState('');
 
+    // Effet pour récupérer l'ID utilisateur depuis le localStorage
     useEffect(() => {
         const storedUserInfo = localStorage.getItem('accountInfos');
         if (storedUserInfo) {
@@ -19,6 +19,7 @@ const CreateTask = () => {
         }
     }, []);
 
+    // Méthode de soumission du formulaire
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -29,7 +30,6 @@ const CreateTask = () => {
             status: status,
             priority: priority,
             deadline: deadline,
-            completionDate: completionDate,
             category: category
         };
 
@@ -58,6 +58,9 @@ const CreateTask = () => {
         }
     };
 
+    // Vérification si le bouton de soumission doit être désactivé
+    const isSubmitDisabled = !title || !description || !priority || !deadline || !category;
+
     return (
         <div>
             <h2>Create Task</h2>
@@ -81,16 +84,8 @@ const CreateTask = () => {
                     />
                 </div>
                 <div>
-                    <label>Status:</label>
-                    <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                        <option value="">Select status</option>
-                        <option value="COMPLETED">Completed</option>
-                        <option value="TODO">Todo</option>
-                    </select>
-                </div>
-                <div>
                     <label>Priority:</label>
-                    <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+                    <select value={priority} onChange={(e) => setPriority(e.target.value)} required>
                         <option value="">Select priority</option>
                         <option value="HIGH">High</option>
                         <option value="AVERAGE">Average</option>
@@ -103,19 +98,12 @@ const CreateTask = () => {
                         type="date"
                         value={deadline}
                         onChange={(e) => setDeadline(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Completion Date:</label>
-                    <input
-                        type="date"
-                        value={completionDate}
-                        onChange={(e) => setCompletionDate(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
                     <label>Category:</label>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)} required>
                         <option value="">Select category</option>
                         <option value="WORK">Work</option>
                         <option value="PERSONAL">Personal</option>
@@ -124,7 +112,14 @@ const CreateTask = () => {
                         <option value="OTHER">Other</option>
                     </select>
                 </div>
-                <button type="submit">Create Task</button>
+                {/* Vous pouvez choisir de cacher complètement le champ Status ou le laisser visible */}
+                {/* <div>
+                    <label>Status:</label>
+                    <select value={status} onChange={(e) => setStatus(e.target.value)} disabled>
+                        <option value="TODO">Todo</option>
+                    </select>
+                </div> */}
+                <button type="submit" disabled={isSubmitDisabled}>Create Task</button>
             </form>
             {message && <p>{message}</p>}
         </div>

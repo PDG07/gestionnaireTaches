@@ -4,7 +4,7 @@ import './App.css';
 import TaskList from "./component/TaskList";
 import UpdateTask from "./component/UpdateTask";
 import CreateTask from "./component/CreateTask";
-import SignUp from "./component/SignUp";
+import SignUp from "./component/signup/SignUp";
 import Dashboard from "./component/Dashboard";
 
 function App() {

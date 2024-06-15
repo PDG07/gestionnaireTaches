@@ -8,24 +8,24 @@
 }
 
 .form {
-    background: linear-gradient(135deg, #5b21b6, #00d4ff); /* Gradient violet-turquoise */
+    background: linear-gradient(135deg, #5b21b6, #00d4ff);
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    width: 400px; /* Agrandir la carte */
+    width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .title {
-    color: #ffffff; /* Blanc */
+    color: #ffffff;
     margin-bottom: 20px;
-    font-size: 24px; /* Agrandir le texte */
+    font-size: 24px;
 }
 
 .label {
-    color: #ffffff; /* Blanc */
+    color: #ffffff;
     margin-bottom: 10px;
     align-self: flex-start;
 }
@@ -40,24 +40,24 @@
 }
 
 .button {
-    background: #ffffff; /* Blanc */
-    color: #5b21b6; /* Violet */
+    background: #ffffff;
+    color: #5b21b6;
     padding: 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
-    font-size: 16px; /* Agrandir le texte */
+    font-size: 16px;
     font-weight: bold;
 }
 
 .button:hover {
-    background: #f0f0f0; /* Légèrement plus sombre */
+    background: #f0f0f0;
 }
 
 .message {
     margin-top: 20px;
-    color: #ffffff; /* Blanc */
-    font-size: 16px; /* Agrandir le texte */
+    color: #ffffff;
+    font-size: 16px;
 }
