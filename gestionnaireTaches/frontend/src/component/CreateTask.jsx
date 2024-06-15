@@ -10,7 +10,6 @@ const CreateTask = () => {
     const [category, setCategory] = useState('');
     const [message, setMessage] = useState('');
 
-    // Effet pour récupérer l'ID utilisateur depuis le localStorage
     useEffect(() => {
         const storedUserInfo = localStorage.getItem('accountInfos');
         if (storedUserInfo) {
@@ -19,7 +18,6 @@ const CreateTask = () => {
         }
     }, []);
 
-    // Méthode de soumission du formulaire
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -58,7 +56,6 @@ const CreateTask = () => {
         }
     };
 
-    // Vérification si le bouton de soumission doit être désactivé
     const isSubmitDisabled = !title || !description || !priority || !deadline || !category;
 
     return (
@@ -112,13 +109,8 @@ const CreateTask = () => {
                         <option value="OTHER">Other</option>
                     </select>
                 </div>
-                {/* Vous pouvez choisir de cacher complètement le champ Status ou le laisser visible */}
-                {/* <div>
-                    <label>Status:</label>
-                    <select value={status} onChange={(e) => setStatus(e.target.value)} disabled>
-                        <option value="TODO">Todo</option>
-                    </select>
-                </div> */}
+                {}
+                {}
                 <button type="submit" disabled={isSubmitDisabled}>Create Task</button>
             </form>
             {message && <p>{message}</p>}
