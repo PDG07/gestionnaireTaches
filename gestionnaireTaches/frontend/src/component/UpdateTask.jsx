@@ -28,10 +28,8 @@ const UpdateTask = () => {
                 id: taskData.id,
                 title: taskData.title,
                 description: taskData.description,
-                status: taskData.status,
                 priority: taskData.priority,
                 deadline: taskData.deadline,
-                completionDate: taskData.completionDate,
                 category: taskData.category,
                 userId: userId
             };
@@ -63,62 +61,56 @@ const UpdateTask = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {success && <p style={{ color: 'green' }}>{success}</p>}
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="title"
-                    value={taskData.title || ''}
-                    onChange={handleChange}
-                    placeholder="Title"
-                />
-                <input
-                    type="text"
-                    name="description"
-                    value={taskData.description || ''}
-                    onChange={handleChange}
-                    placeholder="Description"
-                />
                 <div>
-                    <label>Priority:</label>
-                    <select value={taskData.priority} onChange={handleChange} name="priority">
-                        <option value="">Select priority</option>
-                        <option value="HIGH">High</option>
-                        <option value="AVERAGE">Average</option>
-                        <option value="LOW">Low</option>
-                    </select>
+                    <label>Titre:</label>
+                    <input
+                        type="text"
+                        name="title"
+                        value={taskData.title || ''}
+                        onChange={handleChange}
+                        placeholder="Title"
+                    />
                 </div>
                 <div>
-                    <label>Category:</label>
-                    <select value={taskData.category} onChange={handleChange} name="category">
-                        <option value="">Select category</option>
-                        <option value="WORK">Work</option>
-                        <option value="PERSONAL">Personal</option>
-                        <option value="SHOPPING">Shopping</option>
-                        <option value="SPORTS">Sports</option>
-                        <option value="OTHER">Other</option>
-                    </select>
+                    <label>Description:</label>
+                    <input
+                        type="text"
+                        name="description"
+                        value={taskData.description || ''}
+                        onChange={handleChange}
+                        placeholder="Description"
+                    />
                 </div>
                 <div>
-                    <label>Status:</label>
-                    <select value={taskData.status} onChange={handleChange} name="status">
-                        <option value="">Select status</option>
-                        <option value="COMPLETED">Completed</option>
-                        <option value="TODO">Todo</option>
-                    </select>
+                        <label>Priority:</label>
+                        <select value={taskData.priority} onChange={handleChange} name="priority">
+                            <option value="">Select priority</option>
+                            <option value="HIGH">High</option>
+                            <option value="AVERAGE">Average</option>
+                            <option value="LOW">Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Category:</label>
+                        <select value={taskData.category} onChange={handleChange} name="category">
+                            <option value="">Select category</option>
+                            <option value="WORK">Work</option>
+                            <option value="PERSONAL">Personal</option>
+                            <option value="SHOPPING">Shopping</option>
+                            <option value="SPORTS">Sports</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                <div>
+                    <label>DeadLine:</label>
+                    <input
+                        type="date"
+                        name="deadline"
+                        value={taskData.deadline || ''}
+                        onChange={handleChange}
+                        placeholder="Deadline"
+                    />
                 </div>
-                <input
-                    type="date"
-                    name="deadline"
-                    value={taskData.deadline || ''}
-                    onChange={handleChange}
-                    placeholder="Deadline"
-                />
-                <input
-                    type="date"
-                    name="completionDate"
-                    value={taskData.completionDate || ''}
-                    onChange={handleChange}
-                    placeholder="Completion Date"
-                />
                 <button type="submit">Update Task</button>
             </form>
         </div>
