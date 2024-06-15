@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleUserCreation = async (createdUserDto) => {
         const userId = createdUserDto.id;
@@ -40,6 +42,7 @@ const SignUp = () => {
                 const createdUserDto = await response.json();
                 setMessage('User created successfully');
                 await handleUserCreation(createdUserDto);
+                navigate('/dashboard'); // Rediriger vers le tableau de bord
             } else {
                 const errorData = await response.json();
                 setMessage(`Error: ${errorData.message}`);
@@ -47,8 +50,6 @@ const SignUp = () => {
         } catch (error) {
             setMessage('Error creating user');
         }
-
-
     };
 
     return (
