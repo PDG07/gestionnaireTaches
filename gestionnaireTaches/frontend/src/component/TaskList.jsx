@@ -48,7 +48,7 @@ const TaskList = () => {
 
     return (
         <div>
-            <h1>Task List</h1>
+            <h1>Your tasks</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <ul>
                 {tasks.map(task => (
