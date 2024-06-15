@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './CreateTask.css'; // Importation du fichier CSS
 
 const CreateTask = () => {
     const [userId, setUserId] = useState('');
@@ -59,30 +60,37 @@ const CreateTask = () => {
     const isSubmitDisabled = !title || !description || !priority || !deadline || !category;
 
     return (
-        <div>
+        <div className="container">
             <h2>Create Task</h2>
-            <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit} noValidate className="form">
                 <div>
-                    <label>Title:</label>
+                    <label className="label">Title:</label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
+                        className="input"
                     />
                 </div>
                 <div>
-                    <label>Description:</label>
+                    <label className="label">Description:</label>
                     <input
                         type="text"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
+                        className="input"
                     />
                 </div>
                 <div>
-                    <label>Priority:</label>
-                    <select value={priority} onChange={(e) => setPriority(e.target.value)} required>
+                    <label className="label">Priority:</label>
+                    <select
+                        value={priority}
+                        onChange={(e) => setPriority(e.target.value)}
+                        required
+                        className="select"
+                    >
                         <option value="">Select priority</option>
                         <option value="HIGH">High</option>
                         <option value="AVERAGE">Average</option>
@@ -90,17 +98,23 @@ const CreateTask = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Deadline:</label>
+                    <label className="label">Deadline:</label>
                     <input
                         type="date"
                         value={deadline}
                         onChange={(e) => setDeadline(e.target.value)}
                         required
+                        className="input"
                     />
                 </div>
                 <div>
-                    <label>Category:</label>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    <label className="label">Category:</label>
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        required
+                        className="select"
+                    >
                         <option value="">Select category</option>
                         <option value="WORK">Work</option>
                         <option value="PERSONAL">Personal</option>
@@ -109,9 +123,13 @@ const CreateTask = () => {
                         <option value="OTHER">Other</option>
                     </select>
                 </div>
-                {}
-                {}
-                <button type="submit" disabled={isSubmitDisabled}>Create Task</button>
+                <button
+                    type="submit"
+                    disabled={isSubmitDisabled}
+                    className="button"
+                >
+                    Create Task
+                </button>
             </form>
             {message && <p>{message}</p>}
         </div>

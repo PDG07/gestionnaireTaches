@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import './App.css';
 import TaskList from "./component/TaskList";
 import UpdateTask from "./component/UpdateTask";
-import CreateTask from "./component/CreateTask";
+import CreateTask from "./component/createtask/CreateTask";
 import SignUp from "./component/signup/SignUp";
 import Dashboard from "./component/Dashboard";
 
