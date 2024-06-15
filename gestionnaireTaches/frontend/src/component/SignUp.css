@@ -1,0 +1,63 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.form {
+    background: linear-gradient(135deg, #5b21b6, #00d4ff); /* Gradient violet-turquoise */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 400px; /* Agrandir la carte */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    color: #ffffff; /* Blanc */
+    margin-bottom: 20px;
+    font-size: 24px; /* Agrandir le texte */
+}
+
+.label {
+    color: #ffffff; /* Blanc */
+    margin-bottom: 10px;
+    align-self: flex-start;
+}
+
+.input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.button {
+    background: #ffffff; /* Blanc */
+    color: #5b21b6; /* Violet */
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px; /* Agrandir le texte */
+    font-weight: bold;
+}
+
+.button:hover {
+    background: #f0f0f0; /* Légèrement plus sombre */
+}
+
+.message {
+    margin-top: 20px;
+    color: #ffffff; /* Blanc */
+    font-size: 16px; /* Agrandir le texte */
+}

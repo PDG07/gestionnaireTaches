@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './SignUp.css';
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -53,30 +54,32 @@ const SignUp = () => {
     };
 
     return (
-        <div>
-            <h2>Signup</h2>
-            <form onSubmit={handleSubmit} noValidate>
+        <div className="container">
+            <form className="form" onSubmit={handleSubmit} noValidate>
+                <h2 className="title">Sign Up</h2>
                 <div>
-                    <label>Username:</label>
+                    <label className="label">Username:</label>
                     <input
                         type="text"
+                        className="input"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label className="label">Password:</label>
                     <input
                         type="password"
+                        className="input"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
-                <button type="submit">Signup</button>
+                <button type="submit" className="button">Sign Up</button>
+                {message && <p className={`message ${message.startsWith('Error') ? 'error' : 'success'}`}>{message}</p>}
             </form>
-            {message && <p>{message}</p>}
         </div>
     );
 };
