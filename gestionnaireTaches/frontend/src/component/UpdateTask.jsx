@@ -46,7 +46,6 @@ const UpdateTask = () => {
                 throw new Error('Network response was not ok');
             }
 
-            const updatedTask = await response.json();
             setSuccess('Task updated successfully!');
             setError(null);
         } catch (error) {

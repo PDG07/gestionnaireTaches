@@ -48,6 +48,7 @@ public class User extends EntityContainer{
 
     public void addTaskHistory(Task task) {
         Objects.requireNonNull(task);
+        tasks.remove(task);
         tasksHistory.add(task);
     }
 

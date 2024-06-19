@@ -5,7 +5,7 @@ const CreateTask = () => {
     const [userId, setUserId] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [status, setStatus] = useState('TODO');
+    const [status] = useState('TODO');
     const [priority, setPriority] = useState('');
     const [deadline, setDeadline] = useState('');
     const [category, setCategory] = useState('');

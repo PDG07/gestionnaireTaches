@@ -15,7 +15,7 @@ const TaskList = () => {
                     throw new Error('Failed to fetch tasks');
                 }
                 const tasks = await response.json();
-                setTasks(tasks);
+                setTasks(tasks.filter(task => !task.completed));
             } catch (error) {
                 setError(error.message);
             }
@@ -36,9 +36,7 @@ const TaskList = () => {
             if (!response.ok) {
                 throw new Error('Failed to complete task');
             }
-            const completedTask = await response.json();
-            // Update tasks state to reflect completed task
-            setTasks(tasks.map(t => t.id === completedTask.id ? completedTask : t));
+            setTasks(tasks.filter(task => task.id !== taskId));
         } catch (error) {
             setError(error.message);
         }
