@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskData;
@@ -89,5 +90,12 @@ public class TaskManagerController {
         Set<TaskDto> completedTasks = serviceTaskManager.completedTasks(userId);
         logger.info("Completed tasks found: {}", completedTasks);
         return new ResponseEntity<>(completedTasks, HttpStatus.OK);
+    }
+
+    @GetMapping("/tasks/filter")
+    public ResponseEntity<Set<TaskDto>> getTasksByCategory(@RequestParam Long userId, @RequestParam TaskCategory category) {
+        Set<TaskDto> tasks = serviceTaskManager.filterByCategory(userId, category);
+        logger.info("Tasks found by category: {}", tasks);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 }
