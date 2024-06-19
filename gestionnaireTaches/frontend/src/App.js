@@ -6,6 +6,7 @@ import UpdateTask from "./component/UpdateTask";
 import CreateTask from "./component/createtask/CreateTask";
 import SignUp from "./component/signup/SignUp";
 import Dashboard from "./component/Dashboard";
+import CompletedTasks from "./component/CompletedTasks";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,6 +29,7 @@ function App() {
                         <Route path="/taskList" element={<TaskList />} />
                         <Route path="/update-task" element={<UpdateTask />} />
                         <Route path="/create-task" element={<CreateTask />} />
+                        <Route path={"/completed-tasks"} element={<CompletedTasks completed />} />
                     </>
                 )}
                 <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/signup"} />} />

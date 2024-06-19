@@ -71,6 +71,11 @@ public class ServiceTaskManager {
         return TaskDto.toTaskDto(taskRepository.save(task));
     }
 
+    public Set<TaskDto> completedTasks(Long userId) {
+        User user = findUserById(userId);
+        return user.getTasksHistory().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
+    }
+
     public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
         User user = findUserById(userId);
         return user.getTasks().stream()

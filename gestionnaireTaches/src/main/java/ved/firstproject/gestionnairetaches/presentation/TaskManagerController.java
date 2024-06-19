@@ -83,4 +83,11 @@ public class TaskManagerController {
         logger.info("Task completed: {}", completedTaskDto);
         return new ResponseEntity<>(completedTaskDto, HttpStatus.OK);
     }
+
+    @GetMapping("/completedtasks")
+    public ResponseEntity<Set<TaskDto>> getCompletedTasks(@RequestParam Long userId) {
+        Set<TaskDto> completedTasks = serviceTaskManager.completedTasks(userId);
+        logger.info("Completed tasks found: {}", completedTasks);
+        return new ResponseEntity<>(completedTasks, HttpStatus.OK);
+    }
 }
