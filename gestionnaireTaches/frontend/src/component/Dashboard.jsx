@@ -16,6 +16,9 @@ const Dashboard = () => {
                     <li>
                         <Link to="/completed-tasks">Completed Tasks</Link>
                     </li>
+                    <li>
+                        <Link to="/create-task-group">Create Task Group</Link>
+                    </li>
                 </ul>
             </nav>
         </div>
