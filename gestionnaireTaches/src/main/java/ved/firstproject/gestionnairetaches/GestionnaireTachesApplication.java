@@ -30,6 +30,8 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        UserDto userDto = serviceTaskManager.createUser(new UserDto(10L, "UserForTest", "password", Set.of()));
+
         /*TaskCategory workCategory = TaskCategory.WORK;
         TaskCategory personalCategory = TaskCategory.PERSONAL;
         TaskPriority priorityHigh = TaskPriority.HIGH;

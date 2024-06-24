@@ -8,6 +8,8 @@ import SignUp from "./component/signup/SignUp";
 import Dashboard from "./component/Dashboard";
 import CompletedTasks from "./component/CompletedTasks";
 import CreateTaskGroup from "./component/CreateTaskGroup";
+import CreateGroupTask from "./component/CreateTasksForGroup";
+import CreateTasksForGroup from "./component/CreateTasksForGroup";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,6 +34,7 @@ function App() {
                         <Route path="/create-task" element={<CreateTask />} />
                         <Route path={"/completed-tasks"} element={<CompletedTasks completed />} />
                         <Route path="/create-task-group" element={<CreateTaskGroup />} />
+                        <Route path="/create-task-for-group" element={<CreateTasksForGroup />} />
                     </>
                 )}
                 <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/signup"} />} />

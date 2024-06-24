@@ -12,7 +12,8 @@ const SignUp = () => {
         const userId = createdUserDto.id;
         const user = {
             userId: userId,
-            username: username
+            username: username,
+            groups: []
         };
         localStorage.setItem('accountInfos', JSON.stringify(user));
     };

@@ -22,10 +22,28 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask", "/api/completetask/**", "/api/completedtasks", "/api/tasks/filter", "/api/group/create")
+                        .ignoringRequestMatchers("/api/signup",
+                                "/api/createtask",
+                                "/api/tasks",
+                                "/api/updatetask",
+                                "/api/completetask/**",
+                                "/api/completedtasks",
+                                "/api/tasks/filter",
+                                "/api/group/create",
+                                "/api/group/addTask",
+                                "/api/group/findGroupById")
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask", "/api/completetask/**", "/api/completedtasks", "/api/tasks/filter", "/api/group/create").permitAll()
+                        .requestMatchers("/api/signup",
+                                "/api/createtask",
+                                "/api/tasks",
+                                "/api/updatetask",
+                                "/api/completetask/**",
+                                "/api/completedtasks",
+                                "/api/tasks/filter",
+                                "/api/group/create",
+                                "/api/group/addTask",
+                                "/api/group/findGroupById").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
@@ -33,6 +51,15 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/signup", "/api/createtask","/api/tasks", "/api/updatetask", "/api/completetask/**", "/api/completedtasks", "/api/tasks/filter", "/api/group/create");
+        return (web) -> web.ignoring().requestMatchers("/api/signup",
+                "/api/createtask",
+                "/api/tasks",
+                "/api/updatetask",
+                "/api/completetask/**",
+                "/api/completedtasks",
+                "/api/tasks/filter",
+                "/api/group/create",
+                "/api/group/addTask",
+                "/api/group/findGroupById");
     }
 }

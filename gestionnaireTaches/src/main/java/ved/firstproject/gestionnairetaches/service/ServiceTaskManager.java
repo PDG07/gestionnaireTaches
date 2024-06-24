@@ -191,12 +191,15 @@ public class ServiceTaskManager {
         }
     }
 
+    public TaskGroupDto findGroupById(Long groupId) {
+        return TaskGroupDto.toTaskGroupDto(findTaskGroupById(groupId));
+    }
 
     public User findUserById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
-    private TaskGroup findTaskGroupById(Long taskGroupId){
+    public TaskGroup findTaskGroupById(Long taskGroupId){
         return taskGroupRepository.findById(taskGroupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup not found"));
     }
 

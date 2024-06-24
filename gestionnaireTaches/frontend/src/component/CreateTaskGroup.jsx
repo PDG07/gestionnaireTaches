@@ -24,7 +24,12 @@ const CreateTaskGroup = () => {
 
             if (response.status === 201) {
                 setMessage('Task group created successfully');
-                setTitle(''); // Clear the input field after successful creation
+                setTitle('');
+                let rep = await response.json();
+                const storedUserInfo = JSON.parse(localStorage.getItem('accountInfos'));
+                const currentGroups = storedUserInfo.groups || [];
+                const updatedGroups = [...currentGroups, rep.id];
+                localStorage.setItem('accountInfos', JSON.stringify({ userId: userId, username: JSON.parse(localStorage.getItem('accountInfos')).username, groups: updatedGroups }));
             } else {
                 const errorData = await response.json();
                 setMessage(`Error: ${errorData.message}`);
