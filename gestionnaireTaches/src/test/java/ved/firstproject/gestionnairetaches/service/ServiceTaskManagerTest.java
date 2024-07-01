@@ -147,7 +147,7 @@ class ServiceTaskManagerTest {
 
         serviceTaskManager.completeTask(user.getId(), taskInit.getId());
 
-        assertEquals(TaskState.COMPLETED, user.getTasks().stream().findFirst().map(Task::getStatus).orElse(null));
+        assertEquals(TaskState.COMPLETED, user.getTasksHistory().stream().findFirst().map(Task::getStatus).orElse(null));
     }
 
     @Test

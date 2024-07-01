@@ -22,7 +22,7 @@ public class TaskGroup extends EntityContainer{
     private Long id;
     @Column(name = "title")
     private String title;
-    @OneToMany(mappedBy = "taskGroupUser", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "taskGroups", cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<User> usersGroup = new HashSet<>();
     @OneToMany(mappedBy = "taskGroupTask", cascade = CascadeType.PERSIST)

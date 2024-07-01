@@ -97,16 +97,17 @@ public class ServiceTaskManager {
     public TaskGroupDto createTaskGroup(String title, Long userId) {
         User user = findUserById(userId);
         TaskGroup taskGroup = new TaskGroup(title, user);
-        user.setTaskGroupUser(taskGroup);
+        taskGroup = taskGroupRepository.save(taskGroup);
+        user.addTaskGroupToUser(taskGroup);
         userRepository.save(user);
-        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
+        return TaskGroupDto.toTaskGroupDto(taskGroup);
     }
 
     public TaskGroupDto addUserToGroup(Long taskGroupId, Long userId) {
         User user = findUserById(userId);
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.addUser(user);
-        user.setTaskGroupUser(taskGroup);
+        user.addTaskGroupToUser(taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
@@ -114,7 +115,10 @@ public class ServiceTaskManager {
         Objects.requireNonNull(taskDto);
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         Task task = TaskDto.toTask(taskDto);
+        task.setTaskGroupTask(taskGroup);
         taskGroup.addTask(taskRepository.save(task));
+        //System.out.println("getTasksGroup "+taskGroup.getTasksGroup());
+        //System.out.println("getTasksGroupHistory "+taskGroup.getTasksGroupHistory());
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 

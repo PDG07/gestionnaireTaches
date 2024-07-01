@@ -31,8 +31,14 @@ public class User extends EntityContainer{
     @Column(name = "tasks_history")
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Task> tasksHistory = new HashSet<>();
-    @ManyToOne
-    private TaskGroup taskGroupUser;
+    @ManyToMany
+    @JoinTable(
+            name = "user_taskgroup",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "taskgroup_id")
+    )
+    @ToString.Exclude
+    private Set<TaskGroup> taskGroups = new HashSet<>();
 
     public User(Long id, String username, String password, Set<Task> tasks) {
         this.id = id;
@@ -68,6 +74,10 @@ public class User extends EntityContainer{
         return findTaskById(tasks, taskId);
     }
 
+    public void addTaskGroupToUser(TaskGroup taskGroup) {
+        Objects.requireNonNull(taskGroup);
+        taskGroups.add(taskGroup);
+    }
 }
 
 

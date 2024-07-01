@@ -86,7 +86,7 @@ const CreateGroupTask = () => {
 
     return (
         <div className="container">
-            <h2>Create Group Task</h2>
+            <h2>Create your task for your group</h2>
             <form onSubmit={handleSubmit} noValidate className="form">
                 <div>
                     <label className="label">Select Group:</label>
