@@ -73,8 +73,12 @@ public class ServiceTaskManager {
 
     public Set<TaskDto> completedTasks(Long userId) {
         User user = findUserById(userId);
-        return user.getTasksHistory().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
+        return user.getTasksHistory().stream()
+                .filter(task -> task.getStatus().equals(TaskState.COMPLETED))
+                .map(TaskDto::toTaskDto)
+                .collect(Collectors.toSet());
     }
+
 
     public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
         User user = findUserById(userId);
@@ -103,6 +107,7 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroup);
     }
 
+    //TODO: add user to group
     public TaskGroupDto addUserToGroup(Long taskGroupId, Long userId) {
         User user = findUserById(userId);
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
@@ -117,23 +122,24 @@ public class ServiceTaskManager {
         Task task = TaskDto.toTask(taskDto);
         task.setTaskGroupTask(taskGroup);
         taskGroup.addTask(taskRepository.save(task));
-        //System.out.println("getTasksGroup "+taskGroup.getTasksGroup());
-        //System.out.println("getTasksGroupHistory "+taskGroup.getTasksGroupHistory());
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
+    //TODO: remove user from group
     public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeUser(userId);
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
+    //TODO: remove task from group
     public TaskGroupDto removeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeTask(taskDtoId);
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
+    //TODO: complete task from group
     public TaskGroupDto completeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.completeTask(taskDtoId);
@@ -145,6 +151,7 @@ public class ServiceTaskManager {
         return taskGroup.getTasksGroup().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
+    //TODO: filter by category
     public Set<TaskDto> filterByCategoryGroup(Long groupId, TaskCategory workCategory) {
         TaskGroup taskGroup = findTaskGroupById(groupId);
         return taskGroup.getTasksGroup().stream()
@@ -153,6 +160,7 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
+    //TODO: assign task to user
     public TaskDto assignTaskForGrTo(Long groupId, Long userId, Long taskId) {
         TaskGroup taskGroup = findTaskGroupById(groupId);
         Task task = taskGroup.assignTaskTo(userId, taskId);
@@ -173,6 +181,7 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
+    //TODO: update task for group
     public TaskDto updateTaskForGroup(Long groupId, TaskDto taskDto) {
         Objects.requireNonNull(taskDto);
         TaskGroup taskGroup = findTaskGroupById(groupId);
