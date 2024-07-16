@@ -12,6 +12,7 @@ import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.TaskGroupDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskData;
+import ved.firstproject.gestionnairetaches.service.dto.data.TaskForGroupData;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskGroupData;
 
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class TaskGroupController {
     }
 
     @PostMapping("/addTask")
-    public ResponseEntity<TaskGroupDto> addTaskToGroup(@RequestParam Long taskGroupId, @RequestBody TaskData taskData) {
+    public ResponseEntity<TaskGroupDto> addTaskToGroup(@RequestBody TaskForGroupData taskData) {
         TaskDto taskDto = new TaskDto(
                 taskData.getTitle(),
                 taskData.getDescription(),
@@ -48,7 +49,7 @@ public class TaskGroupController {
                 taskData.getCompletionDate(),
                 taskData.getCategory(),
                 UserDto.toUserDto(serviceTaskManager.findUserById(taskData.getUserId())));
-        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroupId, taskDto);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskData.getGroupId(), taskDto);
         logger.info("Task added to group: {}", taskGroupDto);
         return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
     }
