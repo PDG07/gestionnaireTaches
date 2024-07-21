@@ -40,7 +40,6 @@ const TaskList = () => {
                 setError(error.message);
             }
         } else {
-            // Fetch all tasks if no category is selected
             try {
                 const response = await fetch(`http://localhost:8080/api/tasks?userId=${userId}`);
                 if (!response.ok) {

@@ -25,12 +25,10 @@ public class User extends EntityContainer{
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "tasks")
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
-    @Column(name = "tasks_history")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private Set<Task> tasksHistory = new HashSet<>();
     @ManyToMany
     @JoinTable(
             name = "user_taskgroup",
@@ -50,12 +48,6 @@ public class User extends EntityContainer{
     public void addTask(Task task) {
         Objects.requireNonNull(task);
         tasks.add(task);
-    }
-
-    public void addTaskHistory(Task task) {
-        Objects.requireNonNull(task);
-        tasks.remove(task);
-        tasksHistory.add(task);
     }
 
     public void removeTask(Task task) {

@@ -66,19 +66,17 @@ public class ServiceTaskManager {
         Task task = findTaskById(taskId);
         User user = findUserById(userId);
         task.completeTask();
-        user.addTaskHistory(task);
         userRepository.save(user);
         return TaskDto.toTaskDto(taskRepository.save(task));
     }
 
     public Set<TaskDto> completedTasks(Long userId) {
         User user = findUserById(userId);
-        return user.getTasksHistory().stream()
-                .filter(task -> task.getStatus().equals(TaskState.COMPLETED))
+        return user.getTasks().stream()
+                .filter(task -> task.getStatus() != null && task.getStatus().equals(TaskState.COMPLETED))
                 .map(TaskDto::toTaskDto)
                 .collect(Collectors.toSet());
     }
-
 
     public Set<TaskDto> filterByCategory(Long userId, TaskCategory category) {
         User user = findUserById(userId);
@@ -94,8 +92,7 @@ public class ServiceTaskManager {
     }
 
     public Set<TaskDto> findAllTasksHistoryByUserId(Long userId) {
-        User user = findUserById(userId);
-        return user.getTasksHistory().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
+        return completedTasks(userId);
     }
 
     public TaskGroupDto createTaskGroup(String title, Long userId) {

@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
     private Set<Task> tasks;
+    private Set<Task> tasksHistory;
     private User user;
     private Task task;
     private final TaskCategory workCategory = TaskCategory.WORK;
@@ -57,10 +58,4 @@ class UserTest {
         user.getTasks().stream().findFirst().ifPresent(t -> assertEquals("new title", t.getTitle()));
     }
 
-    @Test
-    void addTaskHistory() {
-        user.addTaskHistory(task);
-
-        assertEquals(1, user.getTasksHistory().size());
-    }
 }

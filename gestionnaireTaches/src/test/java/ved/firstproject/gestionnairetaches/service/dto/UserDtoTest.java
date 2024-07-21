@@ -16,7 +16,7 @@ class UserDtoTest {
 
     @Test
     void toUserDto() {
-        User user = new User(1L, "username", "password", new HashSet<>());
+        User user = new User(1L, "username", "password", new HashSet<>(), new HashSet<>());
         UserDto userDtoExpected = new UserDto(1L, "username", "password", new HashSet<>());
 
         UserDto userDto = UserDto.toUserDto(user);
@@ -30,7 +30,7 @@ class UserDtoTest {
     @Test
     void toUser() {
         UserDto userDto = new UserDto(1L, "username", "password", new HashSet<>());
-        User userExpected = new User(1L, "username", "password", new HashSet<>());
+        User userExpected = new User(1L, "username", "password", new HashSet<>(), new HashSet<>());
 
         User user = UserDto.toUser(userDto);
 

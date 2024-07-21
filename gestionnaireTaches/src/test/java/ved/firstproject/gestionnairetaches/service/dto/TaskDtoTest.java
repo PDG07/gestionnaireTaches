@@ -25,7 +25,7 @@ class TaskDtoTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1L, "username", "password", new HashSet<>());
+        user = new User(1L, "username", "password", new HashSet<>(), new HashSet<>());
         userDto = new UserDto(1L, "username", "password", new HashSet<>());
         task = new Task(1L, "title", "description", priorityHigh, deadline, workCategory, user);
         taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);

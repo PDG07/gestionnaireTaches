@@ -41,8 +41,6 @@ const CreateTask = () => {
                 body: JSON.stringify(taskData),
             });
 
-            console.log('Response status:', response.status);
-
             if (response.status === 201) {
                 setMessage('Task created successfully');
             } else if (response.status === 403) {

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ved.firstproject.gestionnairetaches.model.enums.TaskCategory;
+import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskData;
@@ -13,6 +14,7 @@ import ved.firstproject.gestionnairetaches.service.dto.data.UserData;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -55,7 +57,9 @@ public class TaskManagerController {
 
     @GetMapping("/tasks")
     public ResponseEntity<Set<TaskDto>> getTasks(@RequestParam Long userId) {
-        Set<TaskDto> tasks = serviceTaskManager.findAllTasksByUserId(userId);
+        Set<TaskDto> tasks = serviceTaskManager.findAllTasksByUserId(userId).stream()
+                .filter(task -> task.status() == TaskState.TODO)
+                .collect(Collectors.toSet());
         logger.info("Tasks found: {}", tasks);
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }

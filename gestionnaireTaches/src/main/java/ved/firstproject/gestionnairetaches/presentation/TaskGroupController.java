@@ -64,4 +64,11 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroups, HttpStatus.OK);
     }
 
+    @PostMapping("/addUserToGroup")
+    public ResponseEntity<TaskGroupDto> addUserToGroup(@RequestBody TaskGroupData taskGroupData) {
+        TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(taskGroupData.getGroupId(), taskGroupData.getUserId());
+        logger.info("User added to group: {}", taskGroupDto);
+        return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
+    }
+
 }

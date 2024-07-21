@@ -56,7 +56,7 @@ class ServiceTaskManagerTest {
     @BeforeEach
     void setUp() {
         userDto = new UserDto(1L, "username", "password", new HashSet<>());
-        user = new User(1L, "username", "password", new HashSet<>());
+        user = new User(1L, "username", "password", new HashSet<>(), new HashSet<>());
         taskDtoInit = new TaskDto(1L, "title", "description", status, priorityHigh,  deadline, null, workCategory, userDto);
         taskInit = new Task(1L, "title", "description", priorityHigh, deadline, workCategory, user);
 
@@ -145,22 +145,10 @@ class ServiceTaskManagerTest {
         when(taskRepository.save(any(Task.class))).thenReturn(taskInit);
         user.addTask(taskInit);
 
-        serviceTaskManager.completeTask(user.getId(), taskInit.getId());
+        TaskDto taskCompleted = serviceTaskManager.completeTask(user.getId(), taskInit.getId());
 
-        assertEquals(TaskState.COMPLETED, user.getTasksHistory().stream().findFirst().map(Task::getStatus).orElse(null));
-    }
 
-    @Test
-    void findAllTasksHistoryByUserId() {
-        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        Task taskInit2 = new Task(2L, "title", "description", priorityHigh, LocalDate.now().plusWeeks(1), workCategory, user);
-        TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
-        user.addTaskHistory(taskInit);
-        user.addTaskHistory(taskInit2);
-
-        Set<TaskDto> tasksList = serviceTaskManager.findAllTasksHistoryByUserId(user.getId());
-
-        assertEquals(Set.of(taskDtoInit, taskInitDto2), tasksList);
+        assertEquals(TaskState.COMPLETED, taskCompleted.status());
     }
 
     @Test

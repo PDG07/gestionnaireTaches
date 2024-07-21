@@ -17,7 +17,7 @@ class TaskGroupTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1L, "username", "password", Set.of());
+        user = new User(1L, "username", "password", Set.of(), Set.of());
         taskGroup = new TaskGroup("name", user);
     }
 

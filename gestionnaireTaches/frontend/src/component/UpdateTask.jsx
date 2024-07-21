@@ -28,6 +28,7 @@ const UpdateTask = () => {
                 id: taskData.id,
                 title: taskData.title,
                 description: taskData.description,
+                status: taskData.status,
                 priority: taskData.priority,
                 deadline: taskData.deadline,
                 category: taskData.category,
