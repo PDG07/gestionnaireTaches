@@ -27,8 +27,6 @@ public class TaskGroup extends EntityContainer{
     private Set<User> usersGroup = new HashSet<>();
     @OneToMany(mappedBy = "taskGroupTask", cascade = CascadeType.PERSIST)
     private Set<Task> tasksGroup = new HashSet<>();
-    @OneToMany(mappedBy = "taskGroupTask", cascade = CascadeType.PERSIST)
-    private Set<Task> tasksGroupHistory = new HashSet<>();
 
     public TaskGroup(String title, User user) {
         this.title = title;
@@ -61,7 +59,6 @@ public class TaskGroup extends EntityContainer{
         this.tasksGroup.remove(taskToRemove);
         taskToRemove.setStatus(TaskState.COMPLETED);
         taskToRemove.setCompletionDate(LocalDate.now());
-        addTasksHistory(taskToRemove);
     }
 
     public Task assignTaskTo(Long userId, Long taskId){
@@ -70,12 +67,6 @@ public class TaskGroup extends EntityContainer{
         taskToAssign.setUser(userAssignedTo);
         return taskToAssign;
     }
-
-    private void addTasksHistory(Task task) {
-        Objects.requireNonNull(task);
-        this.tasksGroupHistory.add(task);
-    }
-
 
     public Task updateTask(Task task) {
         Objects.requireNonNull(task);
