@@ -10,15 +10,22 @@ const ShowTasksFromGroup = () => {
     const userId = storedUserInfo.userId;
 
     useEffect(() => {
-        if (storedUserInfo.groups && storedUserInfo.groups.length > 0) {
-            setGroups(storedUserInfo.groups.map(groupId => ({
-                id: groupId,
-                title: `Group ${groupId}`,
-            })));
-        } else {
-            setMessage('No groups found for this user.');
-        }
-    }, [storedUserInfo]);
+        const fetchGroups = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/group/getGroupsFromUserId?userId=${userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setGroups(data);
+                } else {
+                    setMessage('Error fetching groups');
+                }
+            } catch (error) {
+                setMessage('Error fetching groups');
+            }
+        };
+
+        fetchGroups();
+    }, [userId]);
 
     const fetchTasks = async (groupId) => {
         try {
@@ -57,7 +64,6 @@ const ShowTasksFromGroup = () => {
             });
 
             if (response.ok) {
-                const data = await response.json();
                 setMessage('Task completed successfully');
                 setTasks(tasks.filter(task => task.id !== taskId));
             } else {

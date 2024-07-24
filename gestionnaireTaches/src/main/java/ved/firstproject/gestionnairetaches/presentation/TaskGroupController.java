@@ -100,4 +100,11 @@ public class TaskGroupController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @GetMapping("/getGroupsFromUserId")
+    public ResponseEntity<Set<TaskGroupDto>> getGroupsFromUserId(@RequestParam Long userId) {
+        Set<TaskGroupDto> taskGroups = serviceTaskManager.getGroupsFromUserId(userId);
+        logger.info("Groups of user found: {}", taskGroups);
+        return new ResponseEntity<>(taskGroups, HttpStatus.OK);
+    }
+
 }

@@ -187,6 +187,11 @@ public class ServiceTaskManager {
         return TaskDto.toTaskDto(taskRepository.save(updatedTask));
     }
 
+    public Set<TaskGroupDto> getGroupsFromUserId(Long userId) {
+        User user = findUserById(userId);
+        return user.getTaskGroups().stream().map(TaskGroupDto::toTaskGroupDto).collect(Collectors.toSet());
+    }
+
     public Set<TaskDto> getTasksOfGroup(Long groupId) {
         TaskGroup taskGroup = findTaskGroupById(groupId);
         return taskGroup.getTasksGroup().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
