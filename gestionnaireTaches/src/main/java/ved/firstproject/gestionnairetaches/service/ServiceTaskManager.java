@@ -220,4 +220,8 @@ public class ServiceTaskManager {
     public UserDto findUserByUsername(String username) {
         return UserDto.toUserDto(userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found")));
     }
+
+    public TaskGroupDto findGroupByTitle(String title) {
+        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.findByTitle(title));
+    }
 }

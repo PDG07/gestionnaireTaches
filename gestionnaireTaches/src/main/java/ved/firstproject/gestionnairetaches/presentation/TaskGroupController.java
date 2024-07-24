@@ -64,6 +64,13 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroups, HttpStatus.OK);
     }
 
+    @GetMapping("/findGroupByTitle")
+    public ResponseEntity<TaskGroupDto> findGroupByTitle(@RequestParam String title) {
+        TaskGroupDto taskGroups = serviceTaskManager.findGroupByTitle(title);
+        logger.info("Task groups found: {}", taskGroups);
+        return new ResponseEntity<>(taskGroups, HttpStatus.OK);
+    }
+
     @PostMapping("/addUserToGroup")
     public ResponseEntity<TaskGroupDto> addUserToGroup(@RequestBody TaskGroupData taskGroupData) {
         TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(taskGroupData.getGroupId(), taskGroupData.getUserId());

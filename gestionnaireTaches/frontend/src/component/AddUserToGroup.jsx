@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const AddUserToGroup = () => {
     const [username, setUsername] = useState('');
-    const [groupId, setGroupId] = useState('');
+    const [groupTitle, setGroupTitle] = useState('');
     const [message, setMessage] = useState('');
 
     const findUserByUsername = async (username) => {
@@ -20,14 +20,30 @@ const AddUserToGroup = () => {
         }
     };
 
+    const findGroupByTitle = async (title) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/group/findGroupByTitle?title=${encodeURIComponent(title)}`);
+            if (response.ok) {
+                const groupData = await response.json();
+                return groupData.id;  // Assuming the TaskGroupDto has an id field
+            } else {
+                throw new Error('Group not found');
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            throw new Error('Error finding group by title');
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const userId = await findUserByUsername(username);
+            const groupId = await findGroupByTitle(groupTitle);
             const taskGroupData = {
-                groupId: parseInt(groupId, 10),
+                groupId: groupId,
                 userId: userId,
-                title: '',
+                title: groupTitle,
             };
 
             const response = await fetch('http://localhost:8080/api/group/addUserToGroup', {
@@ -65,11 +81,11 @@ const AddUserToGroup = () => {
                     />
                 </div>
                 <div>
-                    <label className="label">Group ID:</label>
+                    <label className="label">Group Title:</label>
                     <input
                         type="text"
-                        value={groupId}
-                        onChange={(e) => setGroupId(e.target.value)}
+                        value={groupTitle}
+                        onChange={(e) => setGroupTitle(e.target.value)}
                         required
                         className="input"
                     />
