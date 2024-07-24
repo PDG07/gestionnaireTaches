@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Data
 public class TaskForGroupData {
+    private Long id;
     private Long userId;
     private Long groupId;
     private String title;

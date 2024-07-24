@@ -86,4 +86,18 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
     }
 
+    @PostMapping("/completeTaskFromGroup")
+    public ResponseEntity<TaskGroupDto> completeTaskFromGroup(@RequestBody TaskForGroupData taskData) {
+        TaskGroupDto taskGroupDto = serviceTaskManager.completeTaskFromGroup(taskData.getGroupId(), taskData.getId());
+        logger.info("Task completed from group: {}", taskGroupDto);
+        return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/getTasksOfGroup")
+    public ResponseEntity<Set<TaskDto>> getTasksOfGroup(@RequestParam Long groupId) {
+        Set<TaskDto> tasks = serviceTaskManager.getTasksOfGroup(groupId);
+        logger.info("Tasks of group found: {}", tasks);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
 }

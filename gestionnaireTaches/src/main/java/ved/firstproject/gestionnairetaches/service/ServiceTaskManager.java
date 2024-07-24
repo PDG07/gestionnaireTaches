@@ -187,6 +187,11 @@ public class ServiceTaskManager {
         return TaskDto.toTaskDto(taskRepository.save(updatedTask));
     }
 
+    public Set<TaskDto> getTasksOfGroup(Long groupId) {
+        TaskGroup taskGroup = findTaskGroupById(groupId);
+        return taskGroup.getTasksGroup().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
+    }
+
     private void validateLoginInfos(UserDto userDto) {
         userRepository.findByUsername(userDto.username())
                 .filter(user -> passwordEncoder.matches(userDto.password(), user.getPassword()))
