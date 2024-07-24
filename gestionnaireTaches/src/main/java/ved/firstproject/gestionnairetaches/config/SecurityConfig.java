@@ -36,7 +36,8 @@ public class SecurityConfig {
                                 "/api/group/findGroupById",
                                 "/api/group/addUserToGroup",
                                 "/api/user/findUserByUsername,",
-                                "api/group/findGroupByTitle").permitAll()
+                                "api/group/findGroupByTitle",
+                                "api/group/removeUserFromGroup").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
@@ -56,6 +57,7 @@ public class SecurityConfig {
                 "/api/group/findGroupById",
                 "/api/group/addUserToGroup",
                 "/api/user/findUserByUsername",
-                "api/group/findGroupByTitle");
+                "api/group/findGroupByTitle",
+                "api/group/removeUserFromGroup");
     }
 }

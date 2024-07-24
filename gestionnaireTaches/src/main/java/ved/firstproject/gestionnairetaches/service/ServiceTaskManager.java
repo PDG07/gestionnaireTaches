@@ -104,7 +104,6 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroup);
     }
 
-    //TODO: add user to group
     public TaskGroupDto addUserToGroup(Long taskGroupId, Long userId) {
         User user = findUserById(userId);
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
@@ -122,7 +121,7 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
-    //TODO: remove user from group
+    //TODO: Patch role ADMIN/MEMBER
     public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeUser(userId);

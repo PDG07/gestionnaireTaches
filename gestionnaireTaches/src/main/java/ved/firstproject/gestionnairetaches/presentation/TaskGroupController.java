@@ -78,4 +78,12 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
     }
 
+    //TODO: Patch role ADMIN/MEMBER
+    @PostMapping("/removeUserFromGroup")
+    public ResponseEntity<TaskGroupDto> removeUserFromGroup(@RequestBody TaskGroupData taskGroupData) {
+        TaskGroupDto taskGroupDto = serviceTaskManager.removeUserFromGroup(taskGroupData.getGroupId(), taskGroupData.getUserId());
+        logger.info("User removed from group: {}", taskGroupDto);
+        return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
+    }
+
 }
