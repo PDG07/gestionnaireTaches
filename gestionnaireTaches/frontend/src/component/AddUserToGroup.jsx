@@ -55,11 +55,9 @@ const AddUserToGroup = () => {
             });
 
             if (response.ok) {
-                const data = await response.json();
                 setMessage(`User added to group successfully.`);
             } else {
-                const errorData = await response.json().catch(() => null);
-                setMessage(`Error: ${errorData ? errorData.message : 'Unknown error'}`);
+                throw new Error('User already exists in the group');
             }
         } catch (error) {
             setMessage(`Error: ${error.message}`);
