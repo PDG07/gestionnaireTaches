@@ -65,7 +65,6 @@ class TaskGroupTest {
         assertEquals(0, taskGroup.getTasksGroup().size());
         assertEquals(TaskState.COMPLETED, task.getStatus());
         assertEquals(LocalDate.now(), task.getCompletionDate());
-        assertEquals(1, taskGroup.getTasksGroupHistory().size());
     }
 
 }

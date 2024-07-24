@@ -217,6 +217,7 @@ public class ServiceTaskManager {
         return taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
     }
 
-
-
+    public UserDto findUserByUsername(String username) {
+        return UserDto.toUserDto(userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found")));
+    }
 }

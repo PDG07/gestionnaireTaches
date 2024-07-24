@@ -30,45 +30,38 @@ public class GestionnaireTachesApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserDto userDto = serviceTaskManager.createUser(new UserDto(10L, "UserForTest", "password", Set.of()));
+        /*// Création des utilisateurs
+        UserDto firstUser = serviceTaskManager.createUser(new UserDto(null, "UserForTest", "password", Set.of()));
+        UserDto secondUser = serviceTaskManager.createUser(new UserDto(null, "UserForTest2", "password", Set.of()));
 
-        /*TaskCategory workCategory = TaskCategory.WORK;
-        TaskCategory personalCategory = TaskCategory.PERSONAL;
-        TaskPriority priorityHigh = TaskPriority.HIGH;
-        UserDto userDto = serviceTaskManager.createUser(new UserDto(1L, "username", "password", Set.of()));
-        TaskDto taskDto = new TaskDto(1L, "title", "description", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(1), null,  workCategory, userDto);
-        TaskDto taskDto2 = new TaskDto(2L,"title2", "description2", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(2), null, personalCategory, userDto);
-        TaskDto tastUpdated = new TaskDto(1L, "titleUpdated", "descriptionUpdated", TaskState.TODO, TaskPriority.AVERAGE, LocalDate.now().plusWeeks(1), LocalDate.now(), workCategory, userDto);
-        String username = userDto.username();
+        // Ajout de journaux pour vérifier les utilisateurs créés
+        System.out.println("First user created: " + firstUser);
+        System.out.println("Second user created: " + secondUser);
 
-        System.out.println("\n");
-        System.out.println("Creation d'une tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto));
-        System.out.println("Creation d'une 2e tache pour " + username + " : " + serviceTaskManager.createTask(userDto.id(), taskDto2) + "\n");
+        // Vérification si les utilisateurs existent avant de les utiliser
+        try {
+            UserDto fetchedFirstUser = serviceTaskManager.findUserByUsername("UserForTest");
+            TaskGroupDto taskGroupDto = serviceTaskManager.createTaskGroup("GroupForTest", fetchedFirstUser.id());
+            System.out.println("Task group created: " + taskGroupDto);
+        } catch (Exception e) {
+            System.err.println("Error creating task group: " + e.getMessage());
+        }
 
-        System.out.println("Taches de l'utilistaeur " + username + " : " + serviceTaskManager.findAllTasksByUserId(userDto.id()) + "\n");
-        System.out.println("Tache mise a jour : " + serviceTaskManager.updateTask(userDto.id(), tastUpdated));
-        System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), workCategory));
-        System.out.println("Taches de l'utilistaeur " + username + " filtrer par "+ personalCategory + " : " + serviceTaskManager.filterByCategory(userDto.id(), personalCategory));
-        System.out.println("Tache complété : " + serviceTaskManager.completeTask(userDto.id(), taskDto.id()) + "\n");
+        try {
+            UserDto fetchedSecondUser = serviceTaskManager.findUserByUsername("UserForTest2");
+            System.out.println("Second user fetched: " + fetchedSecondUser);
+        } catch (Exception e) {
+            System.err.println("Error fetching second user: " + e.getMessage());
+        }
 
-        TaskGroupDto taskGroupDtoG = serviceTaskManager.createTaskGroup("Groupe 1", userDto.id());
-        System.out.println("Creation d'un groupe : " + taskGroupDtoG);
-        TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(taskGroupDtoG.id(), 1L);
-        System.out.println("Ajout d'un utilisateur au groupe :  " + taskGroupDto);
-        System.out.println("Retiration d'un utilisateur du groupe : " + serviceTaskManager.removeUserFromGroup(taskGroupDto.id(), userDto.id()));
-        System.out.println("Ajout d'un utilisateur au groupe2 :  " + serviceTaskManager.addUserToGroup(taskGroupDtoG.id(), 1L));
-        TaskDto taskDto3 = new TaskDto(3L, "title3", "description3", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(3), null, workCategory, userDto);
-        serviceTaskManager.addTaskToGroup(taskGroupDto.id(), serviceTaskManager.createTask(userDto.id(), taskDto3));
-        TaskGroupDto taskGroupDto2 = serviceTaskManager.addTaskToGroup(taskGroupDto.id(), serviceTaskManager.createTask(userDto.id(), taskDto));
-        System.out.println("Ajout de tache au groupe : " + taskGroupDto2);
-        System.out.println("Taches du groupe : " + serviceTaskManager.findAllTasksByGroupId(taskGroupDto2.id()));
-        //TaskGroupDto gr2 = serviceTaskManager.removeTaskFromGroup(taskGroupDto2.id(), 1L);
-        //System.out.println(gr2);
-        System.out.println("Taches du groupe filtrer par "+ workCategory + " : " + serviceTaskManager.filterByCategoryGroup(taskGroupDto.id(), workCategory));
-        System.out.println("Task assigned to : " + serviceTaskManager.assignTaskForGrTo(taskGroupDto2.id(), 1L, 1L));
-        TaskDto taskDto4 = new TaskDto(1L, "title4", "description4", TaskState.TODO, priorityHigh, LocalDate.now().plusWeeks(4), null, personalCategory, userDto);
-        System.out.println("Task group updated : " + serviceTaskManager.updateTaskForGroup(taskGroupDto2.id(), taskDto4));
-*/
+        // Ajout de secondUser au groupe
+        try {
+            UserDto fetchedSecondUser = serviceTaskManager.findUserByUsername("UserForTest2");
+            TaskGroupDto updatedTaskGroupDto = serviceTaskManager.addUserToGroup(1L, fetchedSecondUser.id());
+            System.out.println("Updated task group with second user: " + updatedTaskGroupDto);
+        } catch (Exception e) {
+            System.err.println("Error adding user to group: " + e.getMessage());
+        }*/
 
     }
 

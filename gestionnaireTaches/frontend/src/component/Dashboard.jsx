@@ -22,6 +22,9 @@ const Dashboard = () => {
                     <li>
                         <Link to="/create-task-for-group">Create Task for Group</Link>
                     </li>
+                    <li>
+                        <Link to="/add-user-to-group">Add User to Group</Link>
+                    </li>
                 </ul>
             </nav>
         </div>
