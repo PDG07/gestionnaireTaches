@@ -5,6 +5,8 @@ const ShowTasksFromGroup = () => {
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState('');
     const [tasks, setTasks] = useState([]);
+    const [filteredTasks, setFilteredTasks] = useState([]);
+    const [category, setCategory] = useState('');
     const [message, setMessage] = useState('');
 
     const storedUserInfo = JSON.parse(localStorage.getItem('accountInfos'));
@@ -36,6 +38,7 @@ const ShowTasksFromGroup = () => {
                 const data = await response.json();
                 const incompleteTasks = data.filter(task => task.status !== 'COMPLETED');
                 setTasks(incompleteTasks);
+                setFilteredTasks(incompleteTasks); // Initialize filteredTasks
             } else {
                 setMessage('Error fetching tasks');
             }
@@ -68,6 +71,7 @@ const ShowTasksFromGroup = () => {
             if (response.ok) {
                 setMessage('Task completed successfully');
                 setTasks(tasks.filter(task => task.id !== taskId));
+                setFilteredTasks(filteredTasks.filter(task => task.id !== taskId));
             } else {
                 const errorData = await response.json();
                 setMessage(`Error: ${errorData.message}`);
@@ -79,6 +83,38 @@ const ShowTasksFromGroup = () => {
 
     const handleUpdateTask = (task) => {
         navigate('/update-task', { state: { task } });
+    };
+
+    const handleCategoryChange = async (event) => {
+        const selectedCategory = event.target.value;
+        setCategory(selectedCategory);
+
+        if (selectedCategory) {
+            try {
+                const response = await fetch('http://localhost:8080/api/group/filterByCategoryGroup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        groupId: selectedGroup,
+                        category: selectedCategory
+                    }),
+                });
+
+                if (response.ok) {
+                    const filteredTasks = await response.json();
+                    setFilteredTasks(filteredTasks);
+                } else {
+                    const errorData = await response.json();
+                    setMessage(`Error: ${errorData.message}`);
+                }
+            } catch (error) {
+                setMessage('Error filtering tasks');
+            }
+        } else {
+            setFilteredTasks(tasks);
+        }
     };
 
     return (
@@ -95,12 +131,23 @@ const ShowTasksFromGroup = () => {
             </div>
             {selectedGroup && (
                 <div>
+                    <div>
+                        <label htmlFor="category">Filter by category: </label>
+                        <select id="category" value={category} onChange={handleCategoryChange}>
+                            <option value="">All</option>
+                            <option value="WORK">Work</option>
+                            <option value="PERSONAL">Personal</option>
+                            <option value="SHOPPING">Shopping</option>
+                            <option value="SPORTS">Sports</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
                     <h3>Tasks</h3>
                     <ul>
-                        {tasks.map(task => (
+                        {filteredTasks.map(task => (
                             <li key={task.id}>
                                 {task.title}
-                                <button onClick={() => handleCompleteTask(task.id)}>Compléter</button>
+                                <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
                                 <button onClick={() => handleUpdateTask(task)}>Update</button>
                             </li>
                         ))}
