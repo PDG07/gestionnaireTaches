@@ -135,7 +135,6 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
-    //TODO: complete task from group
     public TaskGroupDto completeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.completeTask(taskDtoId);

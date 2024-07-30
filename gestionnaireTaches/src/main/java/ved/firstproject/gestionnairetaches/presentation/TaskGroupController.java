@@ -107,4 +107,27 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroups, HttpStatus.OK);
     }
 
+    @PostMapping("/removeTaskFromGroup")
+    public ResponseEntity<TaskGroupDto> removeTaskFromGroup(@RequestBody TaskForGroupData taskData) {
+        TaskGroupDto taskGroupDto = serviceTaskManager.removeTaskFromGroup(taskData.getGroupId(), taskData.getId());
+        logger.info("Task removed from group: {}", taskGroupDto);
+        return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/updateTaskForGroup")
+    public ResponseEntity<TaskDto> updateTaskForGroup(@RequestBody TaskForGroupData taskData) {
+        TaskDto taskDto = new TaskDto(
+                taskData.getTitle(),
+                taskData.getDescription(),
+                taskData.getStatus(),
+                taskData.getPriority(),
+                taskData.getDeadline(),
+                taskData.getCompletionDate(),
+                taskData.getCategory(),
+                UserDto.toUserDto(serviceTaskManager.findUserById(taskData.getUserId())));
+        TaskDto taskDtoUpdated = serviceTaskManager.updateTaskForGroup(taskData.getGroupId(), taskDto);
+        logger.info("Task updated for group: {}", taskDtoUpdated);
+        return new ResponseEntity<>(taskDtoUpdated, HttpStatus.OK);
+    }
+
 }

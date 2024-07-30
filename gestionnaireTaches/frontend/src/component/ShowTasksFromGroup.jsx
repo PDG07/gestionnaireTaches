@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ShowTasksFromGroup = () => {
     const [groups, setGroups] = useState([]);
@@ -8,6 +9,7 @@ const ShowTasksFromGroup = () => {
 
     const storedUserInfo = JSON.parse(localStorage.getItem('accountInfos'));
     const userId = storedUserInfo.userId;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -75,9 +77,40 @@ const ShowTasksFromGroup = () => {
         }
     };
 
+    const handleDeleteTask = async (taskId) => {
+        const taskData = {
+            groupId: selectedGroup,
+            id: taskId,
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/group/removeTaskFromGroup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(taskData),
+            });
+
+            if (response.ok) {
+                setMessage('Task removed successfully');
+                setTasks(tasks.filter(task => task.id !== taskId));
+            } else {
+                const errorData = await response.json();
+                setMessage(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            setMessage('Error removing task');
+        }
+    };
+
+    const handleUpdateTask = (task) => {
+        navigate('/update-task', { state: { task } });
+    };
+
     return (
         <div>
-            <h2>Complete Task From Group</h2>
+            <h2>Manage Tasks From Group</h2>
             <div>
                 <label>Group:</label>
                 <select value={selectedGroup} onChange={handleGroupChange} required>
@@ -95,6 +128,8 @@ const ShowTasksFromGroup = () => {
                             <li key={task.id}>
                                 {task.title}
                                 <button onClick={() => handleCompleteTask(task.id)}>Compléter</button>
+                                <button onClick={() => handleUpdateTask(task)}>Update</button>
+                                <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
                             </li>
                         ))}
                     </ul>
