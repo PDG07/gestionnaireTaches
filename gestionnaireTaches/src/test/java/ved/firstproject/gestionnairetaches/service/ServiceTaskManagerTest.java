@@ -209,7 +209,7 @@ class ServiceTaskManagerTest {
         TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
         TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.id(), taskDto);
 
-        TaskGroupDto taskGroupDtoRemoved = serviceTaskManager.removeTaskFromGroup(taskGroupDto.id(), taskDto.id());
+        TaskGroupDto taskGroupDtoRemoved = serviceTaskManager.removeTaskFromGroup(taskGroupDto.id(), taskDto.id(), user.getId());
 
         assertEquals(0, taskGroupDtoRemoved.tasksGroup().size());
     }

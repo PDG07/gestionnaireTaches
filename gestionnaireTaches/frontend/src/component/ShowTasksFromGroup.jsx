@@ -77,33 +77,6 @@ const ShowTasksFromGroup = () => {
         }
     };
 
-    const handleDeleteTask = async (taskId) => {
-        const taskData = {
-            groupId: selectedGroup,
-            id: taskId,
-        };
-
-        try {
-            const response = await fetch('http://localhost:8080/api/group/removeTaskFromGroup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(taskData),
-            });
-
-            if (response.ok) {
-                setMessage('Task removed successfully');
-                setTasks(tasks.filter(task => task.id !== taskId));
-            } else {
-                const errorData = await response.json();
-                setMessage(`Error: ${errorData.message}`);
-            }
-        } catch (error) {
-            setMessage('Error removing task');
-        }
-    };
-
     const handleUpdateTask = (task) => {
         navigate('/update-task', { state: { task } });
     };
@@ -129,7 +102,6 @@ const ShowTasksFromGroup = () => {
                                 {task.title}
                                 <button onClick={() => handleCompleteTask(task.id)}>Compléter</button>
                                 <button onClick={() => handleUpdateTask(task)}>Update</button>
-                                <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
                             </li>
                         ))}
                     </ul>

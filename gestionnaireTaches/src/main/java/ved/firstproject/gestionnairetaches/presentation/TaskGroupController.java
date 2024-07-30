@@ -11,6 +11,7 @@ import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.TaskGroupDto;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
+import ved.firstproject.gestionnairetaches.service.dto.data.FilterTaskCriteriaGroup;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskData;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskForGroupData;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskGroupData;
@@ -109,7 +110,8 @@ public class TaskGroupController {
 
     @PostMapping("/removeTaskFromGroup")
     public ResponseEntity<TaskGroupDto> removeTaskFromGroup(@RequestBody TaskForGroupData taskData) {
-        TaskGroupDto taskGroupDto = serviceTaskManager.removeTaskFromGroup(taskData.getGroupId(), taskData.getId());
+        TaskGroupDto taskGroupDto = serviceTaskManager.removeTaskFromGroup(taskData.getGroupId(), taskData.getId(), taskData.getUserId());
+        System.out.println("Controller Task removed from group: " + taskGroupDto);
         logger.info("Task removed from group: {}", taskGroupDto);
         return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
     }
@@ -128,6 +130,13 @@ public class TaskGroupController {
         TaskDto taskDtoUpdated = serviceTaskManager.updateTaskForGroup(taskData.getGroupId(), taskDto);
         logger.info("Task updated for group: {}", taskDtoUpdated);
         return new ResponseEntity<>(taskDtoUpdated, HttpStatus.OK);
+    }
+
+    @PostMapping("/filterByCategoryGroup")
+    public ResponseEntity<Set<TaskDto>> filterByCategoryGroup(@RequestBody FilterTaskCriteriaGroup taskGroupData) {
+        Set<TaskDto> tasks = serviceTaskManager.filterByCategoryGroup(taskGroupData.getGroupId(), taskGroupData.getCategory());
+        logger.info("Tasks filtered by category: {}", tasks);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
 }

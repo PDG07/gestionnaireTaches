@@ -42,7 +42,8 @@ public class SecurityConfig {
                                 "api/group/getTasksOfGroup",
                                 "api/group/getGroupsFromUserId",
                                 "api/group/removeTaskFromGroup",
-                                "api/group/updateTaskForGroup").permitAll()
+                                "api/group/updateTaskForGroup",
+                                "api/group/filterByCategoryGroup").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
@@ -68,6 +69,7 @@ public class SecurityConfig {
                 "api/group/getTasksOfGroup",
                 "api/group/getGroupsFromUserId",
                 "api/group/removeTaskFromGroup",
-                "api/group/updateTaskForGroup");
+                "api/group/updateTaskForGroup",
+                "api/group/filterByCategoryGroup");
     }
 }
