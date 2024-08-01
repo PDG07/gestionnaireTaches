@@ -36,8 +36,6 @@ public class TaskManagerController {
         return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
     }
 
-    //TODO @PostMapping("/login")
-    
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody UserData userData) {
         UserDto userDto = new UserDto(null, userData.getUsername(), userData.getPassword(), Set.of());

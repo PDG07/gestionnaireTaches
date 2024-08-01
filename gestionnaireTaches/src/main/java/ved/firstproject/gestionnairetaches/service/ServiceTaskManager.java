@@ -165,7 +165,6 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    //TODO: assign task to user
     public TaskDto assignTaskForGrTo(Long groupId, Long userId, Long taskId) {
         TaskGroup taskGroup = findTaskGroupById(groupId);
         Task task = taskGroup.assignTaskTo(userId, taskId);
