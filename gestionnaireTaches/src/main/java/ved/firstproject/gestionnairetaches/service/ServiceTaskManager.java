@@ -17,6 +17,7 @@ import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,11 @@ public class ServiceTaskManager {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return UserDto.toUserDto(user);
+    }
+
+    public UserDto login(UserDto userDto) {
+        validateLoginInfos(userDto);
+        return findUserByUsername(userDto.username());
     }
 
     public TaskDto createTask(Long userId, TaskDto taskDto) {

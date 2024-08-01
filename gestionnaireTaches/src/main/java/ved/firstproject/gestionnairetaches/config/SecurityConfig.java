@@ -45,7 +45,8 @@ public class SecurityConfig {
                                 "api/group/updateTaskForGroup",
                                 "api/group/filterByCategoryGroup",
                                 "api/group/assignTaskForGrTo",
-                                "api/user/findAllUserFromGroup").permitAll()
+                                "api/user/findAllUserFromGroup",
+                                "api/login").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
@@ -74,6 +75,7 @@ public class SecurityConfig {
                 "api/group/updateTaskForGroup",
                 "api/group/filterByCategoryGroup",
                 "api/group/assignTaskForGrTo",
-                "api/user/findAllUserFromGroup");
+                "api/user/findAllUserFromGroup",
+                "api/login");
     }
 }

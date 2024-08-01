@@ -44,7 +44,7 @@ const SignUp = () => {
                 const createdUserDto = await response.json();
                 setMessage('User created successfully');
                 await handleUserCreation(createdUserDto);
-                navigate('/dashboard'); // Rediriger vers le tableau de bord
+                navigate('/dashboard');
             } else {
                 const errorData = await response.json();
                 setMessage(`Error: ${errorData.message}`);

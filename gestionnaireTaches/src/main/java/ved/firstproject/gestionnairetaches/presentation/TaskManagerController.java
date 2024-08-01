@@ -37,6 +37,14 @@ public class TaskManagerController {
     }
 
     //TODO @PostMapping("/login")
+    
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> login(@RequestBody UserData userData) {
+        UserDto userDto = new UserDto(null, userData.getUsername(), userData.getPassword(), Set.of());
+        UserDto userLogged = serviceTaskManager.login(userDto);
+        logger.info("User logged in: {}", userLogged);
+        return new ResponseEntity<>(userLogged, HttpStatus.OK);
+    }
 
     @PostMapping("/createtask")
     public ResponseEntity<TaskDto> createTask(@RequestBody TaskData taskData) {
