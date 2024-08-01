@@ -139,4 +139,11 @@ public class TaskGroupController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @PostMapping("/assignTaskForGrTo")
+    public ResponseEntity<TaskDto> assignTaskForGrTo(@RequestBody TaskForGroupData taskData) {
+        TaskDto taskReassigned = serviceTaskManager.assignTaskForGrTo(taskData.getGroupId(), taskData.getUserId(), taskData.getId());
+        logger.info("Task assigned to group: {}", taskReassigned);
+        return new ResponseEntity<>(taskReassigned, HttpStatus.OK);
+    }
+
 }

@@ -7,6 +7,7 @@ const ShowTasksFromGroup = () => {
     const [tasks, setTasks] = useState([]);
     const [filteredTasks, setFilteredTasks] = useState([]);
     const [category, setCategory] = useState('');
+    const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
 
     const storedUserInfo = JSON.parse(localStorage.getItem('accountInfos'));
@@ -47,10 +48,25 @@ const ShowTasksFromGroup = () => {
         }
     };
 
+    const fetchUsers = async (groupId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/user/findAllUserFromGroup?groupId=${groupId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setUsers(data);
+            } else {
+                setMessage('Error fetching users');
+            }
+        } catch (error) {
+            setMessage('Error fetching users');
+        }
+    };
+
     const handleGroupChange = (e) => {
         const groupId = e.target.value;
         setSelectedGroup(groupId);
         fetchTasks(groupId);
+        fetchUsers(groupId); // Add this line
     };
 
     const handleCompleteTask = async (taskId) => {
@@ -117,6 +133,34 @@ const ShowTasksFromGroup = () => {
         }
     };
 
+    const handleAssignTask = async (taskId, userId) => {
+        const taskData = {
+            groupId: selectedGroup,
+            id: taskId,
+            userId: userId
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/group/assignTaskForGrTo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(taskData),
+            });
+
+            if (response.ok) {
+                setMessage('Task assigned successfully');
+                fetchTasks(selectedGroup); // Refresh tasks
+            } else {
+                const errorData = await response.json();
+                setMessage(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            setMessage('Error assigning task');
+        }
+    };
+
     return (
         <div>
             <h2>Manage Tasks From Group</h2>
@@ -149,6 +193,12 @@ const ShowTasksFromGroup = () => {
                                 {task.title}
                                 <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
                                 <button onClick={() => handleUpdateTask(task)}>Update</button>
+                                <select onChange={(e) => handleAssignTask(task.id, e.target.value)}>
+                                    <option value="">Assign to:</option>
+                                    {users.map(user => (
+                                        <option key={user.id} value={user.id}>Assign to: {user.username}</option>
+                                    ))}
+                                </select>
                             </li>
                         ))}
                     </ul>
@@ -158,5 +208,4 @@ const ShowTasksFromGroup = () => {
         </div>
     );
 };
-
 export default ShowTasksFromGroup;

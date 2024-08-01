@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -24,5 +26,12 @@ public class UserController {
         UserDto userDto = serviceTaskManager.findUserByUsername(username);
         logger.info("User found: {}", userDto);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllUserFromGroup")
+    public ResponseEntity<Set<UserDto>> findAllUserFromGroup(@RequestParam Long groupId) {
+        Set<UserDto> userDtos = serviceTaskManager.findAllUserFromGroup(groupId);
+        logger.info("Users found: {}", userDtos);
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 }

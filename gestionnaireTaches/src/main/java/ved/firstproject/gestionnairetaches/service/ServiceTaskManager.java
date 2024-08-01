@@ -151,7 +151,6 @@ public class ServiceTaskManager {
         return taskGroup.getTasksGroup().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
 
-    //TODO: filter by category
     public Set<TaskDto> filterByCategoryGroup(Long groupId, TaskCategory workCategory) {
         TaskGroup taskGroup = findTaskGroupById(groupId);
         return taskGroup.getTasksGroup().stream()
@@ -166,6 +165,11 @@ public class ServiceTaskManager {
         Task task = taskGroup.assignTaskTo(userId, taskId);
         taskGroupRepository.save(taskGroup);
         return TaskDto.toTaskDto(taskRepository.save(task));
+    }
+
+    public Set<UserDto> findAllUserFromGroup(Long groupId) {
+        TaskGroup taskGroup = findTaskGroupById(groupId);
+        return taskGroup.getUsersGroup().stream().map(UserDto::toUserDto).collect(Collectors.toSet());
     }
 
     public TaskGroupDto createTaskForGroup(Long groupId, Long userId, TaskDto taskDto) {
