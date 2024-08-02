@@ -96,11 +96,7 @@ public class ServiceTaskManager {
         User user = findUserById(userId);
         return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
-
-    public Set<TaskDto> findAllTasksHistoryByUserId(Long userId) {
-        return completedTasks(userId);
-    }
-
+    
     public TaskGroupDto createTaskGroup(String title, Long userId) {
         User user = findUserById(userId);
         TaskGroup taskGroup = new TaskGroup(title, user);
@@ -174,19 +170,6 @@ public class ServiceTaskManager {
     public Set<UserDto> findAllUserFromGroup(Long groupId) {
         TaskGroup taskGroup = findTaskGroupById(groupId);
         return taskGroup.getUsersGroup().stream().map(UserDto::toUserDto).collect(Collectors.toSet());
-    }
-
-    public TaskGroupDto createTaskForGroup(Long groupId, Long userId, TaskDto taskDto) {
-        Objects.requireNonNull(taskDto);
-        TaskGroup taskGroup = findTaskGroupById(groupId);
-        User user = findUserById(userId);
-        if(!taskGroup.getUsersGroup().contains(user)) throw new IllegalArgumentException("User not found in the group");
-        Task task = TaskDto.toTask(taskDto);
-        task.setUser(user);
-        task.setTaskGroupTask(taskGroup);
-        taskRepository.save(task);
-        userRepository.save(user);
-        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
     public TaskDto updateTaskForGroup(Long groupId, TaskDto taskDto) {
