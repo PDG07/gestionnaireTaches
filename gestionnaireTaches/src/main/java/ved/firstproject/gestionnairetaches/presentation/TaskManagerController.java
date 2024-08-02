@@ -23,7 +23,6 @@ public class TaskManagerController {
     private static final Logger logger = LoggerFactory.getLogger(TaskManagerController.class);
     private final ServiceTaskManager serviceTaskManager;
 
-
     public TaskManagerController(ServiceTaskManager serviceTaskManager) {
         this.serviceTaskManager = serviceTaskManager;
     }

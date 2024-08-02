@@ -96,7 +96,7 @@ public class ServiceTaskManager {
         User user = findUserById(userId);
         return user.getTasks().stream().map(TaskDto::toTaskDto).collect(Collectors.toSet());
     }
-    
+
     public TaskGroupDto createTaskGroup(String title, Long userId) {
         User user = findUserById(userId);
         TaskGroup taskGroup = new TaskGroup(title, user);
