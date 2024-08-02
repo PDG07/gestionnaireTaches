@@ -76,6 +76,16 @@ class ServiceTaskManagerTest {
     }
 
     @Test
+    void login() {
+        when(userRepository.findByUsername(userDto.username())).thenReturn(java.util.Optional.of(user));
+        when(passwordEncoder.matches(userDto.password(), user.getPassword())).thenReturn(true);
+
+        UserDto userLogged = serviceTaskManager.login(userDto);
+
+        assertEquals(userDto, userLogged);
+    }
+
+    @Test
     void createTask() {
         when(taskRepository.save(any(Task.class))).thenReturn(new Task(1L, "title", "description", priorityHigh, deadline, workCategory, user));
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
@@ -88,7 +98,7 @@ class ServiceTaskManagerTest {
     }
 
     @Test
-    void listTasks() {
+    void findAllTasksByUserId() {
         when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
         Task taskInit2 = new Task(2L, "title", "description", priorityHigh, deadline, workCategory, user);
         TaskDto taskInitDto2 = new TaskDto(2L, "title", "description", status, priorityHigh,  deadline, null, workCategory, userDto);
@@ -148,6 +158,19 @@ class ServiceTaskManagerTest {
 
 
         assertEquals(TaskState.COMPLETED, taskCompleted.status());
+    }
+
+    @Test
+    void completedTasks() {
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        Task taskInit2 = new Task(2L, "title", "description", priorityHigh, deadline, workCategory, user);
+        user.addTask(taskInit);
+        user.addTask(taskInit2);
+        taskInit.completeTask();
+
+        Set<TaskDto> tasksList = serviceTaskManager.completedTasks(user.getId());
+
+        assertEquals(1, tasksList.size());
     }
 
     @Test
@@ -290,5 +313,87 @@ class ServiceTaskManagerTest {
         assertEquals("descriptionUpdated", taskDtoUpdatedForGroup.description());
         assertEquals(TaskPriority.AVERAGE, taskDtoUpdatedForGroup.priority());
         assertEquals(LocalDate.now(), taskDtoUpdatedForGroup.completionDate());
+    }
+
+    @Test
+    void findAllUserFromGroup(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+        when(taskGroupRepository.save(any())).thenReturn(taskGroup);
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        TaskGroupDto taskGroupDto = serviceTaskManager.addUserToGroup(taskGroup.getId(), user.getId());
+
+        Set<UserDto> users = serviceTaskManager.findAllUserFromGroup(taskGroupDto.id());
+
+        assertEquals(1, users.size());
+    }
+
+    @Test
+    void getGroupsFromUserId(){
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+        TaskGroup taskGroup2 = new TaskGroup(2L, "title2", Set.of(user), Set.of());
+        user.addTaskGroupToUser(taskGroup);
+        user.addTaskGroupToUser(taskGroup2);
+
+        Set<TaskGroupDto> taskGroups = serviceTaskManager.getGroupsFromUserId(user.getId());
+
+        assertEquals(2, taskGroups.size());
+    }
+
+    @Test
+    void getTasksOfGroup(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+        when(taskGroupRepository.save(any())).thenReturn(taskGroup);
+        when(taskRepository.save(any())).thenReturn(taskInit);
+        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
+        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.getId(), taskDto);
+
+        Set<TaskDto> tasks = serviceTaskManager.getTasksOfGroup(taskGroupDto.id());
+
+        assertEquals(1, tasks.size());
+    }
+
+    @Test
+    void findGroupById(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+
+        TaskGroupDto taskGroupDto = serviceTaskManager.findGroupById(taskGroup.getId());
+
+        assertEquals(taskGroupDto.id(), taskGroup.getId());
+    }
+
+    @Test
+    void findUserById(){
+        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
+
+        User userFound = serviceTaskManager.findUserById(user.getId());
+
+        assertEquals(user, userFound);
+    }
+
+    @Test
+    void findTaskGroupById(){
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+
+        TaskGroup taskGroupFound = serviceTaskManager.findTaskGroupById(taskGroup.getId());
+
+        assertEquals(taskGroup, taskGroupFound);
+    }
+
+    @Test
+    void findUserByUsername(){
+        when(userRepository.findByUsername(userDto.username())).thenReturn(java.util.Optional.of(user));
+
+        UserDto userDtoFound = serviceTaskManager.findUserByUsername(userDto.username());
+
+        assertEquals(userDto, userDtoFound);
+    }
+
+    @Test
+    void findGroupByTitle(){
+        when(taskGroupRepository.findByTitle("title")).thenReturn(taskGroup);
+
+        TaskGroupDto taskGroupDto = serviceTaskManager.findGroupByTitle("title");
+
+        assertEquals(taskGroupDto.title(), taskGroup.getTitle());
     }
 }

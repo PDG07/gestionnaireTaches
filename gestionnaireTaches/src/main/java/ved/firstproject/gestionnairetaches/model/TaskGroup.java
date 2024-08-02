@@ -39,7 +39,6 @@ public class TaskGroup extends EntityContainer{
             throw new IllegalArgumentException("User already exists in the group");
         }
         this.usersGroup.add(user);
-        System.out.println("usersGroup: " + usersGroup);
     }
 
     public void removeUser(Long userId) {
