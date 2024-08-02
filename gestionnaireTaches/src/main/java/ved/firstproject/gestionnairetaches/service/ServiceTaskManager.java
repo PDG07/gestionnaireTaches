@@ -142,7 +142,6 @@ public class ServiceTaskManager {
         taskGroup.removeTask(taskDtoId);
         user.removeTask(task);
         userRepository.save(user);
-        System.out.println("Service Task removed from group: " + taskGroup);
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
