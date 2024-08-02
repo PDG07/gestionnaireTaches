@@ -13,12 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
     private Set<Task> tasks;
-    private Set<Task> tasksHistory;
     private User user;
     private Task task;
     private final TaskCategory workCategory = TaskCategory.WORK;
     private final LocalDate deadline = LocalDate.now().plusWeeks(1);
-    TaskPriority priorityHigh = TaskPriority.HIGH;
+    private final TaskPriority priorityHigh = TaskPriority.HIGH;
 
     @BeforeEach
     void setUp() {
@@ -56,6 +55,14 @@ class UserTest {
         user.updateTask(task);
 
         user.getTasks().stream().findFirst().ifPresent(t -> assertEquals("new title", t.getTitle()));
+    }
+
+    @Test
+    void addTaskGroupToUser() {
+        TaskGroup taskGroup = new TaskGroup("name", user);
+        user.addTaskGroupToUser(taskGroup);
+
+        assertEquals(1, user.getTaskGroups().size());
     }
 
 }
