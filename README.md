@@ -5,13 +5,15 @@
 ### Concepts
 - Programmation Orientée Objet (POO)
 - Programmation par couches
-- Gestion des Erreurs
+- API
 - Gestion des Requêtes HTTP
+- Gestion des Erreurs
 - Gestion des Énumérations
 - Injection de Dépendances
 - Tests Unitaires
 - Refractoring
 - Modélisation des Données
+- JSON Sérialisation/Désérialisation
 - Annotations
 ### FrontEnd
 - React.js
