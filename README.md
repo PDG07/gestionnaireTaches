@@ -29,6 +29,9 @@
 ### Autres
 - Lombok 
 ## Fonctionnalités
+### Utilisateur
+- Création d'un compte
+- Connexion à un compte
 ### Individuel
 - Création de tache.
 - Modification de tache.
