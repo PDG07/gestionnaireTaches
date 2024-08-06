@@ -5,7 +5,7 @@
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
     width: 90%;
-    max-width: 400px; /* Limite la largeur maximale du conteneur */
+    max-width: 400px;
 }
 
 .signup-title {
@@ -16,7 +16,7 @@
 
 .form-group {
     margin-bottom: 1em;
-    text-align: left; /* Aligne les labels et les champs de saisie à gauche */
+    text-align: left;
 }
 
 .signup-label {
@@ -26,14 +26,14 @@
 }
 
 .signup-input {
-    width: 100%; /* Assure que l'entrée occupe toute la largeur disponible */
+    width: 100%;
     padding: 0.75em;
     border-radius: 5px;
     border: 1px solid #00ffff;
     background-color: #121217;
     color: #ffffff;
     font-size: 1em;
-    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+    box-sizing: border-box;
 }
 
 .button {
