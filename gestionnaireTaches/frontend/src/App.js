@@ -4,15 +4,15 @@ import './App.css';
 import TaskList from "./component/TaskList";
 import UpdateTask from "./component/UpdateTask";
 import CreateTask from "./component/createtask/CreateTask";
-import SignUp from "./component/signup/SignUp";
+import SignUp from "./component/landingPage/signup/SignUp";
 import Dashboard from "./component/Dashboard";
 import CompletedTasks from "./component/CompletedTasks";
 import CreateTaskGroup from "./component/CreateTaskGroup";
 import CreateTasksForGroup from "./component/CreateTasksForGroup";
 import AddUserToGroup from "./component/AddUserToGroup";
 import ShowTasksFromGroup from "./component/ShowTasksFromGroup";
-import Login from "./component/Login";
-import LandingPage from "./component/LandingPage";
+import Login from "./component/landingPage/login/Login";
+import LandingPage from "./component/landingPage/LandingPage";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);

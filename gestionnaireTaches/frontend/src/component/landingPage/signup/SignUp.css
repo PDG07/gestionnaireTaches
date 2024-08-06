@@ -1,0 +1,65 @@
+.signup-container {
+    text-align: center;
+    background-color: #1f1f2e;
+    padding: 3em;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    width: 90%;
+    max-width: 400px; /* Limite la largeur maximale du conteneur */
+}
+
+.signup-title {
+    color: #00ffff;
+    margin-bottom: 1em;
+    animation: glow 1s infinite alternate;
+}
+
+.form-group {
+    margin-bottom: 1em;
+    text-align: left; /* Aligne les labels et les champs de saisie à gauche */
+}
+
+.signup-label {
+    display: block;
+    color: #00ffff;
+    margin-bottom: 0.5em;
+}
+
+.signup-input {
+    width: 100%; /* Assure que l'entrée occupe toute la largeur disponible */
+    padding: 0.75em;
+    border-radius: 5px;
+    border: 1px solid #00ffff;
+    background-color: #121217;
+    color: #ffffff;
+    font-size: 1em;
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+}
+
+.button {
+    background-color: #00ffff;
+    color: #121217;
+    border: none;
+    padding: 0.75em 1.5em;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: #00cccc;
+    transform: scale(1.05);
+}
+
+.message {
+    margin-top: 1em;
+}
+
+.message.error {
+    color: #ff4444;
+}
+
+.message.success {
+    color: #00ff00;
+}

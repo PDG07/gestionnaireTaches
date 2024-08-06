@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import './Login.css';
 
 const Login = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState('');
@@ -42,10 +43,10 @@ const Login = ({ setIsAuthenticated }) => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className="login-container">
+            <h2 className="login-title">Login</h2>
+            <form onSubmit={handleSubmit} className="login-form">
+                <div className="form-group">
                     <label>Username:</label>
                     <input
                         type="text"
@@ -54,7 +55,7 @@ const Login = ({ setIsAuthenticated }) => {
                         required
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Password:</label>
                     <input
                         type="password"
@@ -63,8 +64,8 @@ const Login = ({ setIsAuthenticated }) => {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
-                {error && <p>{error}</p>}
+                <button type="submit" className="button">Login</button>
+                {error && <p className="error-message">{error}</p>}
             </form>
         </div>
     );
