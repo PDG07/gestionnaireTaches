@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './CreateTaskGroup.css';
 
 const CreateTaskGroup = () => {
     const [title, setTitle] = useState('');
@@ -40,21 +41,22 @@ const CreateTaskGroup = () => {
     };
 
     return (
-        <div>
+        <div className="container">
             <h2>Create Task Group</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Title:</label>
+            <form onSubmit={handleSubmit} className="form">
+                <div className="form-group">
+                    <label className="label">Title:</label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
+                        className="input"
                     />
                 </div>
-                <button type="submit">Create Task Group</button>
+                <button type="submit" className="button">Create Task Group</button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className={`message ${message.includes('Error') ? 'error' : ''}`}>{message}</p>}
         </div>
     );
 };

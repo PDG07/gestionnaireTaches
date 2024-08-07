@@ -7,7 +7,7 @@ import CreateTask from "./component/createtask/CreateTask";
 import SignUp from "./component/landingPage/signup/SignUp";
 import Dashboard from "./component/dashboard/Dashboard";
 import CompletedTasks from "./component/completedTasks/CompletedTasks";
-import CreateTaskGroup from "./component/CreateTaskGroup";
+import CreateTaskGroup from "./component/createTaskGroup/CreateTaskGroup";
 import CreateTasksForGroup from "./component/CreateTasksForGroup";
 import AddUserToGroup from "./component/addUserToGroup/AddUserToGroup";
 import ShowTasksFromGroup from "./component/showTasksFromGroup/ShowTasksFromGroup";
