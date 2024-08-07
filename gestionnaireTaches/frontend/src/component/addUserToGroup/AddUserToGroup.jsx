@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './AddUserToGroup.css';
 
 const AddUserToGroup = () => {
     const [username, setUsername] = useState('');
@@ -68,7 +69,7 @@ const AddUserToGroup = () => {
         <div className="container">
             <h2>Add User to Group</h2>
             <form onSubmit={handleSubmit} className="form">
-                <div>
+                <div className="form-group">
                     <label className="label">Username:</label>
                     <input
                         type="text"
@@ -78,7 +79,7 @@ const AddUserToGroup = () => {
                         className="input"
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Group Title:</label>
                     <input
                         type="text"
@@ -90,7 +91,7 @@ const AddUserToGroup = () => {
                 </div>
                 <button type="submit" className="button">Add User to Group</button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className={`message ${message.includes('Error') ? 'error' : ''}`}>{message}</p>}
         </div>
     );
 };

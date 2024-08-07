@@ -9,7 +9,7 @@ import Dashboard from "./component/dashboard/Dashboard";
 import CompletedTasks from "./component/completedTasks/CompletedTasks";
 import CreateTaskGroup from "./component/CreateTaskGroup";
 import CreateTasksForGroup from "./component/CreateTasksForGroup";
-import AddUserToGroup from "./component/AddUserToGroup";
+import AddUserToGroup from "./component/addUserToGroup/AddUserToGroup";
 import ShowTasksFromGroup from "./component/showTasksFromGroup/ShowTasksFromGroup";
 import Login from "./component/landingPage/login/Login";
 import LandingPage from "./component/landingPage/LandingPage";

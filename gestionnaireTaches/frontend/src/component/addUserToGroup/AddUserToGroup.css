@@ -1,0 +1,57 @@
+h2 {
+    color: #00ffff;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 1.5em;
+}
+
+.label {
+    margin-bottom: 0.5em;
+    display: block;
+    color: #00ffff;
+}
+
+.input {
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    background-color: #282c34;
+    color: #ffffff;
+    margin-bottom: 1em; /* Espacement entre les champs */
+}
+
+.button {
+    background-color: #00ffff;
+    color: #121217;
+    border: none;
+    padding: 0.75em 1.5em;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 1em; /* Espacement au-dessus du bouton */
+}
+
+.button:hover {
+    background-color: #00cccc;
+    transform: scale(1.05);
+}
+
+.message {
+    margin-top: 1em;
+    text-align: center;
+    color: #00ff00; /* Green for success messages */
+}
+
+.message.error {
+    color: #ff0000; /* Red for error messages */
+}
