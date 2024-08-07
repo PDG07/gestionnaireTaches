@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './ShowTasksFromGroup.css';
 
 const ShowTasksFromGroup = () => {
     const [groups, setGroups] = useState([]);
@@ -162,11 +163,11 @@ const ShowTasksFromGroup = () => {
     };
 
     return (
-        <div>
+        <div className="container">
             <h2>Manage Tasks From Group</h2>
-            <div>
-                <label>Group:</label>
-                <select value={selectedGroup} onChange={handleGroupChange} required>
+            <div className="form-group">
+                <label className="label">Group:</label>
+                <select value={selectedGroup} onChange={handleGroupChange} required className="select">
                     <option value="">Select a group</option>
                     {groups.map(group => (
                         <option key={group.id} value={group.id}>{group.title}</option>
@@ -174,10 +175,10 @@ const ShowTasksFromGroup = () => {
                 </select>
             </div>
             {selectedGroup && (
-                <div>
-                    <div>
-                        <label htmlFor="category">Filter by category: </label>
-                        <select id="category" value={category} onChange={handleCategoryChange}>
+                <div className="tasks-container">
+                    <div className="form-group">
+                        <label htmlFor="category" className="label">Filter by category:</label>
+                        <select id="category" value={category} onChange={handleCategoryChange} className="select">
                             <option value="">All</option>
                             <option value="WORK">Work</option>
                             <option value="PERSONAL">Personal</option>
@@ -187,16 +188,17 @@ const ShowTasksFromGroup = () => {
                         </select>
                     </div>
                     <h3>Tasks</h3>
-                    <ul>
+                    <ul className="task-list">
                         {filteredTasks.map(task => (
-                            <li key={task.id}>
-                                {task.title}
-                                <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
-                                <button onClick={() => handleUpdateTask(task)}>Update</button>
-                                <select onChange={(e) => handleAssignTask(task.id, e.target.value)}>
+                            <li key={task.id} className="task-item">
+                                <span className="task-title">{task.title}</span>
+                                <button className="button update" onClick={() => handleUpdateTask(task)}>✎</button>
+                                <button className="button complete" onClick={() => handleCompleteTask(task.id)}>✔</button>
+                                <select onChange={(e) => handleAssignTask(task.id, e.target.value)}
+                                        className="select assign">
                                     <option value="">Assign to:</option>
                                     {users.map(user => (
-                                        <option key={user.id} value={user.id}>Assign to: {user.username}</option>
+                                        <option key={user.id} value={user.id}>{user.username}</option>
                                     ))}
                                 </select>
                             </li>
@@ -204,7 +206,7 @@ const ShowTasksFromGroup = () => {
                     </ul>
                 </div>
             )}
-            {message && <p>{message}</p>}
+            {message && <p className={`message ${message.startsWith('Error') ? 'error' : 'success'}`}>{message}</p>}
         </div>
     );
 };

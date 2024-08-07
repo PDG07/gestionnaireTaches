@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
-import TaskList from "./component/TaskList";
+import TaskList from "./component/showTasks/TaskList";
 import UpdateTask from "./component/UpdateTask";
 import CreateTask from "./component/createtask/CreateTask";
 import SignUp from "./component/landingPage/signup/SignUp";
@@ -10,7 +10,7 @@ import CompletedTasks from "./component/CompletedTasks";
 import CreateTaskGroup from "./component/CreateTaskGroup";
 import CreateTasksForGroup from "./component/CreateTasksForGroup";
 import AddUserToGroup from "./component/AddUserToGroup";
-import ShowTasksFromGroup from "./component/ShowTasksFromGroup";
+import ShowTasksFromGroup from "./component/showTasksFromGroup/ShowTasksFromGroup";
 import Login from "./component/landingPage/login/Login";
 import LandingPage from "./component/landingPage/LandingPage";
 

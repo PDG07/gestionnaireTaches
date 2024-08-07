@@ -1,0 +1,88 @@
+.task-list-container {
+    background-color: #1f1f2e;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+}
+
+h1 {
+    color: #00ffff;
+    margin-bottom: 1em;
+}
+
+.error {
+    color: #ff4c4c;
+    margin-bottom: 1em;
+}
+
+.filter-container {
+    margin-bottom: 2em;
+}
+
+.filter-container label {
+    color: #00ffff;
+    margin-right: 0.5em;
+}
+
+.filter-container select {
+    padding: 0.5em;
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    background-color: #282c34;
+    color: #ffffff;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    background-color: #2a2a3d;
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.task-details h2 {
+    margin: 0 0 0.5em;
+    color: #00ffff;
+}
+
+.task-details p {
+    margin: 0;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5em;
+}
+
+.button {
+    background-color: #00ffff;
+    color: #121217;
+    border: none;
+    padding: 0.5em;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button.complete {
+    background-color: #32cd32;
+}
+
+.button.update {
+    background-color: #ff8c00; /* Dark orange color */
+}

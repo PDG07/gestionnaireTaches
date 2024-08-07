@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './TaskList.css';
 
 const TaskList = () => {
     const [tasks, setTasks] = useState([]);
@@ -72,10 +73,10 @@ const TaskList = () => {
     };
 
     return (
-        <div>
-            <h1>Your tasks</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <div>
+        <div className="task-list-container">
+            <h1>Your Tasks</h1>
+            {error && <p className="error">{error}</p>}
+            <div className="filter-container">
                 <label htmlFor="category">Filter by category: </label>
                 <select id="category" value={category} onChange={handleCategoryChange}>
                     <option value="">All</option>
@@ -86,13 +87,20 @@ const TaskList = () => {
                     <option value="OTHER">Other</option>
                 </select>
             </div>
-            <ul>
+            <ul className="task-list">
                 {tasks.map(task => (
-                    <li key={task.id}>
-                        <h2>{task.title}</h2>
-                        <p>{task.description}</p>
-                        <button onClick={() => handleUpdate(task)}>Update Task</button>
-                        <button onClick={() => handleComplete(task.id)}>Complete Task</button>
+                    <li key={task.id} className="task-item">
+                        <div className="task-details">
+                            <h2>{task.title}</h2>
+                            <p><strong>Description:</strong> {task.description}</p>
+                            <p><strong>Due date:</strong> {task.deadline}</p>
+                        </div>
+                        <div className="task-actions">
+                            <button className="button update" onClick={() => handleUpdate(task)}>✎ Update Task</button>
+                            <button className="button complete" onClick={() => handleComplete(task.id)}>✔ Complete
+                                Task
+                            </button>
+                        </div>
                     </li>
                 ))}
             </ul>
