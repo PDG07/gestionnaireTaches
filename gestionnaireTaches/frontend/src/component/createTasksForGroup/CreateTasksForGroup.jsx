@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './CreateTasksForGroup.css';
 
 const CreateGroupTask = () => {
     const [userId, setUserId] = useState('');
@@ -88,7 +89,7 @@ const CreateGroupTask = () => {
         <div className="container">
             <h2>Create your task for your group</h2>
             <form onSubmit={handleSubmit} noValidate className="form">
-                <div>
+                <div className="form-group">
                     <label className="label">Select Group:</label>
                     <select
                         value={selectedGroup}
@@ -96,12 +97,13 @@ const CreateGroupTask = () => {
                         required
                         className="select"
                     >
+                        <option value="">Select a group</option>
                         {groups.map(group => (
                             <option key={group.id} value={group.id}>{group.title}</option>
                         ))}
                     </select>
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Title:</label>
                     <input
                         type="text"
@@ -111,7 +113,7 @@ const CreateGroupTask = () => {
                         className="input"
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Description:</label>
                     <input
                         type="text"
@@ -121,7 +123,7 @@ const CreateGroupTask = () => {
                         className="input"
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Priority:</label>
                     <select
                         value={priority}
@@ -135,7 +137,7 @@ const CreateGroupTask = () => {
                         <option value="LOW">Low</option>
                     </select>
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Deadline:</label>
                     <input
                         type="date"
@@ -145,7 +147,7 @@ const CreateGroupTask = () => {
                         className="input"
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Category:</label>
                     <select
                         value={category}
@@ -169,7 +171,7 @@ const CreateGroupTask = () => {
                     Add Task to Group
                 </button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className={`message ${message.includes('Error') ? 'error' : ''}`}>{message}</p>}
         </div>
     );
 };
