@@ -1,0 +1,37 @@
+.completed-tasks-container {
+    background-color: #1f1f2e;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    text-align: left;
+}
+
+h1 {
+    color: #00ffff;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+ul.list-group {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.list-group-item {
+    background-color: #282c34;
+    border: none;
+    border-bottom: 1px solid #00ffff;
+    border-radius: 5px;
+    padding: 1em;
+    margin-bottom: 1em;
+    color: #ffffff;
+}
+
+.task-title {
+    color: #00ffff;
+    margin-bottom: 0.5em;
+}

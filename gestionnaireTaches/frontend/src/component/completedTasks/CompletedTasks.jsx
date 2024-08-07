@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './CompletedTasks.css';
 
 const CompletedTasks = () => {
     const [completedTasks, setCompletedTasks] = useState([]);
@@ -23,14 +24,15 @@ const CompletedTasks = () => {
     }, [userId]);
 
     return (
-        <div>
+        <div className="completed-tasks-container">
             <h1>Completed Tasks</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <ul>
+            {error && <p className="text-danger">{error}</p>}
+            <ul className="list-group">
                 {completedTasks.map(task => (
-                    <li key={task.id}>
-                        <h2>{task.title}</h2>
-                        <p>{task.description}</p>
+                    <li key={task.id} className="list-group-item">
+                        <h2 className="task-title">{task.title}</h2>
+                        <p><strong>Description:</strong> {task.description}</p>
+                        <p><strong>Due date:</strong> {task.completionDate}</p>
                     </li>
                 ))}
             </ul>
