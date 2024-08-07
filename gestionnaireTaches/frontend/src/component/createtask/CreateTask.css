@@ -63,9 +63,6 @@ h2 {
 .message {
     margin-top: 1em;
     text-align: center;
-}
-
-.message.success {
     color: #00ff00;
 }
 

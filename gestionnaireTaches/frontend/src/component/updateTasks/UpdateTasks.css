@@ -1,10 +1,21 @@
-h2 {
+.container {
+    background-color: #1f1f2e;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    width: 100%;
+    min-width: 300px;
+    margin: auto;
+    text-align: left;
+}
+
+h1 {
     color: #00ffff;
     margin-bottom: 1em;
     text-align: center;
 }
 
-.form {
+form {
     display: flex;
     flex-direction: column;
 }
@@ -13,22 +24,23 @@ h2 {
     margin-bottom: 1.5em;
 }
 
-.label {
+label {
     margin-bottom: 0.5em;
     display: block;
     color: #00ffff;
 }
 
-.input {
+input, select {
     width: 100%;
     padding: 0.5em;
     border: 1px solid #00ffff;
     border-radius: 5px;
     background-color: #282c34;
     color: #ffffff;
+    margin-bottom: 1em;
 }
 
-.button {
+button {
     background-color: #00ffff;
     color: #121217;
     border: none;
@@ -40,7 +52,12 @@ h2 {
     margin-top: 1em;
 }
 
-.button:hover {
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
     background-color: #00cccc;
     transform: scale(1.05);
 }

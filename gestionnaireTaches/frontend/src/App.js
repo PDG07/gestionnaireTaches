@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import TaskList from "./component/showTasks/TaskList";
-import UpdateTask from "./component/UpdateTask";
+import UpdateTask from "./component/updateTasks/UpdateTask";
 import CreateTask from "./component/createtask/CreateTask";
 import SignUp from "./component/landingPage/signup/SignUp";
 import Dashboard from "./component/dashboard/Dashboard";
