@@ -61,7 +61,7 @@ const CreateTask = () => {
         <div className="container">
             <h2>Create Task</h2>
             <form onSubmit={handleSubmit} noValidate className="form">
-                <div>
+                <div className="form-group">
                     <label className="label">Title:</label>
                     <input
                         type="text"
@@ -71,7 +71,7 @@ const CreateTask = () => {
                         className="input"
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Description:</label>
                     <input
                         type="text"
@@ -81,7 +81,7 @@ const CreateTask = () => {
                         className="input"
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Priority:</label>
                     <select
                         value={priority}
@@ -95,7 +95,7 @@ const CreateTask = () => {
                         <option value="LOW">Low</option>
                     </select>
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Deadline:</label>
                     <input
                         type="date"
@@ -105,7 +105,7 @@ const CreateTask = () => {
                         className="input"
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label className="label">Category:</label>
                     <select
                         value={category}
@@ -129,7 +129,7 @@ const CreateTask = () => {
                     Create Task
                 </button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className={`message ${message.startsWith('Error') ? 'error' : 'success'}`}>{message}</p>}
         </div>
     );
 };
