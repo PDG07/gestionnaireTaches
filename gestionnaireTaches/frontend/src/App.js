@@ -13,6 +13,7 @@ import AddUserToGroup from "./component/addUserToGroup/AddUserToGroup";
 import ShowTasksFromGroup from "./component/showTasksFromGroup/ShowTasksFromGroup";
 import Login from "./component/landingPage/login/Login";
 import LandingPage from "./component/landingPage/LandingPage";
+import Footer from "./component/footer/Footer";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -26,25 +27,28 @@ function App() {
 
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-                {isAuthenticated && (
-                    <>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/taskList" element={<TaskList />} />
-                        <Route path="/update-task" element={<UpdateTask />} />
-                        <Route path="/create-task" element={<CreateTask />} />
-                        <Route path={"/completed-tasks"} element={<CompletedTasks completed />} />
-                        <Route path="/create-task-group" element={<CreateTaskGroup />} />
-                        <Route path="/create-task-for-group" element={<CreateTasksForGroup />} />
-                        <Route path="/add-user-to-group" element={<AddUserToGroup />} />
-                        <Route path="/show-tasks-from-group" element={<ShowTasksFromGroup/> } />
-                    </>
-                )}
-                <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} />} />
-            </Routes>
+            <div className="app">
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+                    {isAuthenticated && (
+                        <>
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/taskList" element={<TaskList />} />
+                            <Route path="/update-task" element={<UpdateTask />} />
+                            <Route path="/create-task" element={<CreateTask />} />
+                            <Route path="/completed-tasks" element={<CompletedTasks completed />} />
+                            <Route path="/create-task-group" element={<CreateTaskGroup />} />
+                            <Route path="/create-task-for-group" element={<CreateTasksForGroup />} />
+                            <Route path="/add-user-to-group" element={<AddUserToGroup />} />
+                            <Route path="/show-tasks-from-group" element={<ShowTasksFromGroup />} />
+                        </>
+                    )}
+                    <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} />} />
+                </Routes>
+                <Footer /> {}
+            </div>
         </Router>
     );
 }
