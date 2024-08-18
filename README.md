@@ -47,3 +47,9 @@
 - Complétion de tache.
 - Afficher les taches du groupe.
 - Filtrer les taches du groupe selon leurs catégorie.
+## Aperçu
+![Welcome Screen](https://github.com/user-attachments/assets/d6b85153-bbd1-4781-8869-229d4ef9cbc4)
+![Sign Up Screen](https://github.com/user-attachments/assets/1a0eb31a-bc2a-49a0-9251-743c9ec91c7c)
+![Dashboard Screen](https://github.com/user-attachments/assets/9f4d47da-903f-4736-811b-e77297df08e1)
+![Your tasks screen](https://github.com/user-attachments/assets/1ed0cf05-f017-4154-a5fd-142ab1a53e99)
+
