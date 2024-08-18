@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CompletedTasks.css';
+import {fetchCompletedTasks} from "../services/apiService";
 
 const CompletedTasks = () => {
     const [completedTasks, setCompletedTasks] = useState([]);
@@ -7,20 +8,16 @@ const CompletedTasks = () => {
     const userId = JSON.parse(localStorage.getItem('accountInfos')).userId;
 
     useEffect(() => {
-        const fetchCompletedTasks = async () => {
+        const loadCompletedTasks = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/completedtasks?userId=${userId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch completed tasks');
-                }
-                const tasks = await response.json();
+                const tasks = await fetchCompletedTasks(userId);
                 setCompletedTasks(tasks);
             } catch (error) {
                 setError(error.message);
             }
         };
 
-        fetchCompletedTasks();
+        loadCompletedTasks();
     }, [userId]);
 
     return (

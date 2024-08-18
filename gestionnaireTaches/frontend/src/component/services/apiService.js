@@ -47,3 +47,15 @@ export const addUserToGroup = async (taskGroupData) => {
         throw new Error(error.message);
     }
 };
+
+export const fetchCompletedTasks = async (userId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/completedtasks?userId=${userId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch completed tasks');
+        }
+        return await response.json();
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
