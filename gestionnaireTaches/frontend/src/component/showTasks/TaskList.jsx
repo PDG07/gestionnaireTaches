@@ -96,9 +96,8 @@ const TaskList = () => {
                             <p><strong>Due date:</strong> {task.deadline}</p>
                         </div>
                         <div className="task-actions">
-                            <button className="button update" onClick={() => handleUpdate(task)}>✎ Update Task</button>
+                            <button className="button update" onClick={() => handleUpdate(task)}>✎ Update</button>
                             <button className="button complete" onClick={() => handleComplete(task.id)}>✔ Complete
-                                Task
                             </button>
                         </div>
                     </li>

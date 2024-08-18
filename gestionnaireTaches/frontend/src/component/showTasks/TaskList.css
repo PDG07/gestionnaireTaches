@@ -5,21 +5,25 @@
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
     width: 90%;
     max-width: 800px;
-    text-align: center;
+    margin: auto;
+    text-align: left;
 }
 
 h1 {
     color: #00ffff;
     margin-bottom: 1em;
+    text-align: center;
 }
 
 .error {
     color: #ff4c4c;
     margin-bottom: 1em;
+    text-align: center;
 }
 
 .filter-container {
     margin-bottom: 2em;
+    text-align: center;
 }
 
 .filter-container label {
@@ -52,31 +56,44 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
 }
 
+.task-details {
+    flex: 1;
+    padding-right: 1em;
+}
+
 .task-details h2 {
     margin: 0 0 0.5em;
     color: #00ffff;
+    font-size: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .task-details p {
-    margin: 0;
+    margin: 0.5em 0;
+    color: #b0b0b0;
 }
 
 .task-actions {
     display: flex;
     gap: 0.5em;
+    flex-shrink: 0;
 }
 
 .button {
     background-color: #00ffff;
     color: #121217;
     border: none;
-    padding: 0.5em;
+    padding: 0.5em 1em;
     font-size: 1em;
     cursor: pointer;
     border-radius: 5px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 100px;
+    text-align: center;
 }
 
 .button.complete {
@@ -84,5 +101,5 @@ h1 {
 }
 
 .button.update {
-    background-color: #ff8c00; /* Dark orange color */
+    background-color: #ff8c00;
 }
