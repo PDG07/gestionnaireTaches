@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './CreateTaskGroup.css';
+import {createTaskGroup} from "../services/apiGroupService";
 
 const CreateTaskGroup = () => {
     const [title, setTitle] = useState('');
@@ -15,13 +16,7 @@ const CreateTaskGroup = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/group/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(taskGroupData),
-            });
+            const response = await createTaskGroup(taskGroupData);
 
             if (response.status === 201) {
                 setMessage('Task group created successfully');

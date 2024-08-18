@@ -32,3 +32,13 @@ export const addUserToGroup = async (taskGroupData) => {
         throw new Error(error.message);
     }
 };
+
+export const createTaskGroup = async (taskGroupData) => {
+    return await fetch('http://localhost:8080/api/group/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskGroupData),
+    });
+};
