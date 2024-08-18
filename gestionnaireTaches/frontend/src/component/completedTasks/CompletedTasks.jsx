@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CompletedTasks.css';
-import {fetchCompletedTasks} from "../services/apiService";
+import {fetchCompletedTasks} from "../services/apiTaskService";
+
 
 const CompletedTasks = () => {
     const [completedTasks, setCompletedTasks] = useState([]);

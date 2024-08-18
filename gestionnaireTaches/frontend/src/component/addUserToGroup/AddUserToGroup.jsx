@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './AddUserToGroup.css';
-import { findUserByUsername, findGroupByTitle, addUserToGroup } from '../services/apiService';
+
+import {findUserByUsername} from "../services/apiUserService";
+import {addUserToGroup, findGroupByTitle} from "../services/apiGroupService";
 
 const AddUserToGroup = () => {
     const [username, setUsername] = useState('');
