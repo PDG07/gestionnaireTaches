@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CreateTask.css';
+import {createTask} from "../services/apiService";
 
 const CreateTask = () => {
     const [userId, setUserId] = useState('');
@@ -23,35 +24,20 @@ const CreateTask = () => {
         e.preventDefault();
 
         const taskData = {
-            userId: userId,
-            title: title,
-            description: description,
-            status: status,
-            priority: priority,
-            deadline: deadline,
-            category: category
+            userId,
+            title,
+            description,
+            status,
+            priority,
+            deadline,
+            category,
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/createtask', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(taskData),
-            });
-
-            if (response.status === 201) {
-                setMessage('Task created successfully');
-            } else if (response.status === 403) {
-                setMessage('Access denied: You do not have permission to create a task.');
-            } else {
-                const errorData = await response.json().catch(() => null);
-                setMessage(`Error: ${errorData ? errorData.message : 'Unknown error'}`);
-            }
+            const resultMessage = await createTask(taskData);
+            setMessage(resultMessage);
         } catch (error) {
-            console.error('Fetch error:', error);
-            setMessage('Error creating task');
+            setMessage(`Error: ${error.message}`);
         }
     };
 
