@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CreateTasksForGroup.css';
+import {addTaskToGroup, findGroupById} from "../services/apiGroupService";
 
 const CreateGroupTask = () => {
     const [userId, setUserId] = useState('');
@@ -17,7 +18,7 @@ const CreateGroupTask = () => {
         const storedUserInfo = JSON.parse(localStorage.getItem('accountInfos'));
         if (storedUserInfo && storedUserInfo.userId && storedUserInfo.groups) {
             setUserId(storedUserInfo.userId);
-            fetchTaskGroups(storedUserInfo.groups);
+            fetchTaskGroups(storedUserInfo.groups).then(r => r).catch(e => e);
         } else {
             console.error('User info or groups not found in localStorage');
         }
@@ -25,18 +26,11 @@ const CreateGroupTask = () => {
 
     const fetchTaskGroups = async (groupIds) => {
         try {
-            const encodedGroupIds = encodeURIComponent(JSON.stringify(groupIds));
-            const response = await fetch(`http://localhost:8080/api/group/findGroupById?groupIds=${encodedGroupIds}`);
-            if (response.ok) {
-                const data = await response.json();
-                setGroups(data);
-                setSelectedGroup(data.length > 0 ? data[0].id : '');
-                console.log('Task groups:', data);
-            } else {
-                console.error('Failed to fetch task groups');
-            }
+            const groups = await findGroupById(groupIds);
+            setGroups(groups);
+            setSelectedGroup(groups.length > 0 ? groups[0].id : '');
         } catch (error) {
-            console.error('Fetch error:', error);
+            console.error('Failed to fetch task groups:', error);
         }
     };
 
@@ -44,33 +38,22 @@ const CreateGroupTask = () => {
         e.preventDefault();
 
         const taskData = {
-            userId: userId,
+            userId,
             groupId: selectedGroup,
-            title: title,
-            description: description,
-            status: status,
-            priority: priority,
-            deadline: deadline,
-            category: category
+            title,
+            description,
+            status,
+            priority,
+            deadline,
+            category
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/group/addTask', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(taskData),
-            });
+            const response = await addTaskToGroup(taskData);
 
             if (response.ok) {
                 setMessage('Task added to group successfully');
-                setTitle('');
-                setDescription('');
-                setPriority('');
-                setDeadline('');
-                setCategory('');
-                setSelectedGroup('');
+                resetForm();
             } else if (response.status === 403) {
                 setMessage('Access denied: You do not have permission to create a task.');
             } else {
@@ -78,9 +61,18 @@ const CreateGroupTask = () => {
                 setMessage(`Error: ${errorData ? errorData.message : 'Unknown error'}`);
             }
         } catch (error) {
-            console.error('Fetch error:', error);
+            console.error('Error adding task to group:', error);
             setMessage('Error adding task to group');
         }
+    };
+
+    const resetForm = () => {
+        setTitle('');
+        setDescription('');
+        setPriority('');
+        setDeadline('');
+        setCategory('');
+        setSelectedGroup('');
     };
 
     const isSubmitDisabled = !title || !description || !priority || !deadline || !category || !selectedGroup;
