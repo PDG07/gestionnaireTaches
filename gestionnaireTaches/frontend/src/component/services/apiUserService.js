@@ -12,3 +12,25 @@ export const findUserByUsername = async (username) => {
         throw new Error('Error finding user by username');
     }
 };
+
+export const loginUser = async (username, password) => {
+    try {
+        const response = await fetch('http://localhost:8080/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            return JSON.parse(await response.text());
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+        }
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw new Error('Error logging in');
+    }
+};

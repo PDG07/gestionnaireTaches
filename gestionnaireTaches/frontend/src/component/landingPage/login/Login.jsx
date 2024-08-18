@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import './Login.css';
+import {loginUser} from "../../services/apiUserService";
 
 const Login = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState('');
@@ -12,33 +13,18 @@ const Login = ({ setIsAuthenticated }) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8080/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const responseBody = await response.text();
-
-            if (response.ok) {
-                const userLogged = JSON.parse(responseBody);
-                const userToStore = {
-                    userId: userLogged.id,
-                    username: userLogged.username,
-                    tasks: userLogged.tasks || []
-                };
-                localStorage.setItem('accountInfos', JSON.stringify(userToStore));
-                setIsAuthenticated(true);
-                navigate('/dashboard');
-            } else {
-                const errorData = await response.json();
-                setError(`Error: ${errorData.message}`);
-            }
+            const userLogged = await loginUser(username, password);
+            const userToStore = {
+                userId: userLogged.id,
+                username: userLogged.username,
+                tasks: userLogged.tasks || []
+            };
+            localStorage.setItem('accountInfos', JSON.stringify(userToStore));
+            setIsAuthenticated(true);
+            navigate('/dashboard');
         } catch (error) {
             console.error('Error logging in:', error);
-            setError('Error logging in');
+            setError(`Error: ${error.message}`);
         }
     };
 
