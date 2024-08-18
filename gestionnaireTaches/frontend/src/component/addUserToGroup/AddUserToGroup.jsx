@@ -11,7 +11,7 @@ const AddUserToGroup = () => {
             const response = await fetch(`http://localhost:8080/api/user/findUserByUsername?username=${encodeURIComponent(username)}`);
             if (response.ok) {
                 const userData = await response.json();
-                return userData.id;  // Assuming the UserDto has an id field
+                return userData.id;
             } else {
                 throw new Error('User not found');
             }
@@ -26,7 +26,7 @@ const AddUserToGroup = () => {
             const response = await fetch(`http://localhost:8080/api/group/findGroupByTitle?title=${encodeURIComponent(title)}`);
             if (response.ok) {
                 const groupData = await response.json();
-                return groupData.id;  // Assuming the TaskGroupDto has an id field
+                return groupData.id;
             } else {
                 throw new Error('Group not found');
             }
