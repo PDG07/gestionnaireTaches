@@ -1,66 +1,54 @@
-export const findUserByUsername = async (username) => {
+const BASE_URL = 'http://localhost:8080';
+
+const apiRequest = async (endpoint, options = {}) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/user/findUserByUsername?username=${encodeURIComponent(username)}`);
-        if (response.ok) {
-            const userData = await response.json();
-            return userData.id;
-        } else {
-            throw new Error('User not found');
+        const response = await fetch(`${BASE_URL}${endpoint}`, options);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Request failed');
+        }
+
+        if (response.status !== 204) {
+            return await response.json();
         }
     } catch (error) {
-        console.error('Fetch error:', error);
-        throw new Error('Error finding user by username');
+        console.error('API request error:', error);
+        throw new Error('API request failed');
     }
 };
 
-export const loginUser = async (username, password) => {
-    try {
-        const response = await fetch('http://localhost:8080/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+export const findUserByUsername = async (username) => {
+    const userData = await apiRequest(`/api/user/findUserByUsername?username=${encodeURIComponent(username)}`);
+    return userData.id;
+};
 
-        if (response.ok) {
-            return JSON.parse(await response.text());
-        } else {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
-        }
-    } catch (error) {
-        console.error('Error logging in:', error);
-        throw new Error('Error logging in');
-    }
+export const loginUser = async (username, password) => {
+    return await apiRequest('/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+    });
 };
 
 export const signUpUser = async ({ username, password }) => {
     const userData = { username, password, tasks: [] };
 
-    try {
-        const response = await fetch('http://localhost:8080/api/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        });
+    const createdUserDto = await apiRequest('/api/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+    });
 
-        if (response.status === 201) {
-            const createdUserDto = await response.json();
-            localStorage.setItem('accountInfos', JSON.stringify({
-                userId: createdUserDto.id,
-                username: createdUserDto.username,
-                groups: []
-            }));
-            return createdUserDto;
-        } else {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
-        }
-    } catch (error) {
-        console.error('Error creating user:', error);
-        throw new Error('Error creating user');
-    }
+    localStorage.setItem('accountInfos', JSON.stringify({
+        userId: createdUserDto.id,
+        username: createdUserDto.username,
+        groups: [],
+    }));
+
+    return createdUserDto;
 };
