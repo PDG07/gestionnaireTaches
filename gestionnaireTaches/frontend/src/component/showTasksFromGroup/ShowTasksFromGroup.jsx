@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ShowTasksFromGroup.css';
+import {assignTask, fetchTasks, fetchGroups, fetchUsers, filterTasksByCategory, completeTask} from "../services/apiGroupService";
 
 const ShowTasksFromGroup = () => {
     const [groups, setGroups] = useState([]);
@@ -16,83 +17,38 @@ const ShowTasksFromGroup = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchGroups = async () => {
+        const loadGroups = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/group/getGroupsFromUserId?userId=${userId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setGroups(data);
-                } else {
-                    setMessage('Error fetching groups');
-                }
+                const groups = await fetchGroups(userId);
+                setGroups(groups);
             } catch (error) {
                 setMessage('Error fetching groups');
             }
         };
 
-        fetchGroups();
+        loadGroups().then(r => r);
     }, [userId]);
 
-    const fetchTasks = async (groupId) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/group/getTasksOfGroup?groupId=${groupId}`);
-            if (response.ok) {
-                const data = await response.json();
-                const incompleteTasks = data.filter(task => task.status !== 'COMPLETED');
-                setTasks(incompleteTasks);
-                setFilteredTasks(incompleteTasks); // Initialize filteredTasks
-            } else {
-                setMessage('Error fetching tasks');
-            }
-        } catch (error) {
-            setMessage('Error fetching tasks');
-        }
-    };
-
-    const fetchUsers = async (groupId) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/user/findAllUserFromGroup?groupId=${groupId}`);
-            if (response.ok) {
-                const data = await response.json();
-                setUsers(data);
-            } else {
-                setMessage('Error fetching users');
-            }
-        } catch (error) {
-            setMessage('Error fetching users');
-        }
-    };
-
-    const handleGroupChange = (e) => {
+    const handleGroupChange = async (e) => {
         const groupId = e.target.value;
         setSelectedGroup(groupId);
-        fetchTasks(groupId);
-        fetchUsers(groupId); // Add this line
+        try {
+            const tasks = await fetchTasks(groupId);
+            const users = await fetchUsers(groupId);
+            setTasks(tasks);
+            setFilteredTasks(tasks); // Initialize filteredTasks
+            setUsers(users);
+        } catch (error) {
+            setMessage('Error fetching tasks or users');
+        }
     };
 
     const handleCompleteTask = async (taskId) => {
-        const taskData = {
-            groupId: selectedGroup,
-            id: taskId,
-        };
-
         try {
-            const response = await fetch('http://localhost:8080/api/group/completeTaskFromGroup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(taskData),
-            });
-
-            if (response.ok) {
-                setMessage('Task completed successfully');
-                setTasks(tasks.filter(task => task.id !== taskId));
-                setFilteredTasks(filteredTasks.filter(task => task.id !== taskId));
-            } else {
-                const errorData = await response.json();
-                setMessage(`Error: ${errorData.message}`);
-            }
+            await completeTask(taskId, selectedGroup);
+            setMessage('Task completed successfully');
+            setTasks(tasks.filter(task => task.id !== taskId));
+            setFilteredTasks(filteredTasks.filter(task => task.id !== taskId));
         } catch (error) {
             setMessage('Error completing task');
         }
@@ -106,57 +62,25 @@ const ShowTasksFromGroup = () => {
         const selectedCategory = event.target.value;
         setCategory(selectedCategory);
 
-        if (selectedCategory) {
-            try {
-                const response = await fetch('http://localhost:8080/api/group/filterByCategoryGroup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        groupId: selectedGroup,
-                        category: selectedCategory
-                    }),
-                });
-
-                if (response.ok) {
-                    const filteredTasks = await response.json();
-                    setFilteredTasks(filteredTasks);
-                } else {
-                    const errorData = await response.json();
-                    setMessage(`Error: ${errorData.message}`);
-                }
-            } catch (error) {
-                setMessage('Error filtering tasks');
+        try {
+            if (selectedCategory) {
+                const filteredTasks = await filterTasksByCategory(selectedGroup, selectedCategory);
+                setFilteredTasks(filteredTasks);
+            } else {
+                setFilteredTasks(tasks);
             }
-        } else {
-            setFilteredTasks(tasks);
+        } catch (error) {
+            setMessage('Error filtering tasks');
         }
     };
 
     const handleAssignTask = async (taskId, userId) => {
-        const taskData = {
-            groupId: selectedGroup,
-            id: taskId,
-            userId: userId
-        };
-
         try {
-            const response = await fetch('http://localhost:8080/api/group/assignTaskForGrTo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(taskData),
-            });
-
-            if (response.ok) {
-                setMessage('Task assigned successfully');
-                fetchTasks(selectedGroup); // Refresh tasks
-            } else {
-                const errorData = await response.json();
-                setMessage(`Error: ${errorData.message}`);
-            }
+            await assignTask(taskId, userId, selectedGroup);
+            setMessage('Task assigned successfully');
+            const tasks = await fetchTasks(selectedGroup);
+            setTasks(tasks);
+            setFilteredTasks(tasks);
         } catch (error) {
             setMessage('Error assigning task');
         }
@@ -191,9 +115,14 @@ const ShowTasksFromGroup = () => {
                     <ul className="task-list">
                         {filteredTasks.map(task => (
                             <li key={task.id} className="task-item">
-                                <span className="task-title">{task.title}</span>
+                                <div className="task-details">
+                                    <h2>{task.title}</h2>
+                                    <p><strong>Description:</strong> {task.description}</p>
+                                    <p><strong>Due date:</strong> {task.deadline}</p>
+                                </div>
                                 <button className="button update" onClick={() => handleUpdateTask(task)}>✎</button>
-                                <button className="button complete" onClick={() => handleCompleteTask(task.id)}>✔</button>
+                                <button className="button complete" onClick={() => handleCompleteTask(task.id)}>✔
+                                </button>
                                 <select onChange={(e) => handleAssignTask(task.id, e.target.value)}
                                         className="select assign">
                                     <option value="">Assign to:</option>

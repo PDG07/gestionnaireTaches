@@ -56,8 +56,23 @@ h3 {
     border-bottom: 1px solid #00ffff;
 }
 
-.task-title {
+.task-details {
     flex: 1;
+    padding-right: 1em;
+}
+
+.task-details h2 {
+    margin: 0 0 0.5em;
+    color: #00ffff;
+    font-size: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-details p {
+    margin: 0.5em 0;
+    color: #b0b0b0;
 }
 
 .button {

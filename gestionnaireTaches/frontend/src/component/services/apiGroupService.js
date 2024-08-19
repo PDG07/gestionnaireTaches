@@ -67,3 +67,70 @@ export const addTaskToGroup = async (taskData) => {
         body: JSON.stringify(taskData),
     });
 };
+
+export const fetchGroups = async (userId) => {
+    const response = await fetch(`http://localhost:8080/api/group/getGroupsFromUserId?userId=${userId}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch groups');
+    }
+    return await response.json();
+};
+
+export const fetchTasks = async (groupId) => {
+    const response = await fetch(`http://localhost:8080/api/group/getTasksOfGroup?groupId=${groupId}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch tasks');
+    }
+    const tasks = await response.json();
+    return tasks.filter(task => task.status !== 'COMPLETED');
+};
+
+export const fetchUsers = async (groupId) => {
+    const response = await fetch(`http://localhost:8080/api/user/findAllUserFromGroup?groupId=${groupId}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch users');
+    }
+    return await response.json();
+};
+
+export const completeTask = async (taskId, groupId) => {
+    const taskData = { groupId, id: taskId };
+    const response = await fetch('http://localhost:8080/api/group/completeTaskFromGroup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskData),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to complete task');
+    }
+};
+
+export const assignTask = async (taskId, userId, groupId) => {
+    const taskData = { groupId, id: taskId, userId };
+    const response = await fetch('http://localhost:8080/api/group/assignTaskForGrTo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskData),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to assign task');
+    }
+};
+
+export const filterTasksByCategory = async (groupId, category) => {
+    const response = await fetch('http://localhost:8080/api/group/filterByCategoryGroup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ groupId, category }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to filter tasks');
+    }
+    return await response.json();
+};
