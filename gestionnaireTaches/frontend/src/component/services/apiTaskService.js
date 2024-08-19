@@ -32,3 +32,29 @@ export const createTask = async (taskData) => {
         throw new Error(error.message);
     }
 };
+
+export const fetchTasks = async (userId) => {
+    const response = await fetch(`http://localhost:8080/api/tasks?userId=${userId}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch tasks');
+    }
+    return await response.json();
+};
+
+export const fetchTasksByCategory = async (userId, category) => {
+    const response = await fetch(`http://localhost:8080/api/tasks/filter?userId=${userId}&category=${category}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch tasks by category');
+    }
+    return await response.json();
+};
+
+export const completeTask = async (taskId, userId) => {
+    const response = await fetch(`http://localhost:8080/api/completetask/${taskId}?userId=${userId}`, {
+        method: 'PUT',
+    });
+    if (!response.ok) {
+        throw new Error('Failed to complete task');
+    }
+    return response.ok;
+};

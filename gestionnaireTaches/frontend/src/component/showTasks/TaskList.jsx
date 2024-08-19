@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TaskList.css';
+import {completeTask, fetchTasks, fetchTasksByCategory} from "../services/apiTaskService";
 
 const TaskList = () => {
     const [tasks, setTasks] = useState([]);
@@ -10,47 +11,29 @@ const TaskList = () => {
     const userId = JSON.parse(localStorage.getItem('accountInfos')).userId;
 
     useEffect(() => {
-        const fetchTasks = async () => {
+        const loadTasks = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/tasks?userId=${userId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch tasks');
-                }
-                const tasks = await response.json();
-                setTasks(tasks.filter(task => !task.completed));
+                const allTasks = await fetchTasks(userId);
+                setTasks(allTasks.filter(task => !task.completed));
             } catch (error) {
                 setError(error.message);
             }
         };
 
-        fetchTasks();
+        loadTasks().then(r => r);
     }, [userId]);
 
     const handleCategoryChange = async (event) => {
         const selectedCategory = event.target.value;
         setCategory(selectedCategory);
-        if (selectedCategory) {
-            try {
-                const response = await fetch(`http://localhost:8080/api/tasks/filter?userId=${userId}&category=${selectedCategory}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch tasks by category');
-                }
-                const filteredTasks = await response.json();
-                setTasks(filteredTasks.filter(task => !task.completed));
-            } catch (error) {
-                setError(error.message);
-            }
-        } else {
-            try {
-                const response = await fetch(`http://localhost:8080/api/tasks?userId=${userId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch tasks');
-                }
-                const tasks = await response.json();
-                setTasks(tasks.filter(task => !task.completed));
-            } catch (error) {
-                setError(error.message);
-            }
+
+        try {
+            const filteredTasks = selectedCategory
+                ? await fetchTasksByCategory(userId, selectedCategory)
+                : await fetchTasks(userId);
+            setTasks(filteredTasks.filter(task => !task.completed));
+        } catch (error) {
+            setError(error.message);
         }
     };
 
@@ -60,13 +43,10 @@ const TaskList = () => {
 
     const handleComplete = async (taskId) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/completetask/${taskId}?userId=${userId}`, {
-                method: 'PUT',
-            });
-            if (!response.ok) {
-                throw new Error('Failed to complete task');
+            const success = await completeTask(taskId, userId);
+            if (success) {
+                setTasks(tasks.filter(task => task.id !== taskId));
             }
-            setTasks(tasks.filter(task => task.id !== taskId));
         } catch (error) {
             setError(error.message);
         }
