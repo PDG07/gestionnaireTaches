@@ -36,7 +36,7 @@ const ShowTasksFromGroup = () => {
             const tasks = await fetchTasks(groupId);
             const users = await fetchUsers(groupId);
             setTasks(tasks);
-            setFilteredTasks(tasks); // Initialize filteredTasks
+            setFilteredTasks(tasks);
             setUsers(users);
         } catch (error) {
             setMessage('Error fetching tasks or users');

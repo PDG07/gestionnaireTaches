@@ -58,3 +58,19 @@ export const completeTask = async (taskId, userId) => {
     }
     return response.ok;
 };
+
+export const updateTask = async (taskData) => {
+    const response = await fetch('http://localhost:8080/api/updatetask', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskData),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to update task');
+    }
+
+    return response.ok;
+};

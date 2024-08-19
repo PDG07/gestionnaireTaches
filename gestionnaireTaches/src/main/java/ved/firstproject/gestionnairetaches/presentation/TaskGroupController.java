@@ -108,6 +108,7 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroups, HttpStatus.OK);
     }
 
+    //TODO REMOVE this
     @PostMapping("/removeTaskFromGroup")
     public ResponseEntity<TaskGroupDto> removeTaskFromGroup(@RequestBody TaskForGroupData taskData) {
         TaskGroupDto taskGroupDto = serviceTaskManager.removeTaskFromGroup(taskData.getGroupId(), taskData.getId(), taskData.getUserId());
@@ -116,6 +117,7 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
     }
 
+    //TODO REMOVE this
     @PostMapping("/updateTaskForGroup")
     public ResponseEntity<TaskDto> updateTaskForGroup(@RequestBody TaskForGroupData taskData) {
         TaskDto taskDto = new TaskDto(

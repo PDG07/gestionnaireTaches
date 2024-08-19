@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './UpdateTasks.css';
+import {updateTask} from "../services/apiTaskService";
 
 const UpdateTask = () => {
     const location = useLocation();
@@ -36,18 +37,7 @@ const UpdateTask = () => {
                 userId: userId
             };
 
-            const response = await fetch('http://localhost:8080/api/updatetask', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedTaskData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
+            await updateTask(updatedTaskData);
             setSuccess('Task updated successfully!');
             setError(null);
         } catch (error) {
