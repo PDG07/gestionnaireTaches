@@ -34,3 +34,33 @@ export const loginUser = async (username, password) => {
         throw new Error('Error logging in');
     }
 };
+
+export const signUpUser = async ({ username, password }) => {
+    const userData = { username, password, tasks: [] };
+
+    try {
+        const response = await fetch('http://localhost:8080/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+
+        if (response.status === 201) {
+            const createdUserDto = await response.json();
+            localStorage.setItem('accountInfos', JSON.stringify({
+                userId: createdUserDto.id,
+                username: createdUserDto.username,
+                groups: []
+            }));
+            return createdUserDto;
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+        }
+    } catch (error) {
+        console.error('Error creating user:', error);
+        throw new Error('Error creating user');
+    }
+};

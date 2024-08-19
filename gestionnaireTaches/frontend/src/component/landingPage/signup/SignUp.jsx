@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
+import {signUpUser} from "../../services/apiUserService";
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -8,24 +9,8 @@ const SignUp = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleUserCreation = async (createdUserDto) => {
-        const userId = createdUserDto.id;
-        const user = {
-            userId: userId,
-            username: username,
-            groups: []
-        };
-        localStorage.setItem('accountInfos', JSON.stringify(user));
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const userData = {
-            username,
-            password,
-            tasks: []
-        };
 
         if (!username || !password) {
             setMessage('Both fields are required');
@@ -33,24 +18,11 @@ const SignUp = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/api/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
-            });
-            if (response.status === 201) {
-                const createdUserDto = await response.json();
-                setMessage('User created successfully');
-                await handleUserCreation(createdUserDto);
-                navigate('/dashboard');
-            } else {
-                const errorData = await response.json();
-                setMessage(`Error: ${errorData.message}`);
-            }
+            await signUpUser({ username, password });
+            setMessage('User created successfully');
+            navigate('/dashboard');
         } catch (error) {
-            setMessage('Error creating user');
+            setMessage(`Error: ${error.message}`);
         }
     };
 
