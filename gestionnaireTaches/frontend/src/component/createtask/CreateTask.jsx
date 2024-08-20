@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CreateTask.css';
-import {createTask} from "../services/apiTaskService";
-
+import { createTask } from "../services/apiTaskService";
 
 const CreateTask = () => {
     const [userId, setUserId] = useState('');
@@ -35,14 +34,16 @@ const CreateTask = () => {
         };
 
         try {
-            const resultMessage = await createTask(taskData);
-            setMessage(resultMessage);
+            await createTask(taskData);
+            setMessage("Task created successfully");
         } catch (error) {
             setMessage(`Error: ${error.message}`);
         }
     };
 
     const isSubmitDisabled = !title || !description || !priority || !deadline || !category;
+
+    const today = new Date().toISOString().split('T')[0];
 
     return (
         <div className="container">
@@ -89,6 +90,7 @@ const CreateTask = () => {
                         value={deadline}
                         onChange={(e) => setDeadline(e.target.value)}
                         required
+                        min={today}
                         className="input"
                     />
                 </div>
@@ -116,7 +118,11 @@ const CreateTask = () => {
                     Create Task
                 </button>
             </form>
-            {message && <p className={`message ${message.startsWith('Error') ? 'error' : 'success'}`}>{message}</p>}
+            {message && (
+                <p className={`message ${typeof message === 'string' && message.startsWith('Error') ? 'error' : 'success'}`}>
+                    {message}
+                </p>
+            )}
         </div>
     );
 };
