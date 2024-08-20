@@ -46,6 +46,8 @@ const UpdateTask = () => {
         }
     };
 
+    const today = new Date().toISOString().split('T')[0];
+
     return (
         <div className="container">
             <h1>Update Task</h1>
@@ -108,6 +110,7 @@ const UpdateTask = () => {
                         value={taskData.deadline || ''}
                         onChange={handleChange}
                         placeholder="Deadline"
+                        min={today}
                     />
                 </div>
                 <button type="submit">Update Task</button>
