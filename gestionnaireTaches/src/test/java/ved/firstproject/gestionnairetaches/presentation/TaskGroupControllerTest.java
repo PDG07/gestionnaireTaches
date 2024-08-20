@@ -196,7 +196,6 @@ class TaskGroupControllerTest {
 
     @Test
     void updateTaskForGroup() {
-        // Créer des données de test pour TaskForGroupData
         TaskForGroupData taskData = new TaskForGroupData();
         taskData.setTitle("Updated Task Title");
         taskData.setDescription("Updated Task Description");
@@ -209,13 +208,9 @@ class TaskGroupControllerTest {
         taskData.setGroupId(1L);
         taskData.setId(1L);
 
-        // Créer un UserDto simulé (mock) pour l'utilisateur associé à la tâche
         UserDto userDto = new UserDto(1L, "testuser", "password", Set.of());
-
-        // Simuler la réponse de serviceTaskManager.findUserById
         when(serviceTaskManager.findUserById(1L)).thenReturn(UserDto.toUser(userDto));
 
-        // Créer un TaskDto avec le UserDto
         TaskDto taskDto = new TaskDto(
                 "Updated Task Title",
                 "Updated Task Description",
@@ -227,13 +222,9 @@ class TaskGroupControllerTest {
                 userDto
         );
 
-        // Simuler la réponse de serviceTaskManager.updateTaskForGroup
         when(serviceTaskManager.updateTaskForGroup(anyLong(), any(TaskDto.class))).thenReturn(taskDto);
-
-        // Appeler la méthode du contrôleur
         ResponseEntity<TaskDto> response = taskGroupController.updateTaskForGroup(taskData);
 
-        // Vérifier la réponse et les interactions
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(taskDto, response.getBody());
         verify(serviceTaskManager).updateTaskForGroup(1L, taskDto);
