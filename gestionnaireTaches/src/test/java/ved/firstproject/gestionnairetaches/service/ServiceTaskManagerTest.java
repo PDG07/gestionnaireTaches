@@ -221,24 +221,6 @@ class ServiceTaskManagerTest {
         assertEquals(1, taskGroupDto.tasksGroup().size());
     }
 
-    //TODO TEST removeTaskFromGroup() Error
-    @Test
-    void removeTaskFromGroup(){
-        when(taskGroupRepository.save(any())).thenReturn(new TaskGroup(0L, "title", Set.of(user), Set.of(taskInit)));
-        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
-        when(taskRepository.save(any())).thenReturn(taskInit);
-        when(taskRepository.findById(anyLong())).thenReturn(java.util.Optional.of(new Task(1L, "title", "description", priorityHigh, deadline, workCategory, user)));
-        when(userRepository.findById(anyLong())).thenReturn(java.util.Optional.of(user));
-        TaskGroupDto taskGroup = serviceTaskManager.createTaskGroup("title", user.getId());
-        TaskDto taskDto = new TaskDto(1L, "title", "description", status, priorityHigh, deadline, null, workCategory, userDto);
-        TaskGroupDto taskGroupDto = serviceTaskManager.addTaskToGroup(taskGroup.id(), taskDto);
-        System.out.println();
-
-        TaskGroupDto taskGroupDtoEmpty = serviceTaskManager.removeTaskFromGroup(taskGroupDto.id(), taskDto.id(), user.getId());
-
-        assertEquals(0, taskGroupDtoEmpty.tasksGroup().size());
-    }
-
     @Test
     void completeTaskFromGroup() {
         when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));

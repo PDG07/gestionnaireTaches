@@ -130,17 +130,6 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
-    //TODO: remove task from group
-    public TaskGroupDto removeTaskFromGroup(Long taskGroupId, Long taskDtoId, Long userId) {
-        User user = findUserById(userId);
-        TaskGroup taskGroup = findTaskGroupById(taskGroupId);
-        Task task = findTaskById(taskDtoId);
-        taskGroup.removeTask(taskDtoId);
-        user.removeTask(task);
-        userRepository.save(user);
-        return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
-    }
-
     public TaskGroupDto completeTaskFromGroup(Long taskGroupId, Long taskDtoId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.completeTask(taskDtoId);
