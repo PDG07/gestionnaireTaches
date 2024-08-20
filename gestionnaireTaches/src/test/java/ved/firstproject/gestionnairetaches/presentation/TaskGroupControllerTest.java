@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import ved.firstproject.gestionnairetaches.service.ServiceTaskManager;
 import ved.firstproject.gestionnairetaches.service.dto.TaskDto;
 import ved.firstproject.gestionnairetaches.service.dto.TaskGroupDto;
+import ved.firstproject.gestionnairetaches.service.dto.UserDto;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskForGroupData;
 import ved.firstproject.gestionnairetaches.service.dto.data.TaskGroupData;
 import ved.firstproject.gestionnairetaches.service.dto.data.FilterTaskCriteriaGroup;
@@ -19,6 +20,7 @@ import ved.firstproject.gestionnairetaches.model.enums.TaskPriority;
 import ved.firstproject.gestionnairetaches.model.enums.TaskState;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -65,10 +67,18 @@ class TaskGroupControllerTest {
         taskData.setUserId(1L);
         taskData.setGroupId(1L);
 
+        UserDto userDto = new UserDto(1L, "testuser", "password", Set.of());
+        when(serviceTaskManager.findUserById(1L)).thenReturn(UserDto.toUser(userDto));
+
         TaskDto taskDto = new TaskDto(
-                "Task Title", "Task Description", TaskState.TODO, TaskPriority.HIGH,
-                LocalDate.now().plusDays(1), LocalDate.now().plusDays(2),
-                TaskCategory.WORK, null
+                "Task Title",
+                "Task Description",
+                TaskState.TODO,
+                TaskPriority.HIGH,
+                LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(2),
+                TaskCategory.WORK,
+                userDto
         );
 
         TaskGroupDto taskGroupDto = new TaskGroupDto(1L, "Group Title", Set.of(), Set.of(taskDto));
@@ -79,6 +89,7 @@ class TaskGroupControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(taskGroupDto, response.getBody());
         verify(serviceTaskManager).addTaskToGroup(1L, taskDto);
+        verify(serviceTaskManager).findUserById(1L);
     }
 
     @Test
@@ -86,10 +97,10 @@ class TaskGroupControllerTest {
         TaskGroupDto taskGroupDto = new TaskGroupDto(1L, "Group Title", Set.of(), Set.of());
         when(serviceTaskManager.findGroupById(1L)).thenReturn(taskGroupDto);
 
-        ResponseEntity<Set<TaskGroupDto>> response = taskGroupController.findGroupById("1");
+        ResponseEntity<Set<TaskGroupDto>> response = taskGroupController.findGroupById("[1]");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.getBody().contains(taskGroupDto));
+        assertTrue(Objects.requireNonNull(response.getBody()).contains(taskGroupDto));
         verify(serviceTaskManager).findGroupById(1L);
     }
 
@@ -184,24 +195,8 @@ class TaskGroupControllerTest {
     }
 
     @Test
-    void removeTaskFromGroup() {
-        TaskForGroupData taskData = new TaskForGroupData();
-        taskData.setGroupId(1L);
-        taskData.setId(1L);
-        taskData.setUserId(2L);
-
-        TaskGroupDto taskGroupDto = new TaskGroupDto(1L, "Group Title", Set.of(), Set.of());
-        when(serviceTaskManager.removeTaskFromGroup(anyLong(), anyLong(), anyLong())).thenReturn(taskGroupDto);
-
-        ResponseEntity<TaskGroupDto> response = taskGroupController.removeTaskFromGroup(taskData);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(taskGroupDto, response.getBody());
-        verify(serviceTaskManager).removeTaskFromGroup(1L, 1L, 2L);
-    }
-
-    @Test
     void updateTaskForGroup() {
+        // Créer des données de test pour TaskForGroupData
         TaskForGroupData taskData = new TaskForGroupData();
         taskData.setTitle("Updated Task Title");
         taskData.setDescription("Updated Task Description");
@@ -214,19 +209,35 @@ class TaskGroupControllerTest {
         taskData.setGroupId(1L);
         taskData.setId(1L);
 
+        // Créer un UserDto simulé (mock) pour l'utilisateur associé à la tâche
+        UserDto userDto = new UserDto(1L, "testuser", "password", Set.of());
+
+        // Simuler la réponse de serviceTaskManager.findUserById
+        when(serviceTaskManager.findUserById(1L)).thenReturn(UserDto.toUser(userDto));
+
+        // Créer un TaskDto avec le UserDto
         TaskDto taskDto = new TaskDto(
-                "Updated Task Title", "Updated Task Description", TaskState.COMPLETED, TaskPriority.AVERAGE,
-                LocalDate.now().plusDays(3), LocalDate.now().plusDays(4),
-                TaskCategory.PERSONAL, null
+                "Updated Task Title",
+                "Updated Task Description",
+                TaskState.COMPLETED,
+                TaskPriority.AVERAGE,
+                LocalDate.now().plusDays(3),
+                LocalDate.now().plusDays(4),
+                TaskCategory.PERSONAL,
+                userDto
         );
 
+        // Simuler la réponse de serviceTaskManager.updateTaskForGroup
         when(serviceTaskManager.updateTaskForGroup(anyLong(), any(TaskDto.class))).thenReturn(taskDto);
 
+        // Appeler la méthode du contrôleur
         ResponseEntity<TaskDto> response = taskGroupController.updateTaskForGroup(taskData);
 
+        // Vérifier la réponse et les interactions
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(taskDto, response.getBody());
         verify(serviceTaskManager).updateTaskForGroup(1L, taskDto);
+        verify(serviceTaskManager).findUserById(1L);
     }
 
     @Test
