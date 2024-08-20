@@ -48,6 +48,7 @@ const CreateGroupTask = () => {
             category
         };
 
+
         try {
             const response = await addTaskToGroup(taskData);
 
@@ -76,6 +77,8 @@ const CreateGroupTask = () => {
     };
 
     const isSubmitDisabled = !title || !description || !priority || !deadline || !category || !selectedGroup;
+
+    const today = new Date().toISOString().split('T')[0];
 
     return (
         <div className="container">
@@ -136,6 +139,7 @@ const CreateGroupTask = () => {
                         value={deadline}
                         onChange={(e) => setDeadline(e.target.value)}
                         required
+                        min={today}
                         className="input"
                     />
                 </div>
