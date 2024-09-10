@@ -195,6 +195,24 @@ class TaskGroupControllerTest {
     }
 
     @Test
+    void completedTasksForGroup() {
+        TaskDto taskDto = new TaskDto(
+                "Task Title", "Task Description", TaskState.TODO, TaskPriority.HIGH,
+                LocalDate.now().plusDays(1), LocalDate.now().plusDays(2),
+                TaskCategory.WORK, null
+        );
+        Set<TaskDto> tasks = Set.of(taskDto);
+
+        when(serviceTaskManager.completedTasksForGroup(anyLong())).thenReturn(tasks);
+
+        ResponseEntity<Set<TaskDto>> response = taskGroupController.getCompletedTasksForGroup(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().contains(taskDto));
+        verify(serviceTaskManager).completedTasksForGroup(1L);
+    }
+
+    @Test
     void filterByCategoryGroup() {
         TaskDto taskDto = new TaskDto(
                 "Task Title", "Task Description", TaskState.TODO, TaskPriority.HIGH,
