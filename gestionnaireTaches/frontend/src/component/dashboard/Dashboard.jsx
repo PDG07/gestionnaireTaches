@@ -41,9 +41,9 @@ const Dashboard = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/add-user-to-group" className="dashboard-link">
+                        <Link to="/add-user-to-group" className="dashboard-link" style={{ pointerEvents: 'none', opacity: 0.5 }}>
                             <FontAwesomeIcon icon={faUserPlus} className="dashboard-icon"/>
-                            <span>Add User to Group</span>
+                            <span>Add User to Group (Coming soon)</span>
                         </Link>
                     </li>
                     <li>
