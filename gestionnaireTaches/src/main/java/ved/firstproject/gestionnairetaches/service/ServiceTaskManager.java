@@ -131,7 +131,6 @@ public class ServiceTaskManager {
                 .collect(Collectors.toSet());
     }
 
-    //TODO: Patch role ADMIN/MEMBER
     public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);
         taskGroup.removeUser(userId);

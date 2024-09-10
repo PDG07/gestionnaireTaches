@@ -28,6 +28,7 @@ export const fetchCompletedTasks = async (groupId) => {
     return await apiRequest(`/api/group/completedtasksForGroup?groupId=${groupId}`);
 };
 
+//TODO: Bug API_Only addUserToGroup
 export const addUserToGroup = async (taskGroupData) => {
     return await apiRequest('/api/group/addUserToGroup', {
         method: 'POST',

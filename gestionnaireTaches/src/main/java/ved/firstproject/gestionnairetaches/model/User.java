@@ -17,7 +17,6 @@ import java.util.Set;
 @ToString
 @Table(name = "app_user")
 public class User extends EntityContainer{
-    //TODO: Patch role ADMIN/MEMBER
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
