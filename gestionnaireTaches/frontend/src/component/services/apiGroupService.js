@@ -24,6 +24,10 @@ export const findGroupByTitle = async (title) => {
     return await apiRequest(`/api/group/findGroupByTitle?title=${encodeURIComponent(title)}`);
 };
 
+export const fetchCompletedTasks = async (groupId) => {
+    return await apiRequest(`/api/group/completedtasksForGroup?groupId=${groupId}`);
+};
+
 export const addUserToGroup = async (taskGroupData) => {
     return await apiRequest('/api/group/addUserToGroup', {
         method: 'POST',

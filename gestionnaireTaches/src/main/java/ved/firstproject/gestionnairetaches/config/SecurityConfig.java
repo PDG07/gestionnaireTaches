@@ -35,6 +35,7 @@ public class SecurityConfig {
             "/api/group/updateTaskForGroup",
             "/api/group/filterByCategoryGroup",
             "/api/group/assignTaskForGrTo",
+            "/api/group/completedtasksForGroup",
             "/api/user/findAllUserFromGroup",
             "/api/login"};
 

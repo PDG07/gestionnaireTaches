@@ -94,6 +94,13 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroupDto, HttpStatus.OK);
     }
 
+    @GetMapping("/completedtasksForGroup")
+    public ResponseEntity<Set<TaskDto>> getCompletedTasksForGroup(@RequestParam Long groupId) {
+        Set<TaskDto> completedTasksForGroup = serviceTaskManager.completedTasksForGroup(groupId);
+        logger.info("Completed tasks found: {}", completedTasksForGroup);
+        return new ResponseEntity<>(completedTasksForGroup, HttpStatus.OK);
+    }
+
     @GetMapping("/getTasksOfGroup")
     public ResponseEntity<Set<TaskDto>> getTasksOfGroup(@RequestParam Long groupId) {
         Set<TaskDto> tasks = serviceTaskManager.getTasksOfGroup(groupId);

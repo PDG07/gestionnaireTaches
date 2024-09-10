@@ -123,6 +123,14 @@ public class ServiceTaskManager {
         return TaskGroupDto.toTaskGroupDto(taskGroupRepository.save(taskGroup));
     }
 
+    public Set<TaskDto> completedTasksForGroup(Long groupId) {
+        TaskGroup taskGroup = findTaskGroupById(groupId);
+        return taskGroup.getTasksGroup().stream()
+                .filter(task -> task.getStatus().equals(TaskState.COMPLETED))
+                .map(TaskDto::toTaskDto)
+                .collect(Collectors.toSet());
+    }
+
     //TODO: Patch role ADMIN/MEMBER
     public TaskGroupDto removeUserFromGroup(Long taskGroupId, Long userId) {
         TaskGroup taskGroup = findTaskGroupById(taskGroupId);

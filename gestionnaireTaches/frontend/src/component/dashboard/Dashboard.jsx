@@ -52,6 +52,12 @@ const Dashboard = () => {
                             <span>Show Tasks From Group</span>
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/completed-tasks-from-group" className="dashboard-link">
+                            <FontAwesomeIcon icon={faCheck} className="dashboard-icon"/>
+                            <span>Completed Tasks From Group</span>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </div>

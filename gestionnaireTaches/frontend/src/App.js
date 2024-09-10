@@ -14,6 +14,7 @@ import ShowTasksFromGroup from "./component/showTasksFromGroup/ShowTasksFromGrou
 import Login from "./component/landingPage/login/Login";
 import LandingPage from "./component/landingPage/LandingPage";
 import Footer from "./component/footer/Footer";
+import CompletedTasksFromGroup from "./component/completedTasksFromGroup/CompletedTasksFromGroup";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -43,6 +44,7 @@ function App() {
                             <Route path="/create-task-for-group" element={<CreateTasksForGroup />} />
                             <Route path="/add-user-to-group" element={<AddUserToGroup />} />
                             <Route path="/show-tasks-from-group" element={<ShowTasksFromGroup />} />
+                            <Route path="/completed-tasks-from-group" element={<CompletedTasksFromGroup />} />
                         </>
                     )}
                     <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} />} />
