@@ -48,6 +48,21 @@ const CreateGroupTask = () => {
             category
         };
 
+        /**
+         *         const taskData = {
+         *             id: null,
+         *             userId,
+         *             groupId: selectedGroup,
+         *             title,
+         *             description,
+         *             status,
+         *             priority,
+         *             deadline,
+         *             completionDate: null,
+         *             category,
+         *         };
+         * */
+
 
         try {
             const response = await addTaskToGroup(taskData);
@@ -57,12 +72,8 @@ const CreateGroupTask = () => {
                 resetForm();
             } else if (response.status === 403) {
                 setMessage('Access denied: You do not have permission to create a task.');
-            } else {
-                const errorData = await response.json().catch(() => null);
-                setMessage(`Error: ${errorData ? errorData.message : 'Unknown error'}`);
             }
         } catch (error) {
-            console.error('Error adding task to group:', error);
             setMessage('Error adding task to group');
         }
     };

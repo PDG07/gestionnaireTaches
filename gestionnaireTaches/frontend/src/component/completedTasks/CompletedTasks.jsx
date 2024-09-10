@@ -30,7 +30,7 @@ const CompletedTasks = () => {
                     <li key={task.id} className="list-group-item">
                         <h2 className="task-title">{task.title}</h2>
                         <p><strong>Description:</strong> {task.description}</p>
-                        <p><strong>Due date:</strong> {task.completionDate}</p>
+                        <p><strong>Completion date:</strong> {task.completionDate}</p>
                     </li>
                 ))}
             </ul>

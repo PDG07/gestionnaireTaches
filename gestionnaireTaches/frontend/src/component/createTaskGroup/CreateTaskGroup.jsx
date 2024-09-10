@@ -18,19 +18,22 @@ const CreateTaskGroup = () => {
         try {
             const response = await createTaskGroup(taskGroupData);
 
-            if (response.status === 201) {
+            if (response && response.id) {
                 setMessage('Task group created successfully');
                 setTitle('');
-                let rep = await response.json();
                 const storedUserInfo = JSON.parse(localStorage.getItem('accountInfos'));
                 const currentGroups = storedUserInfo.groups || [];
-                const updatedGroups = [...currentGroups, rep.id];
-                localStorage.setItem('accountInfos', JSON.stringify({ userId: userId, username: JSON.parse(localStorage.getItem('accountInfos')).username, groups: updatedGroups }));
+                const updatedGroups = [...currentGroups, response.id];
+                localStorage.setItem('accountInfos', JSON.stringify({
+                    userId: userId,
+                    username: storedUserInfo.username,
+                    groups: updatedGroups
+                }));
             } else {
-                const errorData = await response.json();
-                setMessage(`Error: ${errorData.message}`);
+                setMessage('Unknown error occurred');
             }
         } catch (error) {
+            console.error('Error creating task group:', error);
             setMessage('Error creating task group');
         }
     };

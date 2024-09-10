@@ -35,14 +35,22 @@ export const addUserToGroup = async (taskGroupData) => {
 };
 
 export const createTaskGroup = async (taskGroupData) => {
-    return await apiRequest('/api/group/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(taskGroupData),
-    });
+    try {
+        const response = await apiRequest('/api/group/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(taskGroupData),
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error creating task group:', error);
+        throw error;
+    }
 };
+
 
 export const findGroupById = async (groupIds) => {
     const encodedGroupIds = encodeURIComponent(JSON.stringify(groupIds));
