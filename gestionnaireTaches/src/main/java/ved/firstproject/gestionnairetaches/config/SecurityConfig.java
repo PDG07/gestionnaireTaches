@@ -35,7 +35,7 @@ public class SecurityConfig {
                                 "/api/group/addTask",
                                 "/api/group/findGroupById",
                                 "/api/group/addUserToGroup",
-                                "/api/user/findUserByUsername,",
+                                "/api/user/findUserByUsername",
                                 "api/group/findGroupByTitle",
                                 "api/group/removeUserFromGroup",
                                 "api/group/completeTaskFromGroup",
