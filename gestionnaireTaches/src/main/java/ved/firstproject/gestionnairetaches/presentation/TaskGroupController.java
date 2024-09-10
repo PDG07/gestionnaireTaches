@@ -108,23 +108,6 @@ public class TaskGroupController {
         return new ResponseEntity<>(taskGroups, HttpStatus.OK);
     }
 
-    //TODO REMOVE this
-    @PostMapping("/updateTaskForGroup")
-    public ResponseEntity<TaskDto> updateTaskForGroup(@RequestBody TaskForGroupData taskData) {
-        TaskDto taskDto = new TaskDto(
-                taskData.getTitle(),
-                taskData.getDescription(),
-                taskData.getStatus(),
-                taskData.getPriority(),
-                taskData.getDeadline(),
-                taskData.getCompletionDate(),
-                taskData.getCategory(),
-                UserDto.toUserDto(serviceTaskManager.findUserById(taskData.getUserId())));
-        TaskDto taskDtoUpdated = serviceTaskManager.updateTaskForGroup(taskData.getGroupId(), taskDto);
-        logger.info("Task updated for group: {}", taskDtoUpdated);
-        return new ResponseEntity<>(taskDtoUpdated, HttpStatus.OK);
-    }
-
     @PostMapping("/filterByCategoryGroup")
     public ResponseEntity<Set<TaskDto>> filterByCategoryGroup(@RequestBody FilterTaskCriteriaGroup taskGroupData) {
         Set<TaskDto> tasks = serviceTaskManager.filterByCategoryGroup(taskGroupData.getGroupId(), taskGroupData.getCategory());

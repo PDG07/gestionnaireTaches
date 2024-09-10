@@ -195,43 +195,6 @@ class TaskGroupControllerTest {
     }
 
     @Test
-    void updateTaskForGroup() {
-        TaskForGroupData taskData = new TaskForGroupData();
-        taskData.setTitle("Updated Task Title");
-        taskData.setDescription("Updated Task Description");
-        taskData.setStatus(TaskState.COMPLETED);
-        taskData.setPriority(TaskPriority.AVERAGE);
-        taskData.setDeadline(LocalDate.now().plusDays(3));
-        taskData.setCompletionDate(LocalDate.now().plusDays(4));
-        taskData.setCategory(TaskCategory.PERSONAL);
-        taskData.setUserId(1L);
-        taskData.setGroupId(1L);
-        taskData.setId(1L);
-
-        UserDto userDto = new UserDto(1L, "testuser", "password", Set.of());
-        when(serviceTaskManager.findUserById(1L)).thenReturn(UserDto.toUser(userDto));
-
-        TaskDto taskDto = new TaskDto(
-                "Updated Task Title",
-                "Updated Task Description",
-                TaskState.COMPLETED,
-                TaskPriority.AVERAGE,
-                LocalDate.now().plusDays(3),
-                LocalDate.now().plusDays(4),
-                TaskCategory.PERSONAL,
-                userDto
-        );
-
-        when(serviceTaskManager.updateTaskForGroup(anyLong(), any(TaskDto.class))).thenReturn(taskDto);
-        ResponseEntity<TaskDto> response = taskGroupController.updateTaskForGroup(taskData);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(taskDto, response.getBody());
-        verify(serviceTaskManager).updateTaskForGroup(1L, taskDto);
-        verify(serviceTaskManager).findUserById(1L);
-    }
-
-    @Test
     void filterByCategoryGroup() {
         TaskDto taskDto = new TaskDto(
                 "Task Title", "Task Description", TaskState.TODO, TaskPriority.HIGH,
