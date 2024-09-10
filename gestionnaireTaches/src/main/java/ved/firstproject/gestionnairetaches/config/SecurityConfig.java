@@ -14,6 +14,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    String[] endPoints = {"/api/signup",
+            "/api/createtask",
+            "/api/tasks",
+            "/api/updatetask",
+            "/api/completetask/**",
+            "/api/completedtasks",
+            "/api/tasks/filter",
+            "/api/group/create",
+            "/api/group/addTask",
+            "/api/group/findGroupById",
+            "/api/group/addUserToGroup",
+            "/api/user/findUserByUsername",
+            "/api/group/findGroupByTitle",
+            "/api/group/removeUserFromGroup",
+            "/api/group/completeTaskFromGroup",
+            "/api/group/getTasksOfGroup",
+            "/api/group/getGroupsFromUserId",
+            "/api/group/removeTaskFromGroup",
+            "/api/group/updateTaskForGroup",
+            "/api/group/filterByCategoryGroup",
+            "/api/group/assignTaskForGrTo",
+            "/api/user/findAllUserFromGroup",
+            "/api/login"};
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -24,29 +48,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/signup",
-                                "/api/createtask",
-                                "/api/tasks",
-                                "/api/updatetask",
-                                "/api/completetask/**",
-                                "/api/completedtasks",
-                                "/api/tasks/filter",
-                                "/api/group/create",
-                                "/api/group/addTask",
-                                "/api/group/findGroupById",
-                                "/api/group/addUserToGroup",
-                                "/api/user/findUserByUsername",
-                                "api/group/findGroupByTitle",
-                                "api/group/removeUserFromGroup",
-                                "api/group/completeTaskFromGroup",
-                                "api/group/getTasksOfGroup",
-                                "api/group/getGroupsFromUserId",
-                                "api/group/removeTaskFromGroup",
-                                "api/group/updateTaskForGroup",
-                                "api/group/filterByCategoryGroup",
-                                "api/group/assignTaskForGrTo",
-                                "api/user/findAllUserFromGroup",
-                                "api/login").permitAll()
+                        .requestMatchers(endPoints).permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
@@ -54,28 +56,6 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/signup",
-                "/api/createtask",
-                "/api/tasks",
-                "/api/updatetask",
-                "/api/completetask/**",
-                "/api/completedtasks",
-                "/api/tasks/filter",
-                "/api/group/create",
-                "/api/group/addTask",
-                "/api/group/findGroupById",
-                "/api/group/addUserToGroup",
-                "/api/user/findUserByUsername",
-                "api/group/findGroupByTitle",
-                "api/group/removeUserFromGroup",
-                "api/group/completeTaskFromGroup",
-                "api/group/getTasksOfGroup",
-                "api/group/getGroupsFromUserId",
-                "api/group/removeTaskFromGroup",
-                "api/group/updateTaskForGroup",
-                "api/group/filterByCategoryGroup",
-                "api/group/assignTaskForGrTo",
-                "api/user/findAllUserFromGroup",
-                "api/login");
+        return (web) -> web.ignoring().requestMatchers(endPoints);
     }
 }
