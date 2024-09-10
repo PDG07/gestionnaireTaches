@@ -249,6 +249,18 @@ class ServiceTaskManagerTest {
     }
 
     @Test
+    void completedTasksForGroup(){
+        TaskDto taskDtoToDo = new TaskDto(1L, "title", "description", TaskState.TODO, priorityHigh, deadline, null, workCategory, userDto);
+        TaskDto taskDtoCompleted = new TaskDto(1L, "title", "description", TaskState.COMPLETED, priorityHigh, deadline, null, workCategory, userDto);
+        TaskGroup taskGroup = new TaskGroup(5L, "title5", Set.of(), Set.of(TaskDto.toTask(taskDtoCompleted), TaskDto.toTask(taskDtoToDo)));
+        TaskGroupDto taskGroupDto = TaskGroupDto.toTaskGroupDto(taskGroup);
+        when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
+
+        Set<TaskDto> tasksList = serviceTaskManager.completedTasksForGroup(taskGroupDto.id());
+        assertEquals(Set.of(taskDtoCompleted), tasksList);
+    }
+
+    @Test
     void filterByCategoryGroup(){
         when(taskGroupRepository.findById(anyLong())).thenReturn(java.util.Optional.of(taskGroup));
         when(taskGroupRepository.save(any())).thenReturn(taskGroup);
